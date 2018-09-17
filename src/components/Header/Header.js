@@ -1,5 +1,11 @@
 import React from 'react';
 
+import Nav from '../../components/Nav/Nav';
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
 const Header = ({ title }) => (
   <div className="instructions">
     <div>

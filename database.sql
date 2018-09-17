@@ -44,8 +44,8 @@ CREATE TABLE "pets" (
 
 CREATE TABLE "care_type" (
 	"id" serial NOT NULL,
-	"name" serial(200) NOT NULL,
-	"frequency" serial(4) NOT NULL,
+	"name" varchar(200) NOT NULL,
+	"frequency" integer NOT NULL,
 	CONSTRAINT care_type_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
