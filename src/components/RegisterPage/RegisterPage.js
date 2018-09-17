@@ -7,6 +7,9 @@ class RegisterPage extends Component {
     super(props);
 
     this.state = {
+      first_name: '',
+      last_name: '',
+      clinic_name: '',
       username: '',
       password: '',
       message: '',
@@ -16,12 +19,16 @@ class RegisterPage extends Component {
   registerUser = (event) => {
     event.preventDefault();
 
-    if (this.state.username === '' || this.state.password === '') {
+    if (this.state.username === '' || this.state.password === '' || this.state.first_name === '' ||
+        this.state.last_name === '' || this.state.clinic_name === '') {
       this.setState({
-        message: 'Choose a username and password!',
+        message: 'Please fill out all fields.',
       });
     } else {
       const body = {
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        clinic_name: this.state.clinic_name,
         username: this.state.username,
         password: this.state.password,
       };
@@ -71,6 +78,39 @@ class RegisterPage extends Component {
         {this.renderAlert()}
         <form onSubmit={this.registerUser}>
           <h1>Register User</h1>
+          <div>
+            <label htmlFor="first_name">
+              First name:
+              <input
+                type="text"
+                name="first_name"
+                value={this.state.first_name}
+                onChange={this.handleInputChangeFor('first_name')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="last_name">
+              Last name:
+              <input
+                type="text"
+                name="last_name"
+                value={this.state.last_name}
+                onChange={this.handleInputChangeFor('last_name')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="clinic_name">
+              Clinic:
+              <input
+                type="text"
+                name="clinic_name"
+                value={this.state.clinic_name}
+                onChange={this.handleInputChangeFor('clinic_name')}
+              />
+            </label>
+          </div>
           <div>
             <label htmlFor="username">
               Username:
