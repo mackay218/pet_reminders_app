@@ -47,6 +47,7 @@ class AddOwnerPage extends Component {
     render() {
         let content = null;
 
+        //show view if user is logged in
         if (this.props.user.userName) {
             content = (
                 <div>
@@ -66,10 +67,20 @@ class AddOwnerPage extends Component {
                                 </div>
                             </div>
                             <div className="formBigSec">
-                                <label htmlFor="#phone">Phone</label>
-                                <input id="phone" name="phone" type="tel" placeholder="555-555-5555"/>
-                                
+                                <div className="formSection">
+                                    <label htmlFor="#phone">phone</label>
+                                    <input id="phone" name="phone" type="tel" placeholder="555-555-5555" />
+                                </div>
+                                <div className="formSection">
+                                    <label htmlFor="#email">email</label>
+                                    <input id="email" name="email" placeholder="name@gmail.com" />
+                                </div>
+                                <div className="formSection">
+                                    <label htmlFor="#address">address</label>
+                                    <input id="address" name="address" type="text" placeholder="123 Main St"/>
+                                </div>
                             </div>
+                            <button>Submit</button>
                         </form>
                     </div>
 

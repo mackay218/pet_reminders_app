@@ -26,7 +26,7 @@ const userName = (state = null, action) => {
 const first_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.first_name || state;
+      return action.user.first_name;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
@@ -37,7 +37,7 @@ const first_name = (state = null, action) => {
 const last_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.last_name || state;
+      return action.user.last_name;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
@@ -48,7 +48,7 @@ const last_name = (state = null, action) => {
 const clinic_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.clinic_name || state;
+      return action.user.clinic_name;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
@@ -59,7 +59,7 @@ const clinic_name = (state = null, action) => {
 const email = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.email || state;
+      return action.user.email;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:

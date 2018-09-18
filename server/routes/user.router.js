@@ -37,6 +37,11 @@ router.post('/register', (req, res, next) => {
     .catch((err) => { next(err); });
 });
 
+//PUT route to update user info
+router.put('/register', (req, res) => {
+  console.log('req in put:', req.body);
+});
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
