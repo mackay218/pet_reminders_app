@@ -110,6 +110,7 @@ class UserPage extends Component {
     this.setState({
       editMode: false,
     });
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
 
   renderAlert() {
