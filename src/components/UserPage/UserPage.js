@@ -31,8 +31,6 @@ class UserPage extends Component {
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
 
-    console.log('did mount', this.props.user);
-
     this.setState({
       first_name: this.props.user.first_name
     });
@@ -43,16 +41,6 @@ class UserPage extends Component {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
-
-    console.log('did update', this.props.user);
-  }
-
-  componentWillUpdate(){
-   
-  }
-
-  getUserInfo = () => {
-    console.log('user', this.props.user.first_name);
   }
 
   logout = () => {
@@ -74,32 +62,35 @@ class UserPage extends Component {
       ...this.props.user, 
       [propertyName]: event.target.value,
     }}
-    console.log('HERE',action);
+    //console.log('HERE',action);
     this.props.dispatch(action);
 
   }
 
   updateUserInfo = (event) => {
     event.preventDefault();
-    if (this.state.username === '' || this.state.password === '' || this.state.first_name === '' ||
-      this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '') {
+    if (this.props.user.username === '' || this.props.user.password === '' || this.props.user.first_name === '' ||
+      this.props.user.last_name === '' || this.props.user.clinic_name === '' || this.props.user.email === '') {
       this.setState({
         message: 'Please fill out all fields.',
       });
     } else{
       const body = {
-        first_name: this.state.first_name,
-        last_name: this.state.last_name,
-        clinic_name: this.state.clinic_name,
-        email: this.state.email,
-        username: this.state.username,
-        password: this.state.password,
+        first_name: this.props.user.first_name,
+        last_name: this.props.user.last_name,
+        clinic_name: this.props.user.clinic_name,
+        email: this.props.user.email,
+        id: this.props.user.id
       };
+    
+      console.log('body on client side:', body);
 
       axios.put('/api/user/register/', body)
         .then((response) => {
-          if (response.status === 201) {
-            this.props.history.push('/home');
+          if (response.status === 200) {
+            this.setState({
+              editMode: false,
+            });
           } else {
             this.setState({
               message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
@@ -113,6 +104,12 @@ class UserPage extends Component {
         });
     }
 
+  }
+
+  cancelEdit = () => {
+    this.setState({
+      editMode: false,
+    });
   }
 
   renderAlert() {
@@ -186,6 +183,7 @@ class UserPage extends Component {
                 />
               </div>
               <button name="submit">Submit</button>
+              <button onClick={this.cancelEdit} type="button" name="cancel">Cancel</button>
             </form>
           </div>
         )

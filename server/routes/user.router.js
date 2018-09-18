@@ -40,6 +40,19 @@ router.post('/register', (req, res, next) => {
 //PUT route to update user info
 router.put('/register', (req, res) => {
   console.log('req in put:', req.body);
+
+  const firstname = req.body.first_name;
+  const lastname = req.body.last_name;
+  const clinic = req.body.clinic_name;
+  const email = req.body.email;
+  const id = req.body.id;
+
+  const queryText = `UPDATE person SET "first_name" = $1, "last_name" = $2, "clinic_name" = $3, "email" = $4
+                      WHERE "id" = $5;`;
+
+  pool.query(queryText, [firstname, lastname, clinic, email, id])
+    .then(() => { res.sendStatus(200); })
+    .catch((err) => {console.log('error updating user info:', err)});                      
 });
 
 // Handles login form authenticate/login POST
