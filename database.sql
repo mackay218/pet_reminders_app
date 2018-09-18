@@ -13,13 +13,14 @@ CREATE TABLE "person" (
 
 
 CREATE TABLE "pet_owners" (
-	"id" serial NOT NULL,
-	"first_name" varchar(200) NOT NULL,
-	"last_name" varchar(200) NOT NULL,
-	"phone" varchar(11) NOT NULL,
-	"email" varchar(200) NOT NULL,
-	"vet_id" integer NOT NULL,
-	CONSTRAINT pet_owners_pk PRIMARY KEY ("id")
+  "id" serial NOT NULL,
+  "first_name" varchar(200) NOT NULL,
+  "last_name" varchar(200) NOT NULL,
+  "phone" varchar(12) NOT NULL,
+  "email" varchar(200) NOT NULL,
+  "address" varchar(200) NOT NULL,
+  "vet_id" integer NOT NULL,
+  CONSTRAINT pet_owners_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );

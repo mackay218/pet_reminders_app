@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import axios from 'axios';
+import axios from 'axios';
+
+//phone number formatting from https://github.com/catamphetamine/react-phone-number-input
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 import Nav from '../../components/Nav/Nav';
 
@@ -12,11 +16,13 @@ const mapStateToProps = state => ({
 
 //Object to hold info from add owner form
 const addOwnerObject = {
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     phone: '',
     email: '',
     address: '',
+    vet_id: '',
+    message: '',
 }
 
 class AddOwnerPage extends Component {
@@ -36,13 +42,66 @@ class AddOwnerPage extends Component {
         }
     }
 
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (this.state.first_name === '' || this.state.last_name === '' || this.state.phone === '' ||
+            this.state.email === '' || this.state.address === '') {
+            this.setState({
+                message: 'Please fill out all fields.',
+            });
+        }
+        else {
+            const body = {
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                phone: this.state.phone,
+                email: this.state.email,
+                address: this.state.address,
+                vet_id: this.props.user.id,
+            };
+
+            axios.post('/api/addOwner', body)
+                .then((response) => {
+                    if (response.state === 201) {
+                        alert('Owner Added!!!');
+                        console.log('owner added!!');
+                    }
+                })
+                .catch(() => {
+                    this.setState({
+                        message: 'error adding new owner',
+                    });
+                });
+
+        }
+    }
+
     //handle change in input fields
-    handleChange = (event) => {
+    handleChangeFor = (event) => {
         this.setState({
             ...this.state,
             [event.target.name]: event.target.value,
         });
     }
+
+    renderAlert() {
+        if (this.state.message !== '') {
+            return (
+                <h2
+                    className="alert"
+                    role="alert"
+                >
+                    {this.state.message}
+                </h2>
+            );
+        }
+        return (<span />);
+    }
+
+    
+
 
 
     render() {
@@ -55,30 +114,55 @@ class AddOwnerPage extends Component {
                     <h1>Add Owner</h1>
 
                     <div className="addOwnerFormContainer">
-                        <form>
+                        {this.renderAlert()}
+                        <form onSubmit={this.handleSubmit}>
                             <div className="formBigSec">
                                 <h4>Name</h4>
                                 <div className="formSection">
                                     <label htmlFor="#firstName">First</label>
-                                    <input id="firstName" name="firstName" type="text" placeholder="Dan"/>
+                                    <input 
+                                        id="firstName" 
+                                        name="first_name" 
+                                        type="text" 
+                                        placeholder="Dan"
+                                        onChange={this.handleChangeFor}/>
                                 </div>
                                 <div className="formSection">
-                                    <label htmleFor="#lastName">Last</label>
-                                    <input id="lastName" name="lastName" type="text" placeholder="MacKay"/>
+                                    <label htmlFor="#lastName">Last</label>
+                                    <input 
+                                        id="lastName" 
+                                        name="last_name" 
+                                        type="text" 
+                                        placeholder="MacKay"
+                                        onChange={this.handleChangeFor}/>
                                 </div>
                             </div>
                             <div className="formBigSec">
+                                <h4>Contact Info</h4>
                                 <div className="formSection">
                                     <label htmlFor="#phone">phone</label>
-                                    <input id="phone" name="phone" type="tel" placeholder="555-555-5555" />
+                                    <PhoneInput
+                                        country ='US'
+                                        placeholder="Enter phone number"
+                                        value={this.state.phone}
+                                        onChange={phone => this.setState({ phone })} />
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="#email">email</label>
-                                    <input id="email" name="email" placeholder="name@gmail.com" />
+                                    <input 
+                                        id="email" 
+                                        name="email" 
+                                        placeholder="name@gmail.com" 
+                                        onChange={this.handleChangeFor}/>
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="#address">address</label>
-                                    <input id="address" name="address" type="text" placeholder="123 Main St"/>
+                                    <input 
+                                        id="address" 
+                                        name="address" 
+                                        type="text" 
+                                        placeholder="123 Main St"
+                                        onChange={this.handleChangeFor}/>
                                 </div>
                             </div>
                             <button>Submit</button>
