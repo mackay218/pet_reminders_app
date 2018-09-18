@@ -10,7 +10,7 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+
 import RemindersPage from './components/RemindersPage/RemindersPage';
 import SettingsPage from './components/Settings/Settings';
 import AddOwnerPage from './components/AddOwnerPage/AddOwnerPage';
@@ -36,10 +36,6 @@ const App = () => (
         <Route
           path="/user"
           component={UserPage}
-        />
-        <Route
-          path="/info"
-          component={InfoPage}
         />
         <Route 
           path="/reminders"

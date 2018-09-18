@@ -10,6 +10,7 @@ class RegisterPage extends Component {
       first_name: '',
       last_name: '',
       clinic_name: '',
+      email: '',
       username: '',
       password: '',
       message: '',
@@ -20,7 +21,7 @@ class RegisterPage extends Component {
     event.preventDefault();
 
     if (this.state.username === '' || this.state.password === '' || this.state.first_name === '' ||
-        this.state.last_name === '' || this.state.clinic_name === '') {
+        this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '') {
       this.setState({
         message: 'Please fill out all fields.',
       });
@@ -29,6 +30,7 @@ class RegisterPage extends Component {
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         clinic_name: this.state.clinic_name,
+        email: this.state.email,
         username: this.state.username,
         password: this.state.password,
       };
@@ -108,6 +110,17 @@ class RegisterPage extends Component {
                 name="clinic_name"
                 value={this.state.clinic_name}
                 onChange={this.handleInputChangeFor('clinic_name')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="email">
+              email:
+              <input
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChangeFor('email')}
               />
             </label>
           </div>

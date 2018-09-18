@@ -11,8 +11,18 @@ const Nav = () => (
           </Link>
         </li>
         <li>
-          <Link to="/info">
-            Info Page
+          <Link to='/reminders'>
+            Reminders
+          </Link>
+        </li>
+        <li>
+          <Link to='/addOwner'>
+            Add Owner
+          </Link>
+        </li>
+        <li>
+          <Link to='/settings'>
+            Reminder settings
           </Link>
         </li>
       </ul>

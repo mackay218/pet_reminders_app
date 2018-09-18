@@ -2,7 +2,8 @@ CREATE TABLE "person" (
 	"id" serial NOT NULL,
 	"first_name" varchar(200) NOT NULL,
 	"last_name" varchar(200) NOT NULL,
-	"vet_clinic" varchar(200) NOT NULL,
+	"clinic_name" varchar(200) NOT NULL,
+	"email" varchar(200) NOT NULL,
 	"password" varchar(500) NOT NULL,
 	CONSTRAINT vets_pk PRIMARY KEY ("id")
 ) WITH (

@@ -9,8 +9,12 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
+  console.log('user', req.user);
+
   res.send(req.user);
 });
+
+
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
@@ -21,13 +25,14 @@ router.post('/register', (req, res, next) => {
   const firstname = req.body.first_name;
   const lastname = req.body.last_name;
   const clinic = req.body.clinic_name;
+  const email = req.body.email;
 
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   
 
-  const queryText = 'INSERT INTO person (username, password, first_name, last_name, vet_clinic) VALUES ($1, $2, $3, $4, $5) RETURNING id';
-  pool.query(queryText, [username, password, firstname, lastname, clinic])
+  const queryText = 'INSERT INTO person (username, password, first_name, last_name, clinic_name, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id';
+  pool.query(queryText, [username, password, firstname, lastname, clinic, email])
     .then(() => { res.sendStatus(201); })
     .catch((err) => { next(err); });
 });
