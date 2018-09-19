@@ -50,7 +50,7 @@ const App = () => (
           component={AddOwnerPage}
         />
         <Route
-          path="/ownerProfile"
+          path="/ownerProfile/:id"
           component={OwnerProfilePage}
         />
         <Route

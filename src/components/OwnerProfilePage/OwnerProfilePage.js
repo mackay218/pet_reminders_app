@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 class OwnerProfilePage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-        this.getUserInfo();
+        this.getOwnerInfo();
     }
 
     componentDidUpdate() {
@@ -23,10 +23,12 @@ class OwnerProfilePage extends Component {
         }
     }
 
-    getUserInfo = () => {
+    //get 
+    getOwnerInfo = () => {
+ 
+        console.log(this.props.match.params.id);
 
-        axios.get('/ownerProfile' + id)
-
+        const action = 
     }
 
     render() {
