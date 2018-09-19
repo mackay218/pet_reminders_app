@@ -30,5 +30,23 @@ router.get('/:id', (req, res) => {
         });
 });
 
+router.put('/', (req, res) => {
+    console.log('update owner info router', req.body);
+    
+    const firstname = req.body.first_name;
+    const lastname = req.body.last_name;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const address = req.body.address;
+    const id = req.body.id
+
+    const queryText = `UPDATE pet_owners SET "first_name" = $1, "last_name" = $2, 
+                                            "phone" = $3, "email" = $4,
+                                            "address" = $5 WHERE "id" = $6;`;
+
+    pool.query(queryText, [firstname, lastname, phone, email, address, id])
+        .then(() => { res.sendStatus(200); })
+        .catch((err) => { console.log('error updating owner info:', err) }); 
+});
 
 module.exports = router;

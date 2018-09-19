@@ -19,8 +19,19 @@ function* getOwnerInfo(action){
 
 }
 
+function* updateOwnerInfo(action){
+    console.log('in updateOwnerInfo saga', action.payload);
+    try{
+        yield call(axios.put, '/api/ownerProfile/', action.payload);
+    }
+    catch(error){
+        console.log('error updating owner info', error);
+        alert('error updating owner info');
+    }
+}
 
 export default function* ownerSaga(){
 
     yield takeLatest('GET_OWNER_INFO', getOwnerInfo);
+    yield takeLatest('UPDATE_OWNER_INFO', updateOwnerInfo);
 }

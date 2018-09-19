@@ -53,9 +53,37 @@ class OwnerProfilePage extends Component {
 
     }
 
+    //run saga to change owner info
     handleChangeFor = propertyName => (event) => {
-     
-        console.log(event.target.value);
+        const action = {type: 'SET_OWNER', payload:{
+            ...this.props.owner.ownerInfo,
+            [propertyName]: event.target.value,
+        } }
+
+        this.props.dispatch(action);
+        
+    }
+
+    updateOwnerInfo = (event) => {
+        event.preventDefault();
+        if(this.props.owner.ownerInfo.first_name === '' || 
+            this.props.owner.ownerInfo.last_name === '' ||
+            this.props.owner.ownerInfo.phone === '' || 
+            this.props.owner.ownerInfo.email === ''  || 
+            this.props.owner.ownerInfo.address === ''){
+                alert('please fill out all fields');
+        }
+        else{
+            const action = {type: 'UPDATE_OWNER_INFO', payload: this.props.owner.ownerInfo};
+
+            this.props.dispatch(action);
+
+            
+            this.setState({
+                editMode: false
+            });
+            
+        }
     }
 
 
@@ -63,7 +91,7 @@ class OwnerProfilePage extends Component {
         console.log('handleEditClick', this.state);
         this.setState({
             editMode: true,
-        })
+        });
     }
 
    
@@ -101,11 +129,11 @@ class OwnerProfilePage extends Component {
             else if(this.state.editMode === true){
                 contact_info = (
                     <div className="contactInfo">
-                        <form>
+                        <form onSubmit={this.updateOwnerInfo}>
                             <div className="infoSec">
                                 <h4>Name</h4>
                                 <div className="inputSec">
-                                    <lable htmlFor="first_name">First:</lable>
+                                    <label htmlFor="first_name">First:</label>
                                     <input
                                         type="text"
                                         name="first_name"
@@ -114,7 +142,7 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="inputSec">
-                                    <lable htmlFor="last_name">Last:</lable>
+                                    <label htmlFor="last_name">Last:</label>
                                     <input
                                         type="text"
                                         name="last_name"
