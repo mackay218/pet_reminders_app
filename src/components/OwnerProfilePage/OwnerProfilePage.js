@@ -5,6 +5,9 @@ import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 const mapStateToProps = state => ({
     user: state.user,
     owner: state.owner,
@@ -50,7 +53,27 @@ class OwnerProfilePage extends Component {
 
     }
 
+    handleChangeFor = propertyName => (event) => {
+     
+        console.log(event.target.value);
+    }
+
+
+    handleEditClick = () => {
+        console.log('handleEditClick', this.state);
+        this.setState({
+            editMode: true,
+        })
+    }
+
    
+    cancelEdit = () => {
+        this.setState({
+            editMode: false
+        });
+        
+        this.getOwnerInfo();
+    }
 
     render() {
         let content = null;
@@ -71,6 +94,69 @@ class OwnerProfilePage extends Component {
                             <p>Email: {this.props.owner.ownerInfo.email}</p>
                             <p>Address: {this.props.owner.ownerInfo.address}</p>
                         </div>
+                        <button type="button" onClick={this.handleEditClick}>Edit</button>
+                    </div>
+                )
+            }
+            else if(this.state.editMode === true){
+                contact_info = (
+                    <div className="contactInfo">
+                        <form>
+                            <div className="infoSec">
+                                <h4>Name</h4>
+                                <div className="inputSec">
+                                    <lable htmlFor="first_name">First:</lable>
+                                    <input
+                                        type="text"
+                                        name="first_name"
+                                        value={this.props.owner.ownerInfo.first_name}
+                                        onChange={this.handleChangeFor("first_name")}
+                                    />
+                                </div>
+                                <div className="inputSec">
+                                    <lable htmlFor="last_name">Last:</lable>
+                                    <input
+                                        type="text"
+                                        name="last_name"
+                                        value={this.props.owner.ownerInfo.last_name}
+                                        onChange={this.handleChangeFor("last_name")}
+                                    />
+                                </div>
+                            </div>
+                            <div className="infoSec">
+                                <h4>Contact Info</h4>
+                                <div className="inputSec">
+                                    <label htmlFor="phone">Phone:</label>
+                                    <PhoneInput
+                                        name="phone"
+                                        country='US'
+                                        placeholder="Enter phone number"
+                                        value={this.props.owner.ownerInfo.phone}
+                                        onChange={this.handleChangeFor("phone")} 
+                                    />
+                                </div>
+                                <div className="inputSec">
+                                    <label htmlFor="email">Email:</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={this.props.owner.ownerInfo.email}
+                                        onChange={this.handleChangeFor("email")}
+                                    />
+                                </div>
+                                <div className="inputSec">
+                                    <label htmlFor="address">Address:</label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        value={this.props.owner.ownerInfo.address}
+                                        onChange={this.handleChangeFor("address")}
+                                    />
+                                </div>
+                            </div>
+                            <button >Submit</button>
+                            <button type="button" onClick={this.cancelEdit} name="cancel" >Cancel</button>
+                        </form>
                     </div>
                 )
             }

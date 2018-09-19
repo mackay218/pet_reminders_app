@@ -132,8 +132,9 @@ class AddOwnerPage extends Component {
                             <div className="formBigSec">
                                 <h4>Contact Info</h4>
                                 <div className="formSection">
-                                    <label htmlFor="#phone">phone</label>
+                                    <label htmlFor="phone">phone</label>
                                     <PhoneInput
+                                        name="phone"
                                         country ='US'
                                         placeholder="Enter phone number"
                                         value={this.state.phone}
