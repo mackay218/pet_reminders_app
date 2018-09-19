@@ -11,6 +11,15 @@ const mapStateToProps = state => ({
 });
 
 class OwnerProfilePage extends Component {
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            editMode: false,
+        }
+    }
+
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getOwnerInfo();
@@ -40,14 +49,32 @@ class OwnerProfilePage extends Component {
 
     render() {
         let content = null;
+        let contact_info = null;
 
         if (this.props.user.userName) {
+            if(this.state.editMode === false){
+                contact_info = (
+                    <div className="contactInfo">
+                        <div className="infoSec">
+                            <h4>Name</h4>
+                            <p>First: {this.props.owner.ownerInfo.first_name}</p>
+                            <p>Last: {this.props.owner.ownerInfo.last_name}</p>
+                        </div>
+                        <div className="infoSec">
+                            <h4>Contact Info</h4>
+                            <p>Phone: {this.props.owner.ownerInfo.phone}</p>
+                            <p>Email: {this.props.owner.ownerInfo.email}</p>
+                            <p>Address: {this.props.owner.ownerInfo.address}</p>
+                        </div>
+                    </div>
+                )
+            }
             content = (
                 <div>
                     <h3><span>{this.props.owner.ownerInfo.first_name}</span>
                         <span> </span>
-                        <span>{this.props.owner.ownerInfo.last_name}</span>
-                    </h3>
+                        <span>{this.props.owner.ownerInfo.last_name}</span></h3>
+                        {contact_info}
                 </div>
             );
         }
@@ -56,7 +83,6 @@ class OwnerProfilePage extends Component {
             <div>
                 <Nav />
                 {content}
-                <p>{JSON.stringify(this.props.owner.ownerInfo)}</p>
             </div>
         );
     }
