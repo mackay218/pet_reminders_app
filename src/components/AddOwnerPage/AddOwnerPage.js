@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
 
 //phone number formatting from https://github.com/catamphetamine/react-phone-number-input
 import 'react-phone-number-input/style.css'
@@ -62,19 +62,11 @@ class AddOwnerPage extends Component {
                 vet_id: this.props.user.id,
             };
 
-            axios.post('/api/addOwner', body)
-                .then((response) => {
-                    if (response.state === 201) {
-                        alert('Owner Added!!!');
-                        console.log('owner added!!');
-                    }
-                })
-                .catch(() => {
-                    this.setState({
-                        message: 'error adding new owner',
-                    });
-                });
-
+            this.props.dispatch({type: 'ADD_OWNER', payload: body});
+            event.target.reset();
+            this.setState({
+                phone: '',
+            });
         }
     }
 
