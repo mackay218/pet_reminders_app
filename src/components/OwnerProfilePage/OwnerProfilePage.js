@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 
 import Nav from '../../components/Nav/Nav';
 
-import axios from 'axios';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     user: state.user,
+    owner: state.owner,
 });
 
 class OwnerProfilePage extends Component {
@@ -26,10 +25,18 @@ class OwnerProfilePage extends Component {
     //get 
     getOwnerInfo = () => {
  
-        console.log(this.props.match.params.id);
+        console.log('getOwnerInfo page', this.props.match.params.id);
 
-        const action = 
+        //get owner id from address bar
+        const ownerId = this.props.match.params.id
+
+        const action = {type: 'GET_OWNER_INFO', payload: ownerId};
+
+        this.props.dispatch(action);
+
     }
+
+   
 
     render() {
         let content = null;
@@ -37,7 +44,10 @@ class OwnerProfilePage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    <h1>Owner Profile</h1>
+                    <h3><span>{this.props.owner.ownerInfo.first_name}</span>
+                        <span> </span>
+                        <span>{this.props.owner.ownerInfo.last_name}</span>
+                    </h3>
                 </div>
             );
         }
@@ -46,6 +56,7 @@ class OwnerProfilePage extends Component {
             <div>
                 <Nav />
                 {content}
+                <p>{JSON.stringify(this.props.owner.ownerInfo)}</p>
             </div>
         );
     }
