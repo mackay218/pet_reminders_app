@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import Nav from '../../components/Nav/Nav';
 
+import axios from 'axios';
+
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
@@ -12,12 +14,19 @@ const mapStateToProps = state => ({
 class OwnerProfilePage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        this.getUserInfo();
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('home');
         }
+    }
+
+    getUserInfo = () => {
+
+        axios.get('/ownerProfile' + id)
+
     }
 
     render() {
