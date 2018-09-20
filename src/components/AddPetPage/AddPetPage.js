@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+//material ui 
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
 import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -31,7 +36,8 @@ class AddPetPage extends Component {
 
     constructor(props){
         super(props);
-
+        
+        const { classes } = props;
         this.state = addPetObj;
     }
 
@@ -49,7 +55,7 @@ class AddPetPage extends Component {
     
 
     handleChangeForPet = propertyName => (event) => {
-        
+        console.log(event.target.value);
         this.setState({
             ...this.state,
             [propertyName]: event.target.value,
@@ -165,22 +171,80 @@ class AddPetPage extends Component {
                         <div className="formContainer">
                             <form>
                                 <div className="formSection">
-                                    <label htmlFor="rabies_date">Rabies</label>
+                                    <TextField
+                                        name="rabies_date"
+                                        label="Rabies Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("rabies_date")}
+                                    />
                                 </div>
                                 <div className="formSection">
-                                    <label htmlFor="distemper_date">Canine Distemper Combo</label>
+                                    <TextField
+                                        name="canine_distemper_date"
+                                        label="Canine Distemper Combo Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("canine_distemper_date")}
+                                    />                                
                                 </div>
                                 <div className="formSetion">
-                                    <label htmlFor="bordatella_date">Bordatella</label>
+                                    <TextField
+                                        name="bordatella_date"
+                                        label="Bordatella"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("bordatella_date")}
+
+                                    /> 
                                 </div>
                                 <div className="formSetion">
-                                    <label htmlFor="lyme_date">Lyme</label>
+                                    <TextField
+                                        name="lyme_date"
+                                        label="Lyme Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("lyme_date")}
+
+                                    /> 
                                 </div>
                                 <div className="formSetion">
-                                    <label htmlFor="feline__distemper_date">Feline Distemper Combo</label>
+                                    <TextField
+                                        name="feline_distemper_date"
+                                        label="Feline Distemper Combo Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("feline_distemper_date")}
+
+                                    /> 
                                 </div>
                                 <div className="formSetion">
-                                    <label htmlFor="Leukemia">Leukemia</label>
+                                    <TextField
+                                        name="leukemia_date"
+                                        label="Leukemia"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        onChange={this.handleChangeForPet("leukemia_date")}
+
+                                    /> 
                                 </div>
                             </form>
                         </div>
