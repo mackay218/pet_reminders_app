@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import './OwnerProfilePage.css';
+
 import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -106,11 +108,14 @@ class OwnerProfilePage extends Component {
     render() {
         let content = null;
         let contact_info = null;
+        let notes = null;
+
+        let pet_list = null;
 
         if (this.props.user.userName) {
             if(this.state.editMode === false){
                 contact_info = (
-                    <div className="contactInfo">
+                    <div className="contactInfo ownerProfileSection">
                         <div className="infoSec">
                             <h4>Name</h4>
                             <p>First: {this.props.owner.ownerInfo.first_name}</p>
@@ -122,9 +127,17 @@ class OwnerProfilePage extends Component {
                             <p>Email: {this.props.owner.ownerInfo.email}</p>
                             <p>Address: {this.props.owner.ownerInfo.address}</p>
                         </div>
+                        <div className="notesSection infoSec">
+                            <label htmlFor="#notesParagraph">Notes</label>
+                            <div className="notesContainer" id="notesContainer">
+                               
+                                <p className="ownerNotes">{this.props.owner.ownerInfo.notes}</p>
+                            </div>
+                        </div>
                         <button type="button" onClick={this.handleEditClick}>Edit</button>
                     </div>
                 )
+                
             }
             else if(this.state.editMode === true){
                 contact_info = (
@@ -182,6 +195,16 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                             </div>
+                            <div className="notesSection">
+                                <div className="notesContainer infoSec">
+                                <label htmlFor="notes">Notes</label>
+                                    <textarea
+                                        value={this.props.owner.ownerInfo.notes}
+                                        name="notes"
+                                        onChange={this.handleChangeFor("notes")}
+                                    />
+                                </div>
+                            </div>
                             <button >Submit</button>
                             <button type="button" onClick={this.cancelEdit} name="cancel" >Cancel</button>
                         </form>
@@ -196,12 +219,24 @@ class OwnerProfilePage extends Component {
                         {contact_info}
                 </div>
             );
+
+            pet_list = (
+                <div className = "petListSection ownerProfileSection">
+                    <div className = "petListContainer">
+                    
+                    
+                    </div>
+                    <button type="button"><a href="#/addPet" >New Pet</a></button>
+                </div>
+            )
         }
 
         return (
             <div>
                 <Nav />
                 {content}
+                {notes}
+                {pet_list}
             </div>
         );
     }

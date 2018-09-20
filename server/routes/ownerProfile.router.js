@@ -38,13 +38,14 @@ router.put('/', (req, res) => {
     const phone = req.body.phone;
     const email = req.body.email;
     const address = req.body.address;
-    const id = req.body.id
+    const notes = req.body.notes;
+    const id = req.body.id;
 
     const queryText = `UPDATE pet_owners SET "first_name" = $1, "last_name" = $2, 
                                             "phone" = $3, "email" = $4,
-                                            "address" = $5 WHERE "id" = $6;`;
+                                            "address" = $5, "notes" = $6 WHERE "id" = $7;`;
 
-    pool.query(queryText, [firstname, lastname, phone, email, address, id])
+    pool.query(queryText, [firstname, lastname, phone, email, address, notes, id])
         .then(() => { res.sendStatus(200); })
         .catch((err) => { console.log('error updating owner info:', err) }); 
 });
