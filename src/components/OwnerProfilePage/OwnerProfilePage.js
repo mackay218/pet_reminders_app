@@ -230,7 +230,7 @@ class OwnerProfilePage extends Component {
                     
                     
                     </div>
-                    <button type="button"><a href={addPetLink} >New Pet</a></button>
+                    <a href={addPetLink} >New Pet</a>
                 </div>
             )
         }
