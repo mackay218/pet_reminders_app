@@ -12,6 +12,7 @@ const mapStateToProps = state => ({
 class AddPetPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        console.log(this.props);
     }
 
     componentDidUpdate() {
@@ -19,6 +20,7 @@ class AddPetPage extends Component {
             this.props.history.push('home');
         }
     }
+    
 
     render() {
         let content = null;

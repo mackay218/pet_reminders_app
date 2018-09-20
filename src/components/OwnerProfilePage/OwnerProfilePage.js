@@ -220,13 +220,17 @@ class OwnerProfilePage extends Component {
                 </div>
             );
 
+            let ownerId = this.props.owner.ownerInfo.id;
+
+            let addPetLink = "#/addPet/" + ownerId
+
             pet_list = (
                 <div className = "petListSection ownerProfileSection">
                     <div className = "petListContainer">
                     
                     
                     </div>
-                    <button type="button"><a href="#/addPet" >New Pet</a></button>
+                    <button type="button"><a href={addPetLink} >New Pet</a></button>
                 </div>
             )
         }
