@@ -89,7 +89,7 @@ class AddPetPage extends Component {
 
             this.props.dispatch(action);
         }
-    }
+    }//end submitDogInfo
 
 
     submitCatInfo = (event) => {
@@ -105,7 +105,15 @@ class AddPetPage extends Component {
 
             this.props.dispatch(action);
         }
-    }
+    }//end submitCatInfo
+
+    //function to show add pet form 
+    goBack = (event) => {
+        this.setState({
+            ...this.state,
+            addPetForm: true,
+        });
+    }//end goBack
 
     render() {
         let content = null;
@@ -123,6 +131,7 @@ class AddPetPage extends Component {
                                         type="text"
                                         name="name"
                                         onChange={this.handleChangeForPet("name")}
+                                        value={this.state.name}
                                     />
                                 </div>
                                 <div className="formSection">
@@ -132,8 +141,10 @@ class AddPetPage extends Component {
                                         id="canine"
                                         type="radio"
                                         name="species"
-                                        value="canine"
+                                        value= "canine"
+                                        checked={this.state.species === "canine"}
                                         onChange={this.handleChangeForPet("species")}
+                                        
                                     />
                                     <label htmlFor="#feline">Feline</label>
                                     <input
@@ -141,6 +152,7 @@ class AddPetPage extends Component {
                                         type="radio"
                                         name="species"
                                         value="feline"
+                                        checked={this.state.species === "feline"}
                                         onChange={this.handleChangeForPet("species")}
                                     />
                                 </div>
@@ -149,6 +161,7 @@ class AddPetPage extends Component {
                                     <input
                                         type="text"
                                         name="breed"
+                                        value={this.state.breed}
                                         onChange={this.handleChangeForPet("breed")}
                                     />
                                 </div>
@@ -158,6 +171,7 @@ class AddPetPage extends Component {
                                         type="number"
                                         step="1"
                                         name="age"
+                                        value={this.state.age}
                                         onChange={this.handleChangeForPet("age")}
                                     />
                                 </div>
@@ -169,6 +183,7 @@ class AddPetPage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="M"
+                                        checked={this.state.sex === "M"}
                                         onChange={this.handleChangeForPet("sex")}
                                     />
                                     <label htmlFor="#female">F</label>
@@ -177,6 +192,7 @@ class AddPetPage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="F"
+                                        checked={this.state.sex === "F"}
                                         onChange={this.handleChangeForPet("sex")}
                                     />
                                 </div>
@@ -186,6 +202,7 @@ class AddPetPage extends Component {
                                         type="number"
                                         step="1"
                                         name="weight"
+                                        value={this.state.weight}
                                         onChange={this.handleChangeForPet("weight")}
                                     /> lbs.
                                 </div>
@@ -252,6 +269,7 @@ class AddPetPage extends Component {
 
                                         />
                                     </div>
+                                    <button type="button" onClick={this.goBack}>Prev</button>
                                     <button >Submit</button>
                                 </form>
                             </div>

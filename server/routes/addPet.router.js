@@ -14,7 +14,7 @@ router.post('/:id', rejectUnauthenticated, (req, res) => {
     const petInfo = req.body
     const ownerId = req.params.id;
     
-    (async = () => {
+    (async () => {
         const client = await pool.connect();
 
         try {
@@ -30,6 +30,7 @@ router.post('/:id', rejectUnauthenticated, (req, res) => {
             //variables to hold dates
             //dogs and cats
             const previous_rabies_date = petInfo.rabies_date;
+            console.log(previous_rabies_date);
             //dogs only
             const previous_canine_distemper_date = petInfo.canine_distemper_date;
             const previous_bordatella_date = petInfo.bordatella_date;
@@ -43,14 +44,18 @@ router.post('/:id', rejectUnauthenticated, (req, res) => {
             queryText = 'SELECT * FROM care_type;';
 
             const care_typeResult = client.query(queryText);
+        } catch(error){
+            console.log('ROLLBACK', error);
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
 
-            
-        }   
-
-    });
-
-   
-    
+    })().catch((error) => {
+        console.log('CATCH', error);
+        res.sendStatus(500);
+    });  
 });
 
 module.exports = router;
