@@ -1,0 +1,9 @@
+*{
+    box-sizing: border-box;
+}
+
+.notesContainer{
+    border: 1px solid black;
+    height: 50px;
+    width: 50vw;
+}
