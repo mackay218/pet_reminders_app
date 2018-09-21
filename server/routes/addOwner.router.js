@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
 
     const firstname = req.body.first_name;
     const lastname = req.body.last_name;
-    const phone = req.body.phone.replace(/[]/);
+    const phone = req.body.phone;
     const email = req.body.email;
     const address = req.body.address;
     const vetId = req.body.vet_id;

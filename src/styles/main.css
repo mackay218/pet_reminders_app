@@ -1,20 +1,52 @@
+*{
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    --green-gradient: linear-gradient(#154734, #3D735F);
+    --green: #154734;
+    --cream: #DDCBA4;
+    
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    
+    background-color: var(--cream);
+    
+
 }
 
 .instructions h1 {
     font-size: 24px;
     font-weight: 700;
+    width: 100vw;
+    text-align: center;
+
 }
 
 .instructions {
-    background-color: #00acb0;
+    background-color: var(--green);
     padding: 5px;
     color: #ece7e7;
 }
 
+.logoutBtn {
+    position: fixed;
+    right: 10px;
+    top: 20px;
+    background: transparent;
+    border: none;
+    color: var(--cream);
+}
+
+.logoutBtn:hover {
+    text-decoration: underline;
+}
+
 form {
-    background-color: #dbd5d5;
+    background-color: rgba(255,255,255,0.5);
     width: auto;
     height: auto;
     margin: 20px auto;
@@ -48,9 +80,27 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #00acb0;
+  background: var(--green-gradient);
   width: 100%;
   border-radius: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.navLogo{
+    height: 50px;
+    z-index: 2;
+    border-radius: 10%;
+}
+
+.navLogo:hover{
+    box-shadow: 0 0 20px rgba(255,255,255,0.5), inset 0 0 20px rgba(255,255,255,0.5);
+}
+
+.navbar li{
+    position: relative;
 }
 
 ul {

@@ -7,7 +7,7 @@ const Nav = () => (
       <ul>
         <li>
           <Link to="/user">
-            User Home
+            <img className="navLogo" src="images/larger_pet_logo.png" alt="pet reminders logo"/>
           </Link>
         </li>
         <li>

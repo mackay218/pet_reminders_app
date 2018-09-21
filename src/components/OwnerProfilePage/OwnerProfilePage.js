@@ -113,7 +113,7 @@ class OwnerProfilePage extends Component {
         let pet_list = null;
 
         if (this.props.user.userName) {
-            if(this.state.editMode === false){
+            if(this.state.editMode === false && this.props.owner.ownerInfo){
                 contact_info = (
                     <div className="contactInfo ownerProfileSection">
                         <div className="infoSec">

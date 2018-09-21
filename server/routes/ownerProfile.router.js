@@ -1,10 +1,11 @@
 const express = require('express');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 
 
 const router = express.Router();
 
-router.get('/:id', (req, res) => {
+router.get('/:id', rejectUnauthenticated, (req, res) => {
     console.log('owner id to get', req.params.id);
 
     //id of owner to get info for
@@ -30,7 +31,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-router.put('/', (req, res) => {
+router.put('/', rejectUnauthenticated, (req, res) => {
     console.log('update owner info router', req.body);
     
     const firstname = req.body.first_name;
