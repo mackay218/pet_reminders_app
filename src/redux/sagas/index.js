@@ -3,6 +3,7 @@ import userSaga from './userSaga';
 import loginSaga from './loginSaga';
 import addOwner from './addOwnerSaga';
 import ownerProfile from './ownerProfileSaga';
+import addPetSaga from './addPetSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -10,6 +11,7 @@ export default function* rootSaga() {
     loginSaga(),
     addOwner(),
     ownerProfile(),
+    addPetSaga(),
     // watchIncrementAsync()
   ]);
 }

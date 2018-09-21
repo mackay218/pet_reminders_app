@@ -54,7 +54,7 @@ const App = () => (
           component={OwnerProfilePage}
         />
         <Route
-          path="/addPet"
+          path="/addPet/:id"
           component={AddPetPage}
         />
         {/* OTHERWISE (no path!) */}

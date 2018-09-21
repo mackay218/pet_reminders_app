@@ -6,7 +6,7 @@ import axios from 'axios';
 function* postPet(action) {
     console.log('postPet', action);
 
-    try {
+    try{
         yield call(axios.post, '/api/addPet', action.payload);
     }
     catch (error) {

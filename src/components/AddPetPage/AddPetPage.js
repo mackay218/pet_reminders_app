@@ -29,6 +29,7 @@ const addPetObj = {
     feline_distemper_date: '',
     leukemia_date: '',
     addPetForm: true,
+    ownerId: '',
 }
 
 class AddPetPage extends Component {
@@ -44,7 +45,11 @@ class AddPetPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         console.log(this.props);
-
+        console.log('id', this.props.match.params.id);
+        this.setState({
+            ...this.state,
+            ownerId: this.props.match.params.id,
+        })
     }
 
     componentDidUpdate() {
@@ -78,7 +83,7 @@ class AddPetPage extends Component {
 
     submitDogInfo = (event) => {
         event.preventDefault();
-        
+        console.log('submitDogInfo');
         //make sure all dates of previous vaccinations are provided
         if(this.state.rabies_date === '' || this.state.canine_distemper_date === '' || 
             this.state.bordatella_date === '' || this.state.lyme === ''){
@@ -319,6 +324,7 @@ class AddPetPage extends Component {
                                             onChange={this.handleChangeForPet("leukemia_date")}
                                         />
                                     </div>
+                                    <button type="button" onClick={this.goBack}>Prev</button>
                                     <button >Submit</button>
                                 </form>
                             </div>
