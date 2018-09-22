@@ -22,12 +22,7 @@ const addPetObj = {
     age: '',
     sex: '',
     weight: '',
-    rabies_date: '',
-    canine_distemper_date: '',
-    bordatella_date: '',
-    lyme_date: '',
-    feline_distemper_date: '',
-    leukemia_date: '',
+    care_dates: [],
     addPetForm: true,
     ownerId: '',
 }
@@ -37,7 +32,6 @@ class AddPetPage extends Component {
     constructor(props){
         super(props);
         
-        const { classes } = props;
         this.state = addPetObj;
     }
 
@@ -48,7 +42,7 @@ class AddPetPage extends Component {
         console.log('id', this.props.match.params.id);
         this.setState({
             ...this.state,
-            ownerId: this.props.match.params.id,
+            ownerId: parseInt(this.props.match.params.id),
         })
     }
 
@@ -60,11 +54,22 @@ class AddPetPage extends Component {
     
 
     handleChangeForPet = propertyName => (event) => {
-        console.log(event.target.value);
+        console.log('stats', event.target.value);
         this.setState({
             ...this.state,
             [propertyName]: event.target.value,
         });
+    }
+
+    handleChangeForDate = (event) => {
+        
+        const careObj = {name: event.target.name, date: event.target.value};
+
+        this.setState({
+            care_dates: [...this.state.care_dates, careObj],
+        });
+
+        console.log(this.state);
     }
 
     showCareTypes = () => {
@@ -85,9 +90,8 @@ class AddPetPage extends Component {
         event.preventDefault();
         console.log('submitDogInfo');
         //make sure all dates of previous vaccinations are provided
-        if(this.state.rabies_date === '' || this.state.canine_distemper_date === '' || 
-            this.state.bordatella_date === '' || this.state.lyme === ''){
-                alert('please provide all dates.');
+        if(this.state.care_dates.lengh < 4){
+                alert('please provide all dates for dog.');
             }
         else{
             const action = {type: 'ADD_PET', payload: this.state}
@@ -101,8 +105,7 @@ class AddPetPage extends Component {
         event.preventDefault();
 
         //make sure all dates of previous vaccinations are provided
-        if(this.state.rabies_date === '' || this.state.feline_distemper_date || 
-            this.state.leukemia_date === ''){
+        if(this.state.care_dates.length < 3){
                 alert('please provide all dates.')
             }
         else{
@@ -226,51 +229,51 @@ class AddPetPage extends Component {
                                 <form onSubmit={this.submitDogInfo}>
                                     <div className="formSection">
                                         <TextField
-                                            name="rabies_date"
+                                            name="rabies"
                                             label="Rabies Date"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("rabies_date")}
+                                            onChange={this.handleChangeForDate}
                                         />
                                     </div>
                                     <div className="formSection">
                                         <TextField
-                                            name="canine_distemper_date"
+                                            name="canine_distemper"
                                             label="Canine Distemper Combo Date"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("canine_distemper_date")}
+                                            onChange={this.handleChangeForDate}
                                         />
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="bordatella_date"
+                                            name="bordatella"
                                             label="Bordatella"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("bordatella_date")}
+                                            onChange={this.handleChangeForDate}
 
                                         />
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="lyme_date"
+                                            name="lyme"
                                             label="Lyme Date"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("lyme_date")}
+                                            onChange={this.handleChangeForDate}
 
                                         />
                                     </div>
@@ -289,39 +292,39 @@ class AddPetPage extends Component {
                                 <form onSubmit={this.submitCatInfo}>
                                     <div className="formSection">
                                         <TextField
-                                            name="rabies_date"
+                                            name="rabies"
                                             label="Rabies Date"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("rabies_date")}
+                                            onChange={this.handleChangeForDate}
                                         />
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="feline_distemper_date"
+                                            name="feline_distemper"
                                             label="Feline Distemper Combo Date"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("feline_distemper_date")}
+                                            onChange={this.handleChangeForDate}
 
                                         />
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="leukemia_date"
+                                            name="leukemia"
                                             label="Leukemia"
                                             type="date"
                                             defaultValue="2017-05-24"
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            onChange={this.handleChangeForPet("leukemia_date")}
+                                            onChange={this.handleChangeForDate}
                                         />
                                     </div>
                                     <button type="button" onClick={this.goBack}>Prev</button>
