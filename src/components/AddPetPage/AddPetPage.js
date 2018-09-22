@@ -14,6 +14,7 @@ import { isMoment } from 'moment';
 
 const mapStateToProps = state => ({
     user: state.user,
+    careTypes: state.careTypes
 });
 
 
@@ -25,6 +26,7 @@ const addPetObj = {
     sex: '',
     weight: '',
     care_dates: [],
+    care_types: [],
     addPetForm: true,
     ownerId: '',
     date: moment(new Date).format('YYYY-MM-DD').replace(/\//g, "-"),
@@ -43,22 +45,27 @@ class AddPetPage extends Component {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         console.log(this.props);
         console.log('id', this.props.match.params.id);
+        
+        //saga to get all care type info from database
+        const action = {type: 'GET_CARE_TYPES'}
+
+        this.props.dispatch(action);
+
         this.setState({
             ...this.state,
             ownerId: parseInt(this.props.match.params.id),
+            care_types: this.props.careTypes.careTyepInfo
         });
-        
-        console.log(moment(new Date).format('YYYY-MM-DD').replace(/\//g, "-"));
-
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('home');
         }
+        console.log('PROPS', this.props);
+        console.log('STATE', this.state);
     }
     
-
     handleChangeForPet = propertyName => (event) => {
         console.log('stats', event.target.value);
         this.setState({

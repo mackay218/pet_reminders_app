@@ -16,8 +16,8 @@ function* postPet(action) {
 }
 
 
+
 export default function* addOwnerSaga() {
 
-    yield takeLatest('ADD_PET', postPet)
-
+    yield takeLatest('ADD_PET', postPet);
 }

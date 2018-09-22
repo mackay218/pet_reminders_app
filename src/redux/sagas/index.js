@@ -4,6 +4,7 @@ import loginSaga from './loginSaga';
 import addOwner from './addOwnerSaga';
 import ownerProfile from './ownerProfileSaga';
 import addPetSaga from './addPetSaga';
+import careTypeSaga from './careTypeSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     addOwner(),
     ownerProfile(),
     addPetSaga(),
+    careTypeSaga(),
     // watchIncrementAsync()
   ]);
 }
