@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 //material ui 
 import { withStyles } from '@material-ui/core/styles';
@@ -8,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import { isMoment } from 'moment';
 
 
 const mapStateToProps = state => ({
@@ -25,6 +27,7 @@ const addPetObj = {
     care_dates: [],
     addPetForm: true,
     ownerId: '',
+    date: moment(new Date).format('YYYY-MM-DD').replace(/\//g, "-"),
 }
 
 class AddPetPage extends Component {
@@ -43,7 +46,10 @@ class AddPetPage extends Component {
         this.setState({
             ...this.state,
             ownerId: parseInt(this.props.match.params.id),
-        })
+        });
+        
+        console.log(moment(new Date).format('YYYY-MM-DD').replace(/\//g, "-"));
+
     }
 
     componentDidUpdate() {
@@ -232,7 +238,7 @@ class AddPetPage extends Component {
                                             name="rabies"
                                             label="Rabies Date"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue= {this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -244,7 +250,7 @@ class AddPetPage extends Component {
                                             name="canine_distemper"
                                             label="Canine Distemper Combo Date"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -256,7 +262,7 @@ class AddPetPage extends Component {
                                             name="bordatella"
                                             label="Bordatella"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -269,7 +275,7 @@ class AddPetPage extends Component {
                                             name="lyme"
                                             label="Lyme Date"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -295,7 +301,7 @@ class AddPetPage extends Component {
                                             name="rabies"
                                             label="Rabies Date"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -307,7 +313,7 @@ class AddPetPage extends Component {
                                             name="feline_distemper"
                                             label="Feline Distemper Combo Date"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -320,7 +326,7 @@ class AddPetPage extends Component {
                                             name="leukemia"
                                             label="Leukemia"
                                             type="date"
-                                            defaultValue="2017-05-24"
+                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
