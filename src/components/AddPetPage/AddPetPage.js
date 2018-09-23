@@ -29,7 +29,7 @@ const addPetObj = {
     care_types: [],
     addPetForm: true,
     ownerId: '',
-    date: moment(new Date).format('YYYY-MM-DD').replace(/\//g, "-"),
+    date: moment(new Date).format('YYYY-MM-DD'),
 }
 
 class AddPetPage extends Component {
@@ -46,16 +46,8 @@ class AddPetPage extends Component {
         console.log(this.props);
         console.log('id', this.props.match.params.id);
         
-        //saga to get all care type info from database
-        const action = {type: 'GET_CARE_TYPES'}
-
+        const action = {type: 'GET_CARE_TYPES'};
         this.props.dispatch(action);
-
-        this.setState({
-            ...this.state,
-            ownerId: parseInt(this.props.match.params.id),
-            care_types: this.props.careTypes.careTyepInfo
-        });
     }
 
     componentDidUpdate() {
@@ -64,10 +56,17 @@ class AddPetPage extends Component {
         }
         console.log('PROPS', this.props);
         console.log('STATE', this.state);
+
+        
     }
+
+    initializePetInfo = () => {
+        console.log('care types exists');
+    }
+
     
     handleChangeForPet = propertyName => (event) => {
-        console.log('stats', event.target.value);
+        //console.log('stats', event.target.value);
         this.setState({
             ...this.state,
             [propertyName]: event.target.value,
@@ -76,11 +75,33 @@ class AddPetPage extends Component {
 
     handleChangeForDate = (event) => {
         
-        const careObj = {name: event.target.name, date: event.target.value};
+        //console.log('careTypes', this.props.careTypes.careTypeInfo);
+        console.log('in handleChangeforDate');
 
-        this.setState({
-            care_dates: [...this.state.care_dates, careObj],
-        });
+        let careTypes = this.props.careTypes.careTypeInfo;
+
+        //loop through care types from redux store
+        for(let care of careTypes){
+            console.log('in loop');
+            if(event.target.name === care.name){
+
+                const name = event.target.name;
+                const previousDate = event.target.value;
+
+                const frequency = care.frequency;
+
+                //calculate due date
+                let dueDate = moment(previousDate).add(frequency, 'months').calendar();
+                dueDate = moment(dueDate).format('YYYY-MM-DD');
+
+                console.log(previousDate, frequency, dueDate);
+            }
+        }
+
+
+        // this.setState({
+        //     care_dates: [...this.state.care_dates, careObj],
+        // });
 
         console.log(this.state);
     }
@@ -143,6 +164,7 @@ class AddPetPage extends Component {
             if(this.state.addPetForm === true){
                 content = (
                     <div className="pageContainer">
+                        {JSON.stringify(this.props.careTypes.careTypeInfo)}
                         <h3>Add a New Pet</h3>
                         <div className="formContainer">
                             <form>
@@ -266,8 +288,8 @@ class AddPetPage extends Component {
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="bordatella"
-                                            label="Bordatella"
+                                            name="bordetella"
+                                            label="Bordetella"
                                             type="date"
                                             defaultValue={this.state.date}
                                             InputLabelProps={{

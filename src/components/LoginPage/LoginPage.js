@@ -38,6 +38,8 @@ class LoginPage extends Component {
       this.props.dispatch(formError());
     } else {
       this.props.dispatch(triggerLogin(this.state.username, this.state.password));
+      
+     
     }
   }
 

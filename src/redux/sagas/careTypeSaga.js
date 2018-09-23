@@ -6,6 +6,7 @@ import axios from 'axios';
 function* getCareTypes(action) {
     try {
         const careTypeResponse = yield call(axios.get, '/api/careTypes');
+        console.log('getCareTypesSaga:', careTypeResponse);
 
         const responseAction = {type: 'SET_CARE_TYPES', payload: careTypeResponse.data}
 

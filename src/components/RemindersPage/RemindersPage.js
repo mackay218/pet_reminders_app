@@ -14,6 +14,8 @@ const mapStateToProps = state => ({
 class RemindersPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+
+       
     }
 
     componentDidUpdate() {
