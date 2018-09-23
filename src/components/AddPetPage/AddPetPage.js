@@ -26,7 +26,6 @@ const addPetObj = {
     sex: '',
     weight: '',
     care_dates: [],
-    care_types: [],
     addPetForm: true,
     ownerId: '',
     date: moment(new Date).format('YYYY-MM-DD'),
@@ -48,23 +47,29 @@ class AddPetPage extends Component {
         
         const action = {type: 'GET_CARE_TYPES'};
         this.props.dispatch(action);
+
+        
+        setTimeout(this.initializePetInfo, 1);
+          
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('home');
         }
-        console.log('PROPS', this.props);
-        console.log('STATE', this.state);
+        // console.log('PROPS', this.props);
+        // console.log('STATE', this.state);
 
         
     }
 
     initializePetInfo = () => {
-        console.log('care types exists');
+        console.log('in initializePetInfo');
+        if(this.props.careTypes.careTypeInfo){
+            console.log(this.props.careTypes.careTypeInfo);
+        }
     }
 
-    
     handleChangeForPet = propertyName => (event) => {
         //console.log('stats', event.target.value);
         this.setState({
