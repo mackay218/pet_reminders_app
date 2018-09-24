@@ -29,7 +29,7 @@ class Header extends Component{
           className="logoutBtn"
           onClick={this.logout}
         >
-          Log Out
+        Log Out
           </button>
       )
     } 

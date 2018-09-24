@@ -9,10 +9,12 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { relativeTimeRounding } from 'moment';
 
 const mapStateToProps = state => ({
     user: state.user,
     owner: state.owner,
+    petsInfo: state.petsInfo,
 });
 
 class OwnerProfilePage extends Component {
@@ -23,25 +25,29 @@ class OwnerProfilePage extends Component {
         this.state = {
             editMode: false,
         }
+
+       
+       
     }
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-        
+
+       
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
-            //this.props.history.push('home');
+            this.props.history.replace('/#/home');
         }
         
     }
-
-    componentWillMount(){
+    
+    componentWillMount() {
         this.getOwnerInfo();
     }
-
-    //get 
+   
+    //GET 
     getOwnerInfo = () => {
  
         console.log('getOwnerInfo page', this.props.match.params.id);
@@ -111,7 +117,7 @@ class OwnerProfilePage extends Component {
         let notes = null;
 
         let pet_list = null;
-
+    
         if (this.props.user.userName) {
             if(this.state.editMode === false && this.props.owner.ownerInfo){
                 contact_info = (
@@ -224,25 +230,53 @@ class OwnerProfilePage extends Component {
 
             let addPetLink = "#/addPet/" + ownerId
 
-            pet_list = (
-                <div className = "petListSection ownerProfileSection">
-                    <div className = "petListContainer">
-                    
-                    
+
+            if(this.props.petsInfo.petInfo){
+                pet_list = (
+                    <div className="petListSection ownerProfileSection">
+                        <div className="petListContainer">
+                             {JSON.stringify(this.props.petsInfo.petInfo)} 
+                            {this.props.petsInfo.petInfo.map((pet) => {
+                                return(
+                                    <p>{pet.name}</p>
+                                );
+                                
+                            })}
+                        </div>
+                        <a href={addPetLink} >New Pet</a>
                     </div>
-                    <a href={addPetLink} >New Pet</a>
+                )
+            }
+            else{
+                pet_list = (
+                    <div className="petListSection ownerProfileSection">
+                        <div className="petListContainer">
+                    
+                        </div>
+                        <a href={addPetLink} >New Pet</a>
+                    </div>
+                )
+            }
+               
+        }
+           
+
+        if(this.props.user.userName ){
+            return (
+                <div>
+                    <Nav />
+                    {content}
+                    {notes}
+                    {pet_list}
                 </div>
+            );
+        }
+        else{
+            return (
+                <p>loading</p>
             )
         }
-
-        return (
-            <div>
-                <Nav />
-                {content}
-                {notes}
-                {pet_list}
-            </div>
-        );
+       
     }
 
 }

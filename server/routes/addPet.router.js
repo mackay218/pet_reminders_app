@@ -32,12 +32,13 @@ router.post('/', rejectUnauthenticated, (req, res) => {
             
             let petId = petResult.rows[0].id;
                 
-             for(let careDate of req.body.care_dates){
-                 console.log('care date', careDate.dueDate);
-                   queryText = `INSERT INTO care_history(pet_id, care_type, due_date, previous_date)
+            //loop through care dates and create history for each 
+            for(let careDate of req.body.care_dates){
+                queryText = `INSERT INTO care_history(pet_id, care_type, due_date, previous_date)
                                 VALUES ($1, $2, $3, $4);`;
-                   const result = await client.query(queryText, [petId, careDate.name, careDate.dueDate, careDate.previousDate]);
-              }
+                const result = await client.query(queryText, [petId, careDate.name, careDate.dueDate, careDate.previousDate]);
+            }
+
             await client.query('COMMIT');
             res.sendStatus(201);
         } catch(error){

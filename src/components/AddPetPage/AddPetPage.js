@@ -52,7 +52,7 @@ class AddPetPage extends Component {
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
-            this.props.history.push('home');
+            this.props.history.replace('/#/home');
         }       
     }
 
@@ -102,7 +102,7 @@ class AddPetPage extends Component {
             }
         }
 
-        console.log(this.state);
+        console.log('state', this.state);
     }
 
     showCareTypes = () => {

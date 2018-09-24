@@ -13,7 +13,9 @@ const userRouter = require('./routes/user.router');
 const addOwnerRouter = require('./routes/addOwner.router');
 const ownerProfileRouter = require('./routes/ownerProfile.router');
 const addPetRouter = require('./routes/addPet.router');
+const getPetsRouter = require('./routes/getPets.router');
 const careTypeRouter = require('./routes/careType.router');
+
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -31,6 +33,7 @@ app.use('/api/user', userRouter);
 app.use('/api/addOwner', addOwnerRouter);
 app.use('/api/ownerProfile', ownerProfileRouter);
 app.use('/api/addPet', addPetRouter);
+app.use('/api/getPets/', getPetsRouter);
 app.use('/api/careTypes', careTypeRouter);
 
 // Serve static files

@@ -15,6 +15,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     
     pool.query(queryText, [ownerId])
         .then((results) => {
+            console.log('owner router');
             console.log('got owner', results.rows);
                 if(results.rows.length >= 1){
                     res.send(results.rows[0]);
