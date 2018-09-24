@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 //material ui 
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import { isMoment } from 'moment';
-
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -56,18 +53,16 @@ class AddPetPage extends Component {
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('home');
-        }
-        // console.log('PROPS', this.props);
-        // console.log('STATE', this.state);
-
-        
+        }       
     }
 
     initializePetInfo = () => {
         console.log('in initializePetInfo');
-        if(this.props.careTypes.careTypeInfo){
-            console.log(this.props.careTypes.careTypeInfo);
-        }
+        this.setState({
+            ...this.state,
+            ownerId: this.props.match.params.id,
+            date: this.state.date,
+        })
     }
 
     handleChangeForPet = propertyName => (event) => {
@@ -99,14 +94,13 @@ class AddPetPage extends Component {
                 let dueDate = moment(previousDate).add(frequency, 'months').calendar();
                 dueDate = moment(dueDate).format('YYYY-MM-DD');
 
-                console.log(previousDate, frequency, dueDate);
+                this.setState({
+                    ...this.state,
+                    care_dates: [...this.state.care_dates, {name: name, previousDate: previousDate, 
+                                                            dueDate: dueDate}]
+                });
             }
         }
-
-
-        // this.setState({
-        //     care_dates: [...this.state.care_dates, careObj],
-        // });
 
         console.log(this.state);
     }
@@ -272,7 +266,6 @@ class AddPetPage extends Component {
                                             name="rabies"
                                             label="Rabies Date"
                                             type="date"
-                                            defaultValue= {this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -284,7 +277,6 @@ class AddPetPage extends Component {
                                             name="canine_distemper"
                                             label="Canine Distemper Combo Date"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -296,7 +288,6 @@ class AddPetPage extends Component {
                                             name="bordetella"
                                             label="Bordetella"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -309,7 +300,6 @@ class AddPetPage extends Component {
                                             name="lyme"
                                             label="Lyme Date"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -335,7 +325,6 @@ class AddPetPage extends Component {
                                             name="rabies"
                                             label="Rabies Date"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -347,7 +336,6 @@ class AddPetPage extends Component {
                                             name="feline_distemper"
                                             label="Feline Distemper Combo Date"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -360,7 +348,6 @@ class AddPetPage extends Component {
                                             name="leukemia"
                                             label="Leukemia"
                                             type="date"
-                                            defaultValue={this.state.date}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
