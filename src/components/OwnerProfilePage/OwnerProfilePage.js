@@ -66,8 +66,6 @@ class OwnerProfilePage extends Component {
     
     componentWillMount() {
         this.getOwnerInfo();
-
-     
     }
    
     //GET 

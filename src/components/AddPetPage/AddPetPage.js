@@ -25,6 +25,7 @@ const addPetObj = {
     care_dates: [],
     addPetForm: true,
     ownerId: '',
+    vetId: '',
     date: moment(new Date).format('YYYY-MM-DD'),
 }
 
@@ -62,6 +63,7 @@ class AddPetPage extends Component {
             ...this.state,
             ownerId: this.props.match.params.id,
             date: this.state.date,
+            vetId: this.props.user.id,
         })
     }
 
@@ -98,7 +100,7 @@ class AddPetPage extends Component {
                 this.setState({
                     ...this.state,
                     care_dates: [...this.state.care_dates, {name: name, previousDate: previousDate, 
-                                                            dueDate: dueDate}]
+                                                            dueDate: dueDate, vetId: this.props.user.id}]
                 });
             }
         }
