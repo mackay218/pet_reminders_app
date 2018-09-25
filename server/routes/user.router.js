@@ -18,7 +18,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post('/register', (req, res, next) => {
+router.post('/register', rejectUnauthenticated, (req, res, next) => {
   console.log('req: ', req.body);
   
   const firstname = req.body.first_name;
@@ -37,7 +37,7 @@ router.post('/register', (req, res, next) => {
 });
 
 //PUT route to update user info
-router.put('/register', (req, res) => {
+router.put('/register', rejectUnauthenticated, (req, res) => {
   console.log('req in put:', req.body);
 
   const firstname = req.body.first_name;

@@ -26,9 +26,10 @@ class Header extends Component{
     if (this.props.user.userName){
       logOutBtn = (
         <button
+          className="logoutBtn"
           onClick={this.logout}
         >
-          Log Out
+        Log Out
           </button>
       )
     } 

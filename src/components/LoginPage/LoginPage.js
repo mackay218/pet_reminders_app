@@ -38,6 +38,8 @@ class LoginPage extends Component {
       this.props.dispatch(formError());
     } else {
       this.props.dispatch(triggerLogin(this.state.username, this.state.password));
+      
+     
     }
   }
 
@@ -63,7 +65,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="pageContainer loginPage">
         { this.renderAlert() }
         <form onSubmit={this.login}>
           <h1>Login</h1>
@@ -98,6 +100,7 @@ class LoginPage extends Component {
             <Link to="/register">Register</Link>
           </div>
         </form>
+        <img className="logInLogo" src="images/larger_pet_logo.png" alt="pet reminders logo"/>
       </div>
     );
   }

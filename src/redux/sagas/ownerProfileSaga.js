@@ -2,6 +2,19 @@ import { takeLatest, call, put} from 'redux-saga/effects';
 
 import axios from 'axios';
 
+//function to add owner
+function* postOwner(action) {
+    console.log('postOwner', action);
+
+    try {
+        yield call(axios.post, '/api/addOwner', action.payload);
+    }
+    catch (error) {
+        console.log('error adding pet owner:', error);
+        alert('error adding pet owner');
+    }
+}
+
 //function to get all owner info with chosen id
 function* getOwnerInfo(action){
     console.log('in getOwnerInfo saga', action.payload);
@@ -11,7 +24,10 @@ function* getOwnerInfo(action){
 
         const responseAction = {type: 'SET_OWNER', payload: ownerResponse.data}
 
+        const getPets = {type: 'GET_OWNER_PETS', payload: action.payload}
+
         yield put(responseAction);
+        yield put(getPets);
     }
     catch(error){
         console.log('error getting owner info', error);
@@ -32,6 +48,7 @@ function* updateOwnerInfo(action){
 
 export default function* ownerSaga(){
 
+    yield takeLatest('ADD_OWNER', postOwner)
     yield takeLatest('GET_OWNER_INFO', getOwnerInfo);
     yield takeLatest('UPDATE_OWNER_INFO', updateOwnerInfo);
 }
