@@ -33,21 +33,41 @@ class OwnerProfilePage extends Component {
         this.state = {
             editMode: false,
             open: false,
+            sex: '',
         }
     }
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });  
+
+        if (this.props.petsInfo.onePetInfo) {
+            console.log('sex of pet');
+            if (this.props.petsInfo.onePetInfo.sex === 'M') {
+                this.setState({
+                    sex: 'M',
+                });
+            }
+            else if (this.props.petsInfo.onePetInfo.sex === 'F') {
+                this.setState({
+                    sex: 'F',
+                });
+            }
+            console.log(this.state);
+        }
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
         }    
+
+       
     }
     
     componentWillMount() {
         this.getOwnerInfo();
+
+     
     }
    
     //GET 
@@ -76,10 +96,19 @@ class OwnerProfilePage extends Component {
     }
 
     handleChangeForPet = (event) => {
+
+        if(event.target.name === 'sex'){
+            this.setState({
+                sex: event.target.value,
+            })
+        }
+
         const action = {type: 'SET_ONE_PET', payload: {
             ...this.props.petsInfo.onePetInfo,
             [event.target.name]: event.target.value,
         }}
+
+
 
         this.props.dispatch(action);
     }
@@ -155,6 +184,19 @@ class OwnerProfilePage extends Component {
         this.setState({
             open: true,
         })
+
+        setTimeout(() => {
+            this.checkRadioBtns();
+        }, 100);
+    }
+
+    checkRadioBtns = () => {
+        if(this.props.petsInfo.onePetInfo){
+            console.log('hello buttons', this.props.petsInfo.onePetInfo.sex);
+            this.setState({
+                sex: this.props.petsInfo.onePetInfo.sex,
+            })
+        }
     }
 
     handleClose = () => {
@@ -291,7 +333,7 @@ class OwnerProfilePage extends Component {
                             <ul className="petList" >
                                 {this.props.petsInfo.petInfo.map((pet) => {
                                     return (
-                                        <li id={pet.id}
+                                        <li id={pet.id} key={pet.id}
                                             onClick={this.makeDialog}>
                                             {pet.name}
                                         </li>
@@ -365,7 +407,7 @@ class OwnerProfilePage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="M"
-                                        checked={this.props.petsInfo.onePetInfo === "M"}
+                                        checked={this.state.sex === "M"}
                                         onChange={this.handleChangeForPet}
                                     />
                                     <label htmlFor="#female">F</label>
@@ -374,7 +416,7 @@ class OwnerProfilePage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="F"
-                                        checked={this.props.petsInfo.onePetInfo === "F"}
+                                        checked={this.state.sex === "F"}
                                         onChange={this.handleChangeForPet}
                                     />
                                 </div>
@@ -389,6 +431,7 @@ class OwnerProfilePage extends Component {
                                 <div className="petFormSection">
                                     <label htmlFor="notes">notes</label>
                                     <textarea
+                                        name="notes"
                                         value={this.props.petsInfo.onePetInfo.notes}
                                         onChange={this.handleChangeForPet}
                                     />
