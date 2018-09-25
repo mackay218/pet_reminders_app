@@ -93,6 +93,7 @@ class AddPetPage extends Component {
                 //calculate due date
                 let dueDate = moment(previousDate).add(frequency, 'months').calendar();
                 dueDate = moment(dueDate).format('YYYY-MM-DD');
+                console.log('care', name, dueDate);
 
                 this.setState({
                     ...this.state,
@@ -345,7 +346,7 @@ class AddPetPage extends Component {
                                     </div>
                                     <div className="formSetion">
                                         <TextField
-                                            name="leukemia"
+                                            name="feline_leukemia"
                                             label="Leukemia"
                                             type="date"
                                             InputLabelProps={{

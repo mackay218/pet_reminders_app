@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-router.get('/:id', rejectUnauthenticated, (req, res) => {
+router.get('/owner/:id', rejectUnauthenticated, (req, res) => {
     
     //id of owner to get info for
     const ownerId = req.params.id;
@@ -36,6 +36,25 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         });
 
 })
+
+router.get('/pet/:id', rejectUnauthenticated, (req, res) => {
+
+    const petId = req.params.id;
+    console.log('pet id:', petId);
+
+    const queryText = `SELECT * FROM pets WHERE "id" = $1;`;
+
+    pool.query(queryText, [petId])
+        .then((results) => {
+            res.send(results.rows[0]);
+        })
+        .catch((error) => {
+            console.log('error getting one pet:', error);
+            res.sendStatus(500);
+        });
+})
+
+
 
 
 

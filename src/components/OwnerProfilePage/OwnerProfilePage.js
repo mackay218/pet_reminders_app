@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+//styles for this component
 import './OwnerProfilePage.css';
 
 import Nav from '../../components/Nav/Nav';
@@ -9,7 +10,14 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-import { relativeTimeRounding } from 'moment';
+
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -24,23 +32,18 @@ class OwnerProfilePage extends Component {
 
         this.state = {
             editMode: false,
+            open: false,
         }
-
-       
-       
     }
 
     componentDidMount() {
-        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-
-       
+        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });  
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
-        }
-        
+        }    
     }
     
     componentWillMount() {
@@ -72,6 +75,15 @@ class OwnerProfilePage extends Component {
         
     }
 
+    handleChangeForPet = (event) => {
+        const action = {type: 'SET_ONE_PET', payload: {
+            ...this.props.petsInfo.onePetInfo,
+            [event.target.name]: event.target.value,
+        }}
+
+        this.props.dispatch(action);
+    }
+
     updateOwnerInfo = (event) => {
         event.preventDefault();
         if(this.props.owner.ownerInfo.first_name === '' || 
@@ -95,6 +107,28 @@ class OwnerProfilePage extends Component {
     }
 
 
+    updatePetInfo = (event) => {
+        event.preventDefault();
+        if(this.props.petsInfo.onePetInfo.name === '' || 
+            this.props.petsInfo.onePetInfo.species === '' || 
+            this.props.petsInfo.onePetInfo.age === '' || 
+            this.props.petsInfo.onePetInfo.sex === '' || 
+            this.props.petsInfo.onePetInfo.weight === ''){
+                alert('please fill out required fields');
+        }
+        else{
+            const action = {type: 'UPDATE_PET_INFO', payload: this.props.petsInfo.onePetInfo};
+
+            this.props.dispatch(action);
+
+            this.setState({
+                open: false
+            });
+
+            this.getOwnerInfo();
+        }
+    }
+
     handleEditClick = () => {
         console.log('handleEditClick', this.state);
         this.setState({
@@ -111,6 +145,22 @@ class OwnerProfilePage extends Component {
         this.getOwnerInfo();
     }
 
+    //function to dinamically populated and open dialog modal
+    makeDialog = (event) => {
+        console.log('makeDialog', event.target.id);
+        const action = {type: 'GET_ONE_PET',payload: event.target.id};
+
+        this.props.dispatch(action);
+
+        this.setState({
+            open: true,
+        })
+    }
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
+
     render() {
         let content = null;
         let contact_info = null;
@@ -118,6 +168,8 @@ class OwnerProfilePage extends Component {
 
         let pet_list = null;
     
+        let pet_dialog = null;
+
         if (this.props.user.userName) {
             if(this.state.editMode === false && this.props.owner.ownerInfo){
                 contact_info = (
@@ -236,12 +288,18 @@ class OwnerProfilePage extends Component {
                     <div className="petListSection ownerProfileSection">
                         <div className="petListContainer">
                              {JSON.stringify(this.props.petsInfo.petInfo)} 
-                            {this.props.petsInfo.petInfo.map((pet) => {
-                                return(
-                                    <p>{pet.name}</p>
-                                );
-                                
-                            })}
+                            <ul className="petList" >
+                                {this.props.petsInfo.petInfo.map((pet) => {
+                                    return (
+                                        <li id={pet.id}
+                                            onClick={this.makeDialog}>
+                                            {pet.name}
+                                        </li>
+                                    );
+
+                                })}
+                            </ul>
+                         
                         </div>
                         <a href={addPetLink} >New Pet</a>
                     </div>
@@ -260,6 +318,90 @@ class OwnerProfilePage extends Component {
                
         }
            
+        if (this.props.petsInfo.onePetInfo){
+            pet_dialog = (
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    modal={false}
+                >
+                    <DialogContent>
+                        <div className="petInfoformContainer">
+                            <h4>Pet Info</h4>
+                            <form onSubmit={this.updatePetInfo}>
+                                <div className="petFormSection">
+                                    <label htmlFor="name">name:</label>
+                                    <input
+                                        value={this.props.petsInfo.onePetInfo.name}
+                                        name="name"
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <div className="petFormSection">
+                                    <p>Species: {this.props.petsInfo.onePetInfo.species}</p>
+                                </div>
+                                <div className="petFormSection">
+                                    <label htmlFor="breed">breed:</label>
+                                    <input
+                                        value={this.props.petsInfo.onePetInfo.breed}
+                                        name="breed"
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <div className="petFormSection">
+                                    <label htmlFor="age">age:</label>
+                                    <input
+                                        value={this.props.petsInfo.onePetInfo.age}
+                                        type="number"
+                                        name="age"
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <div className="petFormSection">
+                                    <label htmlFor="sex">Sex:  </label>
+                                    <label htmlFor="#male">M</label>
+                                    <input
+                                        id="male"
+                                        type="radio"
+                                        name="sex"
+                                        value="M"
+                                        checked={this.props.petsInfo.onePetInfo === "M"}
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                    <label htmlFor="#female">F</label>
+                                    <input
+                                        id="female"
+                                        type="radio"
+                                        name="sex"
+                                        value="F"
+                                        checked={this.props.petsInfo.onePetInfo === "F"}
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <div className="petFormSection">
+                                    <label htmlFor="weight">weight</label>
+                                    <input
+                                        value={this.props.petsInfo.onePetInfo.weight}
+                                        type="number"
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <div className="petFormSection">
+                                    <label htmlFor="notes">notes</label>
+                                    <textarea
+                                        value={this.props.petsInfo.onePetInfo.notes}
+                                        onChange={this.handleChangeForPet}
+                                    />
+                                </div>
+                                <button>Submit</button>
+                                <button onClick={this.handleClose}>Close</button>
+                            </form>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )
+      
+        }
 
         if(this.props.user.userName ){
             return (
@@ -268,6 +410,7 @@ class OwnerProfilePage extends Component {
                     {content}
                     {notes}
                     {pet_list}
+                    {pet_dialog}
                 </div>
             );
         }
