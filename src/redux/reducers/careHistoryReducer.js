@@ -11,9 +11,6 @@ const careHistoryReducer = (state = null, action) => {
     }
 }
 
-
-
-
 export default combineReducers({
     careHistoryReducer,
 });

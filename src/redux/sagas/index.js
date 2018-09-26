@@ -5,6 +5,7 @@ import ownerProfile from './ownerProfileSaga';
 import petSaga from './petSaga';
 import careTypeSaga from './careTypeSaga';
 import careHistorySaga from './careHistorySaga';
+import smsMessageSaga from './smsMessageSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     petSaga(),
     careTypeSaga(),
     careHistorySaga(),
+    smsMessageSaga(),
   ]);
 }

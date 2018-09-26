@@ -43,6 +43,15 @@ class TableComponent extends Component {
         });
     }
 
+    //dispatch action to saga with data for message
+    sendMessageData = (dataToSend) => () => {
+        console.log('in sendMessageData', dataToSend);
+
+        const action = {type: 'SEND_REMINDER', payload: dataToSend};
+
+        this.props.dispatch(action);
+    }
+
     render(){
         let content = null;
 
@@ -85,7 +94,11 @@ class TableComponent extends Component {
                                 if(care.notification_sent === false){
                                     
                                     sendButton = (
-                                        <button type="button">Send</button>
+                                        <button 
+                                            onClick = {this.sendMessageData(care)}
+                                            type="button"
+                                        >Send
+                                        </button>
                                     )
                                 }
                                 else if(care.notification_sent === true){
@@ -109,7 +122,7 @@ class TableComponent extends Component {
                                 let dueDate = care.due_date;
                                 dueDate = moment(dueDate).format('YYYY-MM-DD');
                                 
-                                let careType = care.care_type.toString().replace(/\_/g, ' ').replace(/,/g, ', ');
+                                let careType = care.care_type.toString().replace(/_/g, ' ').replace(/,/g, ', ');
                                 
                                 return (
                                     <tr key={care.pet_id + care.name + careType} id={care.pet_id + care.name + careType}>
