@@ -7,6 +7,8 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import './RemindersPage.css';
 
+import TableComponent from '../TableComponent/TableComponent';
+
 const mapStateToProps = state => ({
     user: state.user,
     careHistory: state.careHistory,
@@ -24,12 +26,11 @@ class RemindersPage extends Component {
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
-            this.props.history.push('home');
+            this.props.history.replace('home');
         }
     }
 
     
-
     getCareHistory = () => {
         console.log('get care history for:', this.props.user.id);
         const action = {type: 'GET_CARE_HISTORY', payload: this.props.user.id}
@@ -44,7 +45,13 @@ class RemindersPage extends Component {
             content = (
                 <div>
                     <h1>Reminders</h1>
-                    {JSON.stringify(this.props.careHistory)}
+                    <div>
+                        {JSON.stringify(this.props.careHistory.careHistoryReducer)}
+                    </div>
+                    <div className = "tableContainer">
+                        <TableComponent/>
+                    </div>
+           
                 </div>
             );
         }
@@ -53,6 +60,7 @@ class RemindersPage extends Component {
             <div>
                 <Nav />
                 {content}
+
             </div>
         );
     }

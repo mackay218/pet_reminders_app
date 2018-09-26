@@ -16,7 +16,7 @@ function* getCareHistory(action) {
         yield put(responseAction);
     }
     catch (error) {
-        console.log('error getting care history:', error)
+        console.log('error getting care history:', error);
         alert('error getting care history');
     }
 

@@ -12,9 +12,9 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 
     const queryText = `SELECT 	"care_history"."pet_id", 
 		"care_history"."vet_id",
-		string_agg("care_type", ', '),
+		array_agg("care_type") AS "care_type",
 		"care_history"."due_date",
-		string_agg(CAST("previous_date" as text), ', '),
+		string_agg(CAST("previous_date" as text), ', ') as "previous_date",
 		"care_history"."notification_sent",
 		"care_history"."complete_care",
 		"pets".*,
@@ -49,7 +49,5 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         .catch((error) => { console.log('error getting care history:', error) });                 
 
 });
-
-
 
 module.exports = router;
