@@ -72,7 +72,6 @@ class TableComponent extends Component {
             content = (
 
                 <div>
-                    <h4>Table Component</h4>
                     <table>
                         <thead>
                             <tr>
@@ -124,9 +123,11 @@ class TableComponent extends Component {
                                 
                                 let careType = care.care_type.toString().replace(/_/g, ' ').replace(/,/g, ', ');
                                 
+                                let profileLink = '#/ownerProfile/' + care.owner_id;
+
                                 return (
                                     <tr key={care.pet_id + care.name + careType} id={care.pet_id + care.name + careType}>
-                                        <td>{care.first_name + ' ' + care.last_name}</td>
+                                        <td><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
                                         <td>{care.name}</td>
                                         <td>{careType}</td>
                                         <td>{dueDate}</td>
@@ -143,7 +144,7 @@ class TableComponent extends Component {
         }
 
         return (
-            <div>
+            <div className="pageContainer">
                 {content}
             </div>
         );

@@ -21,7 +21,7 @@ th, td{
     flex-grow: 1;
     text-align: center;
     align-content: center;
-    max-width: 200px;
+    width: 200px;
 }
 
 thead th{

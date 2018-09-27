@@ -54,10 +54,9 @@ class RemindersPage extends Component {
         }
 
         return (
-            <div>
+            <div className="pageContainer">
                 <Nav />
                 {content}
-
             </div>
         );
     }

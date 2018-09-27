@@ -176,7 +176,7 @@ class AddOwnerPage extends Component {
         }
 
         return (
-            <div>
+            <div className="pageContainer">
                 <Nav />
                 {content}
             </div>
