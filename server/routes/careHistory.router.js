@@ -50,7 +50,8 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 
 });
 
-router.put('/', rejectUnauthenticated, (req, res) => {
+//route to update notification_sent status
+router.put('/message', rejectUnauthenticated, (req, res) => {
 
 	const petId = req.body.pet_id;
 	const dueDate = req.body.due_date;
@@ -72,6 +73,32 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 			res.sendStatus(500);
 		});
 
-})
+});
+
+//route to update complete_care status
+router.put('/care', rejectUnauthenticated, (req, res) => {
+	const petId = req.body.pet_id;
+	const dueDate = req.body.due_date;
+
+	let completeCare = req.body.complete_care;
+
+	if(completeCare === false){
+		completeCare = true;
+	}
+	else if(completeCare === true){
+		completeCare = false;
+	}
+
+	const queryText = `UPDATE care_history SET "complete_care" = $1 WHERE "pet_id" = $2 AND "due_date" = $3;`;
+
+	pool.query(queryText, [completeCare, petId, dueDate])
+		.then((response) => {
+			res.sendStatus(200);
+		})
+		.catch((error) => {
+			console.log('error updating complete_care:', error);
+			res.sendStatus(500);
+		});
+});
 
 module.exports = router;

@@ -58,6 +58,20 @@ class TableComponent extends Component {
         }, 1);
     }
 
+    completeCare = (dataToSend) => () => {
+        console.log('in completeCare', dataToSend);
+
+        const action = {type: 'COMPLETE_CARE', payload: dataToSend};
+
+        this.props.dispatch(action);
+
+        setTimeout(() => {
+
+            this.refreshCareHistory();
+
+        }, 1);
+    }
+
     refreshCareHistory = () => {
         const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
 
@@ -125,12 +139,20 @@ class TableComponent extends Component {
                                 let completeButton = null;
                                 if(care.complete_care === false){
                                     completeButton = (
-                                        <button type="button">Complete</button>
+                                        <button 
+                                            onClick={this.completeCare(care)}
+                                            type="button"
+                                        >Complete
+                                        </button>
                                     )
                                 }
                                 else if(care.complete_care === true){
                                     completeButton = (
-                                        <button type="button">Undo</button>
+                                        <button 
+                                            onClick={this.completeCare(care)}
+                                            type="button"
+                                        >Undo
+                                        </button>
                                     )
                                 }
 

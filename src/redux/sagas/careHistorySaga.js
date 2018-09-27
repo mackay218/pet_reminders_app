@@ -26,7 +26,7 @@ function* updateSendStatus(action){
     try{
         console.log('in updateSendStatus', action.payload);
 
-        const updateSendStatus = yield call(axios.put, '/api/careHistory', action.payload);
+        const updateSendStatus = yield call(axios.put, '/api/careHistory/message', action.payload);
     }
     catch (error) {
         console.log('error updating send status:', error);
@@ -34,8 +34,21 @@ function* updateSendStatus(action){
     }
 }
 
+function* updateCompleteCare(action){
+    try{
+        console.log('in updateCompleteCare', action.payload);
+
+        const updateCompleteCare = yield call(axios.put, '/api/careHistory/care', action.payload);
+    }
+    catch (error) {
+        console.log('error updating complete care status:', error);
+        alert('error updating complete care status');
+    }
+}
+
 
 export default function* careHistorySaga(){
     yield takeLatest('GET_CARE_HISTORY', getCareHistory);
     yield takeLatest('SEND_REMINDER', updateSendStatus);
+    yield takeLatest('COMPLETE_CARE', updateCompleteCare);
 }
