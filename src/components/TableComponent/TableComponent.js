@@ -29,6 +29,7 @@ class TableComponent extends Component {
             timeFilter: 'week',
             sentStatus: false,
             completeStatus: false,
+            searchTerm: '',
         }
     }
     
@@ -71,7 +72,7 @@ class TableComponent extends Component {
         }, 10);
     }
 
-    //function to send all current shown events a message
+    //function to send all current shown history rows a message
     sendAllMessages = (arr) => {
         console.log('in sendAllMessages', arr);
 
@@ -91,6 +92,7 @@ class TableComponent extends Component {
         }
     }
 
+    //mark history event as completed and create new event
     completeCare = (dataToSend) => () => {
         console.log('in completeCare', dataToSend);
 
@@ -142,7 +144,7 @@ class TableComponent extends Component {
         }, 200);
     }
 
-
+    //remove new events and mark event as undone
     undoCompleteCare = (dataToSend) => () => {
         console.log('in completeCare', dataToSend);
 
@@ -194,6 +196,7 @@ class TableComponent extends Component {
         }, 200);
     }
 
+    //refresh table shown on DOM
     refreshCareHistory = () => {
         console.log('in refreshCareHistory');
         const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
@@ -210,7 +213,7 @@ class TableComponent extends Component {
         });
     }
 
-    //change filter term for sent status of reminder
+    //change local state for filter term for sent status of reminder
     changeSentStatus = () =>{
         if(this.state.sentStatus === false){
             this.setState({
@@ -224,6 +227,7 @@ class TableComponent extends Component {
         }
     }
 
+    //change local state for filter
     changeCompleteStatus = () => {
         if(this.state.completeStatus === false){
             this.setState({
@@ -237,6 +241,15 @@ class TableComponent extends Component {
         }
     }
 
+    handleSearchChange = (event) => {
+        console.log('handleSearchChange:', event.target.value);
+
+        this.setState({
+            searchTerm: event.target.value,
+        });
+    }
+
+    //FILTERS
     filterSentReminders = (careObj) => {
         console.log('in filterSentReminders');
 
@@ -360,7 +373,52 @@ class TableComponent extends Component {
         return false;
     }
 
-    
+    filterSearch = (careObj) => {
+        //if search field is empty
+        if(this.state.searchTerm === ''){
+            return true;
+        }
+        else{
+            let firstName = careObj.first_name;
+            let lastName = careObj.last_name;
+            let petName = careObj.name;
+
+            firstName = firstName.toLowerCase();
+            lastName = lastName.toLowerCase();
+            petName = petName.toLowerCase();
+
+            firstName = firstName.split('');
+            lastName = lastName.split('');
+            petName = petName.split('');
+
+            let searchString = this.state.searchTerm;
+            searchString = searchString.toLowerCase();
+
+            let searchStringArr = searchString.split('');
+
+
+            for (let i = 0; i <= searchStringArr.length; i++) {
+                if (i < searchStringArr.length) {
+                    if (searchStringArr[i] === firstName[i]) {
+                        continue;
+                    }
+                    else if (searchStringArr[i] === lastName[i]) {
+                        continue;
+                    }
+                    else if (searchStringArr[i] === petName[i]) {
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else if (i === searchStringArr.length) {
+                    return true;
+                }
+            }
+            return false;
+        }  
+    }
 
     render(){
 
@@ -378,6 +436,7 @@ class TableComponent extends Component {
             careArrOne = careArrOne.filter(this.filterCompleteCare);
             careArrOne = careArrOne.filter(this.filterSentReminders);
             careArrOne = careArrOne.filter(this.filterForTime);
+            careArrOne = careArrOne.filter(this.filterSearch);
 
             console.log('filtered array', careArrOne);
 
@@ -424,6 +483,14 @@ class TableComponent extends Component {
                     </select>
                     {sentCheckBtn}
                     {completeCareCheckBtn}
+                    <div className="seachFormWrapper">
+                        <input 
+                            type="text" 
+                            onChange={this.handleSearchChange}
+                            placeHolder="Pet or Owner Name"/>
+                        <button >Search</button>
+                    </div>
+                    
                     <table>
                         <thead>
                             <tr>
