@@ -29,6 +29,8 @@ class TableComponent extends Component {
         this.state = {
             sortItem: 'last_name',
             timeFilter: 'week',
+            sentStatus: false,
+            completeStatus: false,
         }
 
         
@@ -40,6 +42,8 @@ class TableComponent extends Component {
         
         this.setState({
             timeFilter: 'week',
+            sentStatus: false,
+            completeStatus: false,
         });
     }
 
@@ -182,6 +186,7 @@ class TableComponent extends Component {
         this.props.dispatch(action);
     }
 
+    //change filter term for date range
     handleChangeForTimeFilter = (event) => {
         let timeFilter = event.target.value;
         
@@ -190,9 +195,32 @@ class TableComponent extends Component {
         });
     }
 
+    //change filter term for sent status of reminder
+    changeSentStatus = () =>{
+        if(this.state.sentStatus === false){
+            this.setState({
+                sentStatus: true,
+            })
+        }
+        else if(this.state.sentStatus === true){
+            this.setState({
+                sentStatus: false,
+            });
+        }
+    }
+
+    filterSentReminders = (careObj) => {
+        console.log('in filterSentReminders');
+
+        if(careObj.notification_sent === this.state.sentStatus){
+            return true;
+        }
+        return false;
+    }
+
     filterForTime = (careObj) =>{
 
-        console.log('in filterForTime:', careObj);
+        console.log('in filterForTime');
 
         let startDate;
         let endDate;
@@ -203,21 +231,15 @@ class TableComponent extends Component {
          if(this.state.timeFilter === 'week'){
             
             startDate = moment(new Date()).format('YYYY-MM-DD');
-            console.log('startDate:', startDate);
             
             endDate = moment(startDate).add(7, 'days').format('YYYY-MM-DD');
-            console.log("endDate:", endDate);
-            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
-            
-             range = moment.range(startDate, endDate);
-            console.log('range:', range);
-            
-            console.log('range contains', range.contains(dueDate));
-
-             if(range.contains(dueDate)){
+         
+            range = moment.range(startDate, endDate);
+        
+            if(range.contains(dueDate)){
                 
                  return true;
-             }  
+            }  
          }
          else if (this.state.timeFilter === 'month') {
 
@@ -301,6 +323,8 @@ class TableComponent extends Component {
         return false;
     }
 
+    
+
     render(){
         let content = null;
 
@@ -312,6 +336,7 @@ class TableComponent extends Component {
 
             
             let careArrOne = this.props.careHistory.careHistoryReducer;
+            careArrOne = careArrOne.filter(this.filterSentReminders);
             careArrOne = careArrOne.filter(this.filterForTime);
 
             console.log('filtered array', careArrOne);
@@ -336,6 +361,7 @@ class TableComponent extends Component {
                         <option value="year">year</option>
                         <option value="all">all</option>
                     </select>
+                    <button type="button" onClick={this.changeSentStatus}>Sent Reminders</button>
                     <table>
                         <thead>
                             <tr>
