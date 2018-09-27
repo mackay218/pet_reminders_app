@@ -2,6 +2,18 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 
 import axios from 'axios';
 
+function* postNewCareDates(action){
+
+    try{
+        console.log('in postNewCareDates', action.payload);
+
+        const newCareDateResponse = yield call(axios.post, '/api/careHistory', action.payload);
+    }
+    catch (error) {
+        console.log('error adding new care dates to history:', error);
+        alert('error adding care history');
+    }
+}
 
 function* getCareHistory(action) {
 
@@ -51,4 +63,5 @@ export default function* careHistorySaga(){
     yield takeLatest('GET_CARE_HISTORY', getCareHistory);
     yield takeLatest('SEND_REMINDER', updateSendStatus);
     yield takeLatest('COMPLETE_CARE', updateCompleteCare);
+    yield takeLatest('NEW_CARE_DATES', postNewCareDates);
 }

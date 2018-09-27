@@ -18,6 +18,9 @@ class RemindersPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
 
+        const action = { type: 'GET_CARE_TYPES' };
+        this.props.dispatch(action);
+
         setTimeout(()=> {
             this.getCareHistory();
         }, 100);

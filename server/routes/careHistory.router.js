@@ -4,6 +4,26 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+//route to add new entries to care history
+router.post('/', rejectUnauthenticated, (req, res) => {
+
+	const entryToAdd = req.body;
+
+	console.log('entry to add', entryToAdd);
+
+	const queryText = `INSERT INTO care_history(pet_id, vet_id, care_type, due_date, previous_date)
+								VALUES ($1, $2, $3, $4, $5);`
+	
+	pool.query(queryText, [entryToAdd.petId, entryToAdd.vetId, entryToAdd.careType, 
+							entryToAdd.previousDate, entryToAdd.dueDate])
+		.then((response) => {
+			res.sendStatus(201);
+		})
+		.catch((error) => {
+			console.log('error adding new entry to care history:', error);
+		});													
+});
+
 //route to get all of care history for user id
 router.get('/:id', rejectUnauthenticated, (req, res) => {
 

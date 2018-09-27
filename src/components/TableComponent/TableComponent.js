@@ -10,6 +10,7 @@ import './TableComponent.css';
 const mapStateToProps = state => ({
     user: state.user,
     careHistory: state.careHistory,
+    careTypes: state.careTypes,
 });
 
 class TableComponent extends Component {
@@ -64,6 +65,45 @@ class TableComponent extends Component {
         const action = {type: 'COMPLETE_CARE', payload: dataToSend};
 
         this.props.dispatch(action);
+
+      
+
+        //create new due date for next reminder
+        let careCompleteDate = new Date();
+        careCompleteDate = moment(careCompleteDate).format('YYYY-MM-DD');
+
+        let careTypesCompleted = dataToSend.care_type;
+        console.log('careTypesCompleted', careTypesCompleted);
+
+        let careTypes = this.props.careTypes.careTypeInfo;
+
+
+        //compare care types completed to careTypes to get correct frequency for care type
+        for(let careTypeCompleted of careTypesCompleted){
+            for (let care of careTypes) {
+                const frequency = care.frequency;
+                
+                if(careTypeCompleted === care.name){
+                    let newDueDate = moment(careCompleteDate).add(frequency, 'months').format('YYYY-MM-DD');
+                
+                    const objectToSend = {
+                        petId: dataToSend.pet_id,
+                        vetId: dataToSend.vet_id,
+                        careType: care.name,
+                        previousDate: careCompleteDate,
+                        dueDate: newDueDate,
+                    };
+                
+                    const action = {type: 'NEW_CARE_DATES', payload: objectToSend}
+
+                    this.props.dispatch(action);
+                }   
+            }
+        }
+        
+        console.log('care completeDate', careCompleteDate);
+
+
 
         setTimeout(() => {
 
@@ -149,7 +189,7 @@ class TableComponent extends Component {
                                 else if(care.complete_care === true){
                                     completeButton = (
                                         <button 
-                                            onClick={this.completeCare(care)}
+                                            
                                             type="button"
                                         >Undo
                                         </button>
