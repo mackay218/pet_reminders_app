@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+
 
 import './TableComponent.css';
+
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -13,21 +17,30 @@ const mapStateToProps = state => ({
     careTypes: state.careTypes,
 });
 
+const moment = extendMoment(Moment);
+
 class TableComponent extends Component {
+    
+    
 
     constructor(props){
         super(props);
 
         this.state = {
             sortItem: 'last_name',
+            timeFilter: 'week',
         }
-    }
 
+        
+    }
+    
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         
-        
+        this.setState({
+            timeFilter: 'week',
+        });
     }
 
     componentDidUpdate() {
@@ -56,7 +69,7 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
            
-        }, 100);
+        }, 10);
     }
 
     completeCare = (dataToSend) => () => {
@@ -107,7 +120,7 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
 
-        }, 100);
+        }, 200);
     }
 
 
@@ -159,7 +172,7 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
 
-        }, 100);
+        }, 200);
     }
 
     refreshCareHistory = () => {
@@ -167,6 +180,125 @@ class TableComponent extends Component {
         const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
 
         this.props.dispatch(action);
+    }
+
+    handleChangeForTimeFilter = (event) => {
+        let timeFilter = event.target.value;
+        
+        this.setState({
+            timeFilter: timeFilter,
+        });
+    }
+
+    filterForTime = (careObj) =>{
+
+        console.log('in filterForTime:', careObj);
+
+        let startDate;
+        let endDate;
+        let range;
+
+        let dueDate = moment( new Date(careObj.due_date));
+        
+         if(this.state.timeFilter === 'week'){
+            
+            startDate = moment(new Date()).format('YYYY-MM-DD');
+            console.log('startDate:', startDate);
+            
+            endDate = moment(startDate).add(7, 'days').format('YYYY-MM-DD');
+            console.log("endDate:", endDate);
+            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+            
+             range = moment.range(startDate, endDate);
+            console.log('range:', range);
+            
+            console.log('range contains', range.contains(dueDate));
+
+             if(range.contains(dueDate)){
+                
+                 return true;
+             }  
+         }
+         else if (this.state.timeFilter === 'month') {
+
+             startDate = moment(new Date()).format('YYYY-MM-DD');
+             console.log('startDate:', startDate);
+
+             endDate = moment(startDate).add(1, 'months').format('YYYY-MM-DD');
+             console.log("endDate:", endDate);
+             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+
+             range = moment.range(startDate, endDate);
+             console.log('range:', range);
+
+             console.log('range contains', range.contains(dueDate));
+
+             if (range.contains(dueDate)) {
+               
+                 return true;
+             }
+         }
+         else if (this.state.timeFilter === '3_months') {
+
+             startDate = moment(new Date()).format('YYYY-MM-DD');
+             console.log('startDate:', startDate);
+
+             endDate = moment(startDate).add(3, 'months').format('YYYY-MM-DD');
+             console.log("endDate:", endDate);
+             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+
+             range = moment.range(startDate, endDate);
+             console.log('range:', range);
+
+             console.log('range contains', range.contains(dueDate));
+
+             if (range.contains(dueDate)) {
+              
+                 return true;
+             }
+         }
+         else if (this.state.timeFilter === '6_months') {
+
+             startDate = moment(new Date()).format('YYYY-MM-DD');
+             console.log('startDate:', startDate);
+
+             endDate = moment(startDate).add(6, 'months').format('YYYY-MM-DD');
+             console.log("endDate:", endDate);
+             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+
+             range = moment.range(startDate, endDate);
+             console.log('range:', range);
+
+             console.log('range contains', range.contains(dueDate));
+
+             if (range.contains(dueDate)) {
+            
+                 return true;
+             }
+         }
+         else if (this.state.timeFilter === 'year') {
+
+             startDate = moment(new Date()).format('YYYY-MM-DD');
+             console.log('startDate:', startDate);
+
+             endDate = moment(startDate).add(12, 'months').format('YYYY-MM-DD');
+             console.log("endDate:", endDate);
+             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+
+             range = moment.range(startDate, endDate);
+             console.log('range:', range);
+
+             console.log('range contains', range.contains(dueDate));
+
+             if (range.contains(dueDate)) {
+                 return true;
+             }
+         }
+         else if (this.state.timeFilter === 'all') {
+            return true; 
+         }  
+
+        return false;
     }
 
     render(){
@@ -178,17 +310,32 @@ class TableComponent extends Component {
 
             const sortTerm = this.state.sortItem
 
-            const careArrOne = this.props.careHistory.careHistoryReducer;
+            
+            let careArrOne = this.props.careHistory.careHistoryReducer;
+            careArrOne = careArrOne.filter(this.filterForTime);
+
+            console.log('filtered array', careArrOne);
 
             //sort array dynamically based on sort term
             const careArr = careArrOne.sort((a,b) => (a[sortTerm] > b[sortTerm]));
             
 
-            console.log('careArr', careArr);
+            //console.log('careArr', careArr);
 
             content = (
 
                 <div>
+                    <select 
+                        id="timeFilterDropDown"
+                        onChange={this.handleChangeForTimeFilter}
+                        >
+                        <option value="week">week</option>
+                        <option value="month">month</option>
+                        <option value="3_months">3 months</option>
+                        <option value="6_months">6 months</option>
+                        <option value="year">year</option>
+                        <option value="all">all</option>
+                    </select>
                     <table>
                         <thead>
                             <tr>
