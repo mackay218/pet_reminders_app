@@ -2,10 +2,24 @@
     box-sizing: border-box;
 }
 
+.contactInfo{
+    width: 30vw;
+}
+
 .notesContainer{
     border: 1px solid black;
     height: 50px;
-    width: 50vw;
+    width: 90%;
+}
+
+.ownerProfile{
+    display: flex;
+    flex-direction: row;
+}
+
+.profileInfo{
+    display: flex;
+    flex-direction: column;
 }
 
 .petList {
@@ -19,4 +33,5 @@
 .petList li{
     border: 1px solid black;
     margin-top: 10px;
+    cursor: pointer;
 }

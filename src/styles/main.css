@@ -129,6 +129,7 @@ ul {
 
 li {
     float: left;
+  
 }
 
 li a {
@@ -144,4 +145,17 @@ li a {
 li a:hover {
     text-decoration: underline;
     color: #eee;
+}
+
+
+.pageContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    width: 100vw;
+    text-align: center;
 }

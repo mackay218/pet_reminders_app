@@ -7,7 +7,14 @@ function* postOwner(action) {
     console.log('postOwner', action);
 
     try {
-        yield call(axios.post, '/api/addOwner', action.payload);
+      const ownerId = yield call(axios.post, '/api/addOwner', action.payload);
+
+      console.log('owner id from postOwner Saga:', ownerId.data[0].id);
+
+      const responseAction = {type:'SET_NEW_OWNER' , payload: ownerId.data[0].id};
+
+      console.log(responseAction);
+      yield put(responseAction);
     }
     catch (error) {
         console.log('error adding pet owner:', error);

@@ -13,10 +13,9 @@ import PhoneInput from 'react-phone-number-input'
 
 
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
+
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 
 const mapStateToProps = state => ({
@@ -66,8 +65,6 @@ class OwnerProfilePage extends Component {
     
     componentWillMount() {
         this.getOwnerInfo();
-
-     
     }
    
     //GET 
@@ -212,8 +209,8 @@ class OwnerProfilePage extends Component {
     
         let pet_dialog = null;
 
-        if (this.props.user.userName) {
-            if(this.state.editMode === false && this.props.owner.ownerInfo){
+        if (this.props.user.userName && this.props.owner.ownerInfo) {
+            if(this.state.editMode === false){
                 contact_info = (
                     <div className="contactInfo ownerProfileSection">
                         <div className="infoSec">
@@ -296,13 +293,16 @@ class OwnerProfilePage extends Component {
                                 </div>
                             </div>
                             <div className="notesSection">
-                                <div className="notesContainer infoSec">
-                                <label htmlFor="notes">Notes</label>
-                                    <textarea
-                                        value={this.props.owner.ownerInfo.notes}
-                                        name="notes"
-                                        onChange={this.handleChangeFor("notes")}
-                                    />
+                                <div className="infoSec">
+                                <label htmlFor="notesContainer">Notes</label>
+                                    <div className="notesContainer" name="notesContainer">
+                                        <textarea
+                                            className="ownerNotes"
+                                            value={this.props.owner.ownerInfo.notes}
+                                            name="notes"
+                                            onChange={this.handleChangeFor("notes")}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <button >Submit</button>
@@ -329,7 +329,6 @@ class OwnerProfilePage extends Component {
                 pet_list = (
                     <div className="petListSection ownerProfileSection">
                         <div className="petListContainer">
-                             {JSON.stringify(this.props.petsInfo.petInfo)} 
                             <ul className="petList" >
                                 {this.props.petsInfo.petInfo.map((pet) => {
                                     return (
@@ -448,11 +447,16 @@ class OwnerProfilePage extends Component {
 
         if(this.props.user.userName ){
             return (
-                <div>
+                <div className="pageContainer">
                     <Nav />
-                    {content}
-                    {notes}
-                    {pet_list}
+                    <div className="ownerProfile">
+                        <div className="profileInfo">
+                            {content}
+                            {notes}
+                        </div>
+                        {pet_list}
+                    </div>
+                    
                     {pet_dialog}
                 </div>
             );

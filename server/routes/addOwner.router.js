@@ -17,9 +17,9 @@ router.post('/', (req, res) => {
     const vetId = req.body.vet_id;
 
     const queryText = `INSERT INTO pet_owners (first_name, last_name, phone, email, address, vet_id) 
-                        VALUES ($1, $2, $3, $4, $5, $6);`;
+                        VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
     pool.query(queryText, [firstname, lastname, phone, email, address, vetId])
-        .then(() => {res.sendStatus(201);
+        .then((results) => {res.send(results.rows);
         })
         .catch((error) => {
             console.log('error adding new owner:', error);

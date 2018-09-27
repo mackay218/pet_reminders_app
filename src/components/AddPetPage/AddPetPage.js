@@ -25,6 +25,7 @@ const addPetObj = {
     care_dates: [],
     addPetForm: true,
     ownerId: '',
+    vetId: '',
     date: moment(new Date).format('YYYY-MM-DD'),
 }
 
@@ -62,6 +63,7 @@ class AddPetPage extends Component {
             ...this.state,
             ownerId: this.props.match.params.id,
             date: this.state.date,
+            vetId: this.props.user.id,
         })
     }
 
@@ -91,14 +93,13 @@ class AddPetPage extends Component {
                 const frequency = care.frequency;
 
                 //calculate due date
-                let dueDate = moment(previousDate).add(frequency, 'months').calendar();
-                dueDate = moment(dueDate).format('YYYY-MM-DD');
+                let dueDate = moment(previousDate).add(frequency, 'months').format('YYYY-MM-DD');
                 console.log('care', name, dueDate);
 
                 this.setState({
                     ...this.state,
                     care_dates: [...this.state.care_dates, {name: name, previousDate: previousDate, 
-                                                            dueDate: dueDate}]
+                                                            dueDate: dueDate, vetId: this.props.user.id}]
                 });
             }
         }
@@ -131,6 +132,10 @@ class AddPetPage extends Component {
             const action = {type: 'ADD_PET', payload: this.state}
 
             this.props.dispatch(action);
+
+            //redirect to owner profile page
+            this.props.history.replace('/ownerProfile/' + this.props.match.params.id);
+            
         }
     }//end submitDogInfo
 
@@ -146,6 +151,9 @@ class AddPetPage extends Component {
             const action = { type: 'ADD_PET', payload: this.state }
 
             this.props.dispatch(action);
+
+            //redirect to owner profile page
+            this.props.history.replace('/ownerProfile/' + this.props.match.params.id);
         }
     }//end submitCatInfo
 
@@ -164,7 +172,6 @@ class AddPetPage extends Component {
             if(this.state.addPetForm === true){
                 content = (
                     <div className="pageContainer">
-                        {JSON.stringify(this.props.careTypes.careTypeInfo)}
                         <h3>Add a New Pet</h3>
                         <div className="formContainer">
                             <form>

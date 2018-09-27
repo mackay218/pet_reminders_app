@@ -30,7 +30,6 @@ function* getOwnerPets(action) {
     }
     catch (error) {
         console.log('error getting pets for owner:', error);
-        alert('error getting pet');
     }
 }
 
