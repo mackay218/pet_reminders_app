@@ -22,7 +22,20 @@ function* getCareHistory(action) {
 
 }
 
+function* updateSendStatus(action){
+    try{
+        console.log('in updateSendStatus', action.payload);
+
+        const updateSendStatus = yield call(axios.put, '/api/careHistory', action.payload);
+    }
+    catch (error) {
+        console.log('error updating send status:', error);
+        alert('error updating send status');
+    }
+}
+
 
 export default function* careHistorySaga(){
     yield takeLatest('GET_CARE_HISTORY', getCareHistory);
+    yield takeLatest('SEND_REMINDER', updateSendStatus);
 }

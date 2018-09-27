@@ -50,4 +50,28 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 
 });
 
+router.put('/', rejectUnauthenticated, (req, res) => {
+
+	const petId = req.body.pet_id;
+	const dueDate = req.body.due_date;
+
+	let notificationSent = req.body.notification_sent;
+
+	if(notificationSent === false){
+		notificationSent = true;
+	}
+	
+	const queryText = `UPDATE care_history SET "notification_sent" = $1 WHERE "pet_id" = $2 AND "due_date" = $3;`;
+
+	pool.query(queryText, [notificationSent, petId, dueDate])
+		.then((response) => {
+			res.sendStatus(200);
+		})
+		.catch((error) => {
+			console.log('error updating notification_sent:', error);
+			res.sendStatus(500);
+		});
+
+})
+
 module.exports = router;

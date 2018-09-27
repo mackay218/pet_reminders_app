@@ -50,6 +50,18 @@ class TableComponent extends Component {
         const action = {type: 'SEND_REMINDER', payload: dataToSend};
 
         this.props.dispatch(action);
+
+        setTimeout(() => {
+
+            this.refreshCareHistory();
+           
+        }, 1);
+    }
+
+    refreshCareHistory = () => {
+        const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
+
+        this.props.dispatch(action);
     }
 
     render(){
@@ -102,7 +114,11 @@ class TableComponent extends Component {
                                 }
                                 else if(care.notification_sent === true){
                                     sendButton = (
-                                        <button type="button">Resend</button>
+                                        <button 
+                                            onClick={this.sendMessageData(care)}
+                                            type="button"
+                                        >Resend
+                                        </button>
                                     )
                                 }
 
@@ -125,8 +141,18 @@ class TableComponent extends Component {
                                 
                                 let profileLink = '#/ownerProfile/' + care.owner_id;
 
+                                let rowClass;
+
+                                if(care.notification_sent === false){
+                                    rowClass = "notSent";
+                                }
+                                else if(care.notification_sent === true){
+                                    rowClass = "sent";
+                                }
+
+
                                 return (
-                                    <tr key={care.pet_id + care.name + careType} id={care.pet_id + care.name + careType}>
+                                    <tr className = {rowClass} key={care.pet_id + care.name + careType} id={care.pet_id + care.name + careType}>
                                         <td><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
                                         <td>{care.name}</td>
                                         <td>{careType}</td>
