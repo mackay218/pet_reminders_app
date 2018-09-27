@@ -15,6 +15,21 @@ function* postNewCareDates(action){
     }
 }
 
+function* undoNewCareDates(action){
+    try{
+        console.log('in undoNewCareDates', action.payload);
+
+        const deleteInfo = action.payload
+
+        const undoNewCareDateResponse = yield call(axios.delete, 
+                `/api/careHistory/${deleteInfo.petId}/${deleteInfo.vetId}/${deleteInfo.careType}/${deleteInfo.dueDate}/${deleteInfo.previousDate}`);
+    }
+    catch (error) {
+        console.log('error deleting care dates from undo:', error);
+        alert('error deleting care dates from undo');
+    }
+}
+
 function* getCareHistory(action) {
 
     try{
@@ -64,4 +79,5 @@ export default function* careHistorySaga(){
     yield takeLatest('SEND_REMINDER', updateSendStatus);
     yield takeLatest('COMPLETE_CARE', updateCompleteCare);
     yield takeLatest('NEW_CARE_DATES', postNewCareDates);
+    yield takeLatest('UNDO_NEW_CARE_DATES', undoNewCareDates);
 }

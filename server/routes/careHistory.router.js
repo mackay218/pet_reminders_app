@@ -15,7 +15,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 								VALUES ($1, $2, $3, $4, $5);`
 	
 	pool.query(queryText, [entryToAdd.petId, entryToAdd.vetId, entryToAdd.careType, 
-							entryToAdd.previousDate, entryToAdd.dueDate])
+							entryToAdd.dueDate, entryToAdd.previousDate])
 		.then((response) => {
 			res.sendStatus(201);
 		})
@@ -120,5 +120,23 @@ router.put('/care', rejectUnauthenticated, (req, res) => {
 			res.sendStatus(500);
 		});
 });
+
+router.delete('/:petId/:vetId/:careType/:dueDate/:previousDate', rejectUnauthenticated, (req, res) => {
+	const entryToDelete = req.params;
+
+	console.log('entry to delete:', entryToDelete);
+
+	const queryText = `DELETE FROM care_history WHERE "pet_id" = $1 AND "vet_id" = $2 AND "care_type" = $3 AND 
+													  "due_date" = $4 AND "previous_date" = $5;`;
+	pool.query(queryText, [entryToDelete.petId, entryToDelete.vetId, entryToDelete.careType, 
+							entryToDelete.dueDate, entryToDelete.previousDate])
+		.then((response) => {
+			res.sendStatus(200);
+		})
+		.catch((error) => {
+			console.log('error deleting entries from care_history:', error);
+			res.sendStatus(500);
+		});												  
+})
 
 module.exports = router;
