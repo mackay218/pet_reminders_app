@@ -56,7 +56,7 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
            
-        }, 1);
+        }, 100);
     }
 
     completeCare = (dataToSend) => () => {
@@ -107,7 +107,7 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
 
-        }, 10);
+        }, 100);
     }
 
 
@@ -159,10 +159,11 @@ class TableComponent extends Component {
 
             this.refreshCareHistory();
 
-        }, 10);
+        }, 100);
     }
 
     refreshCareHistory = () => {
+        console.log('in refreshCareHistory');
         const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
 
         this.props.dispatch(action);
@@ -264,7 +265,7 @@ class TableComponent extends Component {
 
 
                                 return (
-                                    <tr className = {rowClass} key={care.pet_id + care.name + careType} id={care.pet_id + care.name + careType}>
+                                    <tr className = {rowClass} key={care.pet_id + care.name + careType + care.due_date} id={care.pet_id + care.name + careType}>
                                         <td><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
                                         <td>{care.name}</td>
                                         <td>{careType}</td>
