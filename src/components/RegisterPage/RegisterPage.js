@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+//phone number formatting from https://github.com/catamphetamine/react-phone-number-input
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +14,7 @@ class RegisterPage extends Component {
       first_name: '',
       last_name: '',
       clinic_name: '',
+      phone: '',
       email: '',
       username: '',
       password: '',
@@ -21,7 +26,8 @@ class RegisterPage extends Component {
     event.preventDefault();
 
     if (this.state.username === '' || this.state.password === '' || this.state.first_name === '' ||
-        this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '') {
+        this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '' ||
+        this.state.phone === '') {
       this.setState({
         message: 'Please fill out all fields.',
       });
@@ -30,6 +36,7 @@ class RegisterPage extends Component {
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         clinic_name: this.state.clinic_name,
+        phone: this.state.phone,
         email: this.state.email,
         username: this.state.username,
         password: this.state.password,
@@ -40,6 +47,10 @@ class RegisterPage extends Component {
         .then((response) => {
           if (response.status === 201) {
             this.props.history.push('/home');
+            event.target.reset();
+            this.setState({
+              phone: '',
+            }); 
           } else {
             this.setState({
               message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
@@ -86,6 +97,7 @@ class RegisterPage extends Component {
               <input
                 type="text"
                 name="first_name"
+                placeholder="Daniel"
                 value={this.state.first_name}
                 onChange={this.handleInputChangeFor('first_name')}
               />
@@ -97,6 +109,7 @@ class RegisterPage extends Component {
               <input
                 type="text"
                 name="last_name"
+                placeholder="MacKay"
                 value={this.state.last_name}
                 onChange={this.handleInputChangeFor('last_name')}
               />
@@ -108,10 +121,20 @@ class RegisterPage extends Component {
               <input
                 type="text"
                 name="clinic_name"
+                placeholder="Door Step Pet Vet"
                 value={this.state.clinic_name}
                 onChange={this.handleInputChangeFor('clinic_name')}
               />
             </label>
+          </div>
+          <div className="formSection">
+            <label htmlFor="phone">phone</label>
+            <PhoneInput
+              name="phone"
+              country='US'
+              placeholder="Enter phone number"
+              value={this.state.phone}
+              onChange={phone => this.setState({ phone: phone })} />
           </div>
           <div>
             <label htmlFor="email">
@@ -119,6 +142,7 @@ class RegisterPage extends Component {
               <input
                 type="text"
                 name="email"
+                placeholder="doorStepPetVet@example.com"
                 value={this.state.email}
                 onChange={this.handleInputChangeFor('email')}
               />
@@ -130,6 +154,7 @@ class RegisterPage extends Component {
               <input
                 type="text"
                 name="username"
+                placeholder="dan2588"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
@@ -141,6 +166,7 @@ class RegisterPage extends Component {
               <input
                 type="password"
                 name="password"
+                placeholder="********"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />

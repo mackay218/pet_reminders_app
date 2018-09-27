@@ -12,6 +12,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     user: state.user,
+    owner: state.owner,
 });
 
 //Object to hold info from add owner form
@@ -38,7 +39,7 @@ class AddOwnerPage extends Component {
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
-            this.props.history.push('home');
+            this.props.history.replace('home');
         }
     }
 
@@ -66,7 +67,15 @@ class AddOwnerPage extends Component {
             event.target.reset();
             this.setState({
                 phone: '',
-            });
+            });            
+
+            
+
+            setTimeout(() => {
+                console.log('new owner Id', this.props.owner.newOwnerId);
+                this.props.history.replace('/ownerProfile/'+this.props.owner.newOwnerId);
+
+            }, 100);
         }
     }
 

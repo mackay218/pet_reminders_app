@@ -45,9 +45,6 @@ class RemindersPage extends Component {
             content = (
                 <div>
                     <h1>Reminders</h1>
-                    <div>
-                        {JSON.stringify(this.props.careHistory.careHistoryReducer)}
-                    </div>
                     <div className = "tableContainer">
                         <TableComponent/>
                     </div>
