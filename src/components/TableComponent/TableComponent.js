@@ -21,8 +21,6 @@ const moment = extendMoment(Moment);
 
 class TableComponent extends Component {
     
-    
-
     constructor(props){
         super(props);
 
@@ -32,11 +30,8 @@ class TableComponent extends Component {
             sentStatus: false,
             completeStatus: false,
         }
-
-        
     }
     
-
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         
@@ -74,6 +69,26 @@ class TableComponent extends Component {
             this.refreshCareHistory();
            
         }, 10);
+    }
+
+    //function to send all current shown events a message
+    sendAllMessages = (arr) => {
+        console.log('in sendAllMessages', arr);
+
+        for(let careObj of arr){
+            console.log('send for:', careObj);
+
+            const action = { type: 'SEND_REMINDER', payload: careObj };
+
+            this.props.dispatch(action);
+
+            setTimeout(() => {
+
+                this.refreshCareHistory();
+
+            }, 10);
+            
+        }
     }
 
     completeCare = (dataToSend) => () => {
@@ -348,6 +363,7 @@ class TableComponent extends Component {
     
 
     render(){
+
         let content = null;
 
         let sentCheckBtn = null;
@@ -418,7 +434,11 @@ class TableComponent extends Component {
                                 <th onClick={this.handleSortChange("previous_date")}>Last Date</th>
                                 <th>
                                     Notification
-                                    <button type="button">Send All</button>
+                                    <button 
+                                        onClick={() => this.sendAllMessages(careArr)}
+                                        type="button"
+                                    >Send All
+                                    </button>
                                 </th>
                                 <th>Complete Care</th>
                             </tr>
