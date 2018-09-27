@@ -209,10 +209,32 @@ class TableComponent extends Component {
         }
     }
 
+    changeCompleteStatus = () => {
+        if(this.state.completeStatus === false){
+            this.setState({
+                completeStatus: true,
+            });
+        }
+        else if(this.state.completeStatus === true){
+            this.setState({
+                completeStatus: false,
+            });
+        }
+    }
+
     filterSentReminders = (careObj) => {
         console.log('in filterSentReminders');
 
         if(careObj.notification_sent === this.state.sentStatus){
+            return true;
+        }
+        return false;
+    }
+
+    filterCompleteCare = (careObj) => {
+        console.log('in filterCompleteCare');
+
+        if(careObj.complete_care === this.state.completeStatus){
             return true;
         }
         return false;
@@ -328,7 +350,8 @@ class TableComponent extends Component {
     render(){
         let content = null;
 
-
+        let sentCheckBtn = null;
+        let completeCareCheckBtn = null;
 
         if (this.props.user.userName && this.props.careHistory.careHistoryReducer){
 
@@ -336,6 +359,7 @@ class TableComponent extends Component {
 
             
             let careArrOne = this.props.careHistory.careHistoryReducer;
+            careArrOne = careArrOne.filter(this.filterCompleteCare);
             careArrOne = careArrOne.filter(this.filterSentReminders);
             careArrOne = careArrOne.filter(this.filterForTime);
 
@@ -344,8 +368,29 @@ class TableComponent extends Component {
             //sort array dynamically based on sort term
             const careArr = careArrOne.sort((a,b) => (a[sortTerm] > b[sortTerm]));
             
-
-            //console.log('careArr', careArr);
+            //conditional render sent reminders button
+            if(this.state.sentStatus === false){
+                sentCheckBtn = (
+                    <button type="button" onClick={this.changeSentStatus}>Sent Reminders</button>
+                )
+            }
+            else if(this.state.sentStatus === true){
+                sentCheckBtn = (
+                    <button type="button" onClick={this.changeSentStatus}>Unsent Reminders</button>
+                )
+            }
+            
+            //conditional render completed care button
+            if(this.state.completeStatus === false){
+                completeCareCheckBtn = (
+                    <button type="button" onClick={this.changeCompleteStatus}>Completed Care</button>
+                ) 
+            }
+            else if(this.state.completeStatus === true){
+                completeCareCheckBtn = (
+                    <button type="button" onClick={this.changeCompleteStatus}>Uncompleted Care</button>
+                )
+            }
 
             content = (
 
@@ -361,7 +406,8 @@ class TableComponent extends Component {
                         <option value="year">year</option>
                         <option value="all">all</option>
                     </select>
-                    <button type="button" onClick={this.changeSentStatus}>Sent Reminders</button>
+                    {sentCheckBtn}
+                    {completeCareCheckBtn}
                     <table>
                         <thead>
                             <tr>
