@@ -72,11 +72,14 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 
 //route to update notification_sent status
 router.put('/message', rejectUnauthenticated, (req, res) => {
+	console.log('in careHistory router update notification_sent', req.body);
 
-	const petId = req.body.pet_id;
-	const dueDate = req.body.due_date;
+	const body = req.body.dataToSend;
 
-	let notificationSent = req.body.notification_sent;
+	const petId = body.pet_id;
+	const dueDate = body.due_date;
+
+	let notificationSent = body.notification_sent;
 
 	if(notificationSent === false){
 		notificationSent = true;
@@ -97,6 +100,8 @@ router.put('/message', rejectUnauthenticated, (req, res) => {
 
 //route to update complete_care status
 router.put('/care', rejectUnauthenticated, (req, res) => {
+	console.log('in careHistory router update complete_care');
+
 	const petId = req.body.pet_id;
 	const dueDate = req.body.due_date;
 

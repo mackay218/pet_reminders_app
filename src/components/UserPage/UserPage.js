@@ -7,6 +7,10 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 
 
+//phone number formatting from https://github.com/catamphetamine/react-phone-number-input
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+
 const mapStateToProps = state => ({
   user: state.user,
 });
@@ -20,6 +24,7 @@ class UserPage extends Component {
       first_name: '',
       last_name: '',
       clinic_name: '',
+      phone: '',
       email: '',
       username: '',
       message: '',
@@ -70,7 +75,8 @@ class UserPage extends Component {
   updateUserInfo = (event) => {
     event.preventDefault();
     if (this.props.user.username === '' || this.props.user.password === '' || this.props.user.first_name === '' ||
-      this.props.user.last_name === '' || this.props.user.clinic_name === '' || this.props.user.email === '') {
+      this.props.user.last_name === '' || this.props.user.clinic_name === '' || this.props.user.phone === ''
+      || this.props.user.email === '') {
       this.setState({
         message: 'Please fill out all fields.',
       });
@@ -79,6 +85,7 @@ class UserPage extends Component {
         first_name: this.props.user.first_name,
         last_name: this.props.user.last_name,
         clinic_name: this.props.user.clinic_name,
+        phone: this.props.user.phone,
         email: this.props.user.email,
         id: this.props.user.id
       };
@@ -137,6 +144,7 @@ class UserPage extends Component {
             <p>First name: {this.props.user.first_name}</p>
             <p>Last name: {this.props.user.last_name}</p>
             <p>Clinic: {this.props.user.clinic_name}</p>
+            <p>Phone: {this.props.user.phone}</p>
             <p>email: {this.props.user.email}</p>
             <button onClick={this.handleEditClick}>edit</button>
           </div>
@@ -173,6 +181,15 @@ class UserPage extends Component {
                   value={this.props.user.clinic_name}
                   onChange={this.handleInputChangeFor("clinic_name")}
                 />
+              </div>
+              <div className="userInfoSec">
+                <label htmlFor="phone">phone</label>
+                <PhoneInput
+                  name="phone"
+                  country='US'
+                  placeholder="Enter phone number"
+                  value={this.props.user.phone}
+                  onChange={phone => this.setState({ phone: phone })} />
               </div>
               <div className="userInfoSec">
                 <label htmlFor="email">email: </label>

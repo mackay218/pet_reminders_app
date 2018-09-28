@@ -61,15 +61,16 @@ class TableComponent extends Component {
     sendMessageData = (dataToSend) => () => {
         console.log('in sendMessageData', dataToSend);
 
-        const action = {type: 'SEND_REMINDER', payload: dataToSend};
+         const action = {
+             type: 'SEND_REMINDER', payload: { dataToSend: dataToSend, vetPhone: this.props.user.phone}};
 
-        this.props.dispatch(action);
+         this.props.dispatch(action);
 
-        setTimeout(() => {
+         setTimeout(() => {
 
-            this.refreshCareHistory();
+             this.refreshCareHistory();
            
-        }, 10);
+         }, 10);
     }
 
     //function to send all current shown history rows a message
@@ -79,7 +80,7 @@ class TableComponent extends Component {
         for(let careObj of arr){
             console.log('send for:', careObj);
 
-            const action = { type: 'SEND_REMINDER', payload: careObj };
+            const action = { type: 'SEND_REMINDER', payload: { dataToSend: careObj, vetPhone: this.props.user.phone }};
 
             this.props.dispatch(action);
 

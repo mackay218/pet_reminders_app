@@ -44,13 +44,14 @@ router.put('/register', rejectUnauthenticated, (req, res) => {
   const firstname = req.body.first_name;
   const lastname = req.body.last_name;
   const clinic = req.body.clinic_name;
+  const phone = req.body.phone;
   const email = req.body.email;
   const id = req.body.id;
 
-  const queryText = `UPDATE person SET "first_name" = $1, "last_name" = $2, "clinic_name" = $3, "email" = $4
-                      WHERE "id" = $5;`;
+  const queryText = `UPDATE person SET "first_name" = $1, "last_name" = $2, "clinic_name" = $3, "phone" = $4, email" = $5
+                      WHERE "id" = $6;`;
 
-  pool.query(queryText, [firstname, lastname, clinic, email, id])
+  pool.query(queryText, [firstname, lastname, clinic, phone, email, id])
     .then(() => { res.sendStatus(200); })
     .catch((err) => {console.log('error updating user info:', err)});                      
 });
