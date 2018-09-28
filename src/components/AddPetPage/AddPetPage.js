@@ -9,6 +9,8 @@ import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+import './AddPetPage.css';
+
 const mapStateToProps = state => ({
     user: state.user,
     careTypes: state.careTypes
@@ -186,25 +188,29 @@ class AddPetPage extends Component {
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="species">Species: </label>
-                                    <label htmlFor="#canine">Canine</label>
-                                    <input
-                                        id="canine"
-                                        type="radio"
-                                        name="species"
-                                        value= "canine"
-                                        checked={this.state.species === "canine"}
-                                        onChange={this.handleChangeForPet("species")}
-                                        
-                                    />
-                                    <label htmlFor="#feline">Feline</label>
-                                    <input
-                                        id="feline"
-                                        type="radio"
-                                        name="species"
-                                        value="feline"
-                                        checked={this.state.species === "feline"}
-                                        onChange={this.handleChangeForPet("species")}
-                                    />
+                                    <div className="radioContainer" name="species">
+                                        <label htmlFor="#canine">Canine</label>
+                                        <input
+                                            id="canine"
+                                            type="radio"
+                                            name="species"
+                                            value="canine"
+                                            checked={this.state.species === "canine"}
+                                            onChange={this.handleChangeForPet("species")}
+
+                                        />
+                                        <label htmlFor="#feline">Feline</label>
+                                        <input
+                                            id="feline"
+                                            type="radio"
+                                            name="species"
+                                            value="feline"
+                                            checked={this.state.species === "feline"}
+                                            onChange={this.handleChangeForPet("species")}
+                                        />
+                                    </div>
+
+                                  
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="breed">Breed:</label>
@@ -226,28 +232,30 @@ class AddPetPage extends Component {
                                     />
                                 </div>
                                 <div className="formSection">
-                                    <label htmlFor="sex">Sex:  </label>
-                                    <label htmlFor="#male">M</label>
-                                    <input
-                                        id="male"
-                                        type="radio"
-                                        name="sex"
-                                        value="M"
-                                        checked={this.state.sex === "M"}
-                                        onChange={this.handleChangeForPet("sex")}
-                                    />
-                                    <label htmlFor="#female">F</label>
-                                    <input
-                                        id="female"
-                                        type="radio"
-                                        name="sex"
-                                        value="F"
-                                        checked={this.state.sex === "F"}
-                                        onChange={this.handleChangeForPet("sex")}
-                                    />
+                                    <label htmlFor="sex">Sex:</label>
+                                    <div className="radioContainer" name="sex">
+                                        <label htmlFor="#male">M</label>
+                                        <input
+                                            id="male"
+                                            type="radio"
+                                            name="sex"
+                                            value="M"
+                                            checked={this.state.sex === "M"}
+                                            onChange={this.handleChangeForPet("sex")}
+                                        />
+                                        <label htmlFor="#female">F</label>
+                                        <input
+                                            id="female"
+                                            type="radio"
+                                            name="sex"
+                                            value="F"
+                                            checked={this.state.sex === "F"}
+                                            onChange={this.handleChangeForPet("sex")}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="formSection">
-                                    <label htmlFor="weight">Weight: </label>
+                                    <label htmlFor="weight">Weight:
                                     <input
                                         type="number"
                                         step="1"
@@ -255,8 +263,11 @@ class AddPetPage extends Component {
                                         value={this.state.weight}
                                         onChange={this.handleChangeForPet("weight")}
                                     /> lbs.
+                                     </label>
                                 </div>
-                                <button type="button" onClick={this.showCareTypes}>Next</button>
+                                <div className="formSection">
+                                    <button type="button" onClick={this.showCareTypes}>Next</button>
+                                </div>
                             </form>
                         </div>
                     </div>

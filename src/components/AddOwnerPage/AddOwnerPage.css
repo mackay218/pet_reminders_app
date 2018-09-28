@@ -1,0 +1,16 @@
+
+.addOwnerFormContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+h4{
+    width: 100%;
+    text-align: center;
+}
+
+.formBigSec{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

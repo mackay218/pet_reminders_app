@@ -10,6 +10,8 @@ import Nav from '../../components/Nav/Nav';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+import './AddOwnerPage.css';
+
 const mapStateToProps = state => ({
     user: state.user,
     owner: state.owner,
@@ -167,7 +169,10 @@ class AddOwnerPage extends Component {
                                         onChange={this.handleChangeFor}/>
                                 </div>
                             </div>
-                            <button>Submit</button>
+                            <div className="formBigSec">
+                                <button>Submit</button>
+                            </div>
+                            
                         </form>
                     </div>
 

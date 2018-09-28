@@ -16,11 +16,12 @@ import SettingsPage from './components/Settings/Settings';
 import AddOwnerPage from './components/AddOwnerPage/AddOwnerPage';
 import OwnerProfilePage from './components/OwnerProfilePage/OwnerProfilePage';
 import AddPetPage from './components/AddPetPage/AddPetPage';
+import TechUsed from './components/TechUsed/TechUsed';
 
 import './styles/main.css';
 
 const App = () => (
-  <div>
+  <div className="mainContainer" >
     <Header title="Project Base" />
     <style>
       @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700');
@@ -59,6 +60,10 @@ const App = () => (
         <Route
           path="/addPet/:id"
           component={AddPetPage}
+        />
+        <Route
+          path="/techUsed"
+          component={TechUsed}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

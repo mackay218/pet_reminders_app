@@ -22,6 +22,10 @@
     flex-direction: column;
 }
 
+.petListSection{
+    padding-top: 50px;
+}
+
 .petList {
     display: flex;
     flex-direction: column;
@@ -34,4 +38,19 @@
     border: 1px solid black;
     margin-top: 10px;
     cursor: pointer;
+}
+
+h4{
+    text-align: left;
+}
+
+h3{
+    width: 100%;
+    text-align: center;
+}
+
+
+.petListContainer{
+    width: 20vw;
+    min-width: 200px;
 }

@@ -58,9 +58,7 @@ class OwnerProfilePage extends Component {
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
-        }    
-
-       
+        }     
     }
     
     componentWillMount() {
@@ -368,7 +366,7 @@ class OwnerProfilePage extends Component {
                 >
                     <DialogContent>
                         <div className="petInfoformContainer">
-                            <h4>Pet Info</h4>
+                            <h3>Pet Info</h3>
                             <form onSubmit={this.updatePetInfo}>
                                 <div className="petFormSection">
                                     <label htmlFor="name">name:</label>

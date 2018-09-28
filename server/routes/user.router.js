@@ -48,7 +48,7 @@ router.put('/register', rejectUnauthenticated, (req, res) => {
   const email = req.body.email;
   const id = req.body.id;
 
-  const queryText = `UPDATE person SET "first_name" = $1, "last_name" = $2, "clinic_name" = $3, "phone" = $4, email" = $5
+  const queryText = `UPDATE person SET "first_name" = $1, "last_name" = $2, "clinic_name" = $3, "phone" = $4, "email" = $5
                       WHERE "id" = $6;`;
 
   pool.query(queryText, [firstname, lastname, clinic, phone, email, id])
