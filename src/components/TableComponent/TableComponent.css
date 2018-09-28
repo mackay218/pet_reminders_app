@@ -7,8 +7,7 @@
 
 table{
     width: 90vw;
-    height: 40vw;
-    border: 1px solid var(--green);
+    height: 25vw;
     overflow-y: scroll;
 }
 
@@ -22,6 +21,7 @@ tr{
     height: 55px;
     margin-bottom: 10px;
     padding-bottom: 10px;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
 }
 
 th, td{
@@ -71,6 +71,7 @@ thead th{
     background: linear-gradient(rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.2));
     color: #fff;
 }
+
 
 .searchFormWrapper{
     padding-left: 10px;

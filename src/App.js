@@ -22,6 +22,9 @@ import './styles/main.css';
 const App = () => (
   <div>
     <Header title="Project Base" />
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700');
+    </style>
     <Router>
       <Switch>
         <Redirect exact from="/" to="/home" />

@@ -476,7 +476,7 @@ class TableComponent extends Component {
                             <input
                                 type="text"
                                 onChange={this.handleSearchChange}
-                                placeHolder="Pet or Owner Name" 
+                                placeHolder="Pet or Owner" 
                             />
                         </div>
                         <select
