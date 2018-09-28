@@ -470,26 +470,34 @@ class TableComponent extends Component {
             content = (
 
                 <div>
-                    <select 
-                        id="timeFilterDropDown"
-                        onChange={this.handleChangeForTimeFilter}
+                    <div className="filtersContainer">
+                        <div className="searchFormWrapper">
+                            <label>Search</label>
+                            <input
+                                type="text"
+                                onChange={this.handleSearchChange}
+                                placeHolder="Pet or Owner Name" 
+                            />
+                        </div>
+                        <select
+                            className="timeSelect"
+                            id="timeFilterDropDown"
+                            onChange={this.handleChangeForTimeFilter}
                         >
-                        <option value="week">week</option>
-                        <option value="month">month</option>
-                        <option value="3_months">3 months</option>
-                        <option value="6_months">6 months</option>
-                        <option value="year">year</option>
-                        <option value="all">all</option>
-                    </select>
-                    {sentCheckBtn}
-                    {completeCareCheckBtn}
-                    <div className="seachFormWrapper">
-                        <input 
-                            type="text" 
-                            onChange={this.handleSearchChange}
-                            placeHolder="Pet or Owner Name"/>
-                        <button >Search</button>
+                            <option value="week">week</option>
+                            <option value="month">month</option>
+                            <option value="3_months">3 months</option>
+                            <option value="6_months">6 months</option>
+                            <option value="year">year</option>
+                            <option value="all">all</option>
+                        </select>
+                        <div className="filterButtons">
+                            {sentCheckBtn}
+                            {completeCareCheckBtn}
+                        </div>
+                        
                     </div>
+                    
                     
                     <table>
                         <thead>
@@ -572,7 +580,7 @@ class TableComponent extends Component {
 
                                 return (
                                     <tr className = {rowClass} key={care.pet_id + care.name + careType + care.due_date} id={care.pet_id + care.name + careType}>
-                                        <td><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
+                                        <td className="ownerName"><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
                                         <td>{care.name}</td>
                                         <td>{careType}</td>
                                         <td>{dueDate}</td>
