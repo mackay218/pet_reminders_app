@@ -26,7 +26,7 @@ class TableComponent extends Component {
 
         this.state = {
             sortItem: 'last_name',
-            timeFilter: 'week',
+            timeFilter: 'all',
             sentStatus: false,
             completeStatus: false,
             searchTerm: '',
@@ -37,7 +37,7 @@ class TableComponent extends Component {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         
         this.setState({
-            timeFilter: 'week',
+            timeFilter: 'all',
             sentStatus: false,
             completeStatus: false,
         });
@@ -484,12 +484,12 @@ class TableComponent extends Component {
                             id="timeFilterDropDown"
                             onChange={this.handleChangeForTimeFilter}
                         >
+                            <option value="all">all</option>
                             <option value="week">week</option>
                             <option value="month">month</option>
                             <option value="3_months">3 months</option>
                             <option value="6_months">6 months</option>
                             <option value="year">year</option>
-                            <option value="all">all</option>
                         </select>
                         <div className="filterButtons">
                             {sentCheckBtn}
