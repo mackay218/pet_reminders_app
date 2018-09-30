@@ -37,9 +37,12 @@ class TechUsed extends Component {
                         <li>Redux-Saga</li>
                         <li>MomentJS</li>
                         <li>Material UI</li>
-                        <li><p>React-phone-number-input FROM:</p>
-                            <a>https://github.com/catamphetamine/react-phone-number-input</a> 
-                        </li>
+                        <li>
+                            React-phone-number-input FROM: 
+                        </li>   
+                        <li>
+                            <a className="phoneLink" >https://github.com/catamphetamine/react-phone-number-input</a> 
+                        </li>    
                         <li>Twilio</li>
                         <li>NodeJS</li>
                         <li>ExpressJS</li>

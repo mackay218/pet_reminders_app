@@ -6,6 +6,7 @@ import Nav from '../../components/Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
 
+import './UserPage.css';
 
 //phone number formatting from https://github.com/catamphetamine/react-phone-number-input
 import 'react-phone-number-input/style.css'
@@ -140,11 +141,11 @@ class UserPage extends Component {
     if (this.props.user.userName) {
       if (this.state.editMode === false){
         content = (
-          <div>
+          <div className="userContainer">
             <p>First name: {this.props.user.first_name}</p>
             <p>Last name: {this.props.user.last_name}</p>
             <p>Clinic: {this.props.user.clinic_name}</p>
-            <p>Phone: {this.props.user.phone}</p>
+            <p>phone: {this.props.user.phone}</p>
             <p>email: {this.props.user.email}</p>
             <button onClick={this.handleEditClick}>edit</button>
           </div>
@@ -152,7 +153,7 @@ class UserPage extends Component {
       }
       else if(this.state.editMode === true){
         content = (
-          <div>
+          <div className="userContainer">
             {this.renderAlert()}
             <form onSubmit={this.updateUserInfo}>
               <div className ="userInfoSec">
@@ -183,7 +184,7 @@ class UserPage extends Component {
                 />
               </div>
               <div className="userInfoSec">
-                <label htmlFor="phone">phone</label>
+                <label htmlFor="phone">phone:</label>
                 <PhoneInput
                   name="phone"
                   country='US'
@@ -194,14 +195,17 @@ class UserPage extends Component {
               <div className="userInfoSec">
                 <label htmlFor="email">email: </label>
                 <input
+                  className="emailInput"
                   type="text"
                   name="email"
                   value={this.props.user.email}
                   onChange={this.handleInputChangeFor("email")}
                 />
               </div>
-              <button name="submit">Submit</button>
-              <button onClick={this.cancelEdit} type="button" name="cancel">Cancel</button>
+              <div className="btnContainer">
+                <button name="submit">Submit</button>
+                <button onClick={this.cancelEdit} type="button" name="cancel">Cancel</button>
+              </div>
             </form>
           </div>
         )

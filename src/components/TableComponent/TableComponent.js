@@ -6,9 +6,13 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-
-
 import './TableComponent.css';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faSortDown } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSortDown)
 
 
 const mapStateToProps = state => ({
@@ -428,6 +432,38 @@ class TableComponent extends Component {
         let sentCheckBtn = null;
         let completeCareCheckBtn = null;
 
+        let nameSortIcon = null;
+        let petSortIcon = null;
+        let careSortIcon = null;
+        let dueDateSortIcon = null;
+        let lastDateSortIcon = null;
+
+        if(this.state.sortItem == 'last_name'){
+            nameSortIcon = (
+                <FontAwesomeIcon icon='sort-down'/>
+            )
+        }
+        else if(this.state.sortItem == 'name'){
+            petSortIcon = (
+                <FontAwesomeIcon icon='sort-down' />
+            )
+        }
+        else if (this.state.sortItem == 'care_type') {
+            careSortIcon = (
+                <FontAwesomeIcon icon='sort-down' />
+            )
+        }
+        else if (this.state.sortItem == 'due_date') {
+            dueDateSortIcon = (
+                <FontAwesomeIcon icon='sort-down' />
+            )
+        }
+        else if (this.state.sortItem == 'previous_date') {
+            lastDateSortIcon = (
+                <FontAwesomeIcon icon='sort-down' />
+            )
+        }
+
         if (this.props.user.userName && this.props.careHistory.careHistoryReducer){
 
             const sortTerm = this.state.sortItem
@@ -503,14 +539,34 @@ class TableComponent extends Component {
                     <table>
                         <thead>
                             <tr>
-                                <th onClick={this.handleSortChange("last_name")} name="last_name" >Owner</th>
-                                <th onClick={this.handleSortChange("name")} name="name" >Pet</th>
-                                <th onClick={this.handleSortChange("care_type")} >Care</th>
-                                <th onClick={this.handleSortChange("due_date")} >Due Date</th>
-                                <th onClick={this.handleSortChange("previous_date")}>Last Date</th>
+                                <th 
+                                    onClick={this.handleSortChange("last_name")} 
+                                    name="last_name">
+                                    <p>Owner{nameSortIcon}</p>
+                                </th>
+                                <th 
+                                    onClick={this.handleSortChange("name")} 
+                                    name="name" >
+                                    <p>Pet{petSortIcon}</p>
+                                    </th>
+                                <th 
+                                    onClick={this.handleSortChange("care_type")} 
+                                    name="care_type" >
+                                    <p>Care{careSortIcon}</p>
+                                    </th>
+                                <th 
+                                    onClick={this.handleSortChange("due_date")} 
+                                    name="due_date">
+                                    <p>Due Date{dueDateSortIcon}</p>
+                                    </th>
+                                <th 
+                                    onClick={this.handleSortChange("previous_date")}
+                                    name="previous_date">
+                                    <p>Last Date{lastDateSortIcon}</p>
+                                    </th>
                                 <th>
                                     Notification
-                                    <button 
+                                    <button className="sendBtn"
                                         onClick={() => this.sendAllMessages(careArr)}
                                         type="button"
                                     >Send All
@@ -519,6 +575,7 @@ class TableComponent extends Component {
                                 <th>Complete Care</th>
                             </tr>
                         </thead>
+                        <div className="tbodyContainer">
                         <tbody>
                             {careArr.map((care) => {
                                 let sendButton = null;
@@ -526,6 +583,7 @@ class TableComponent extends Component {
                                     
                                     sendButton = (
                                         <button 
+                                            className="sendBtn"
                                             onClick = {this.sendMessageData(care)}
                                             type="button"
                                         >Send
@@ -535,6 +593,7 @@ class TableComponent extends Component {
                                 else if(care.notification_sent === true){
                                     sendButton = (
                                         <button 
+                                            className="sendBtn"
                                             onClick={this.sendMessageData(care)}
                                             type="button"
                                         >Resend
@@ -546,6 +605,7 @@ class TableComponent extends Component {
                                 if(care.complete_care === false){
                                     completeButton = (
                                         <button 
+                                            className="completeBtn"
                                             onClick={this.completeCare(care)}
                                             type="button"
                                         >Complete
@@ -555,6 +615,7 @@ class TableComponent extends Component {
                                 else if(care.complete_care === true){
                                     completeButton = (
                                         <button 
+                                            className="completeBtn"
                                             onClick={this.undoCompleteCare(care)}
                                             type="button"
                                         >Undo
@@ -592,6 +653,7 @@ class TableComponent extends Component {
                                 );
                             })}
                         </tbody>
+                        </div>
                     </table>
                 </div>
             )

@@ -69,7 +69,7 @@ class LoginPage extends Component {
       <div className="pageContainer loginPage">
         { this.renderAlert() }
         <form onSubmit={this.login} className="loginForm">
-          <div className="formSection">
+          <div className="loginFormSection">
             <label htmlFor="username">
               Username
             </label>
@@ -80,7 +80,7 @@ class LoginPage extends Component {
               onChange={this.handleInputChangeFor('username')}
             />
           </div>
-          <div className="formSection">
+          <div className="loginFormSection">
             <label htmlFor="password">
               Password
             </label>

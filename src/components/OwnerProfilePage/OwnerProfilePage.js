@@ -38,6 +38,7 @@ class OwnerProfilePage extends Component {
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });  
+        this.getOwnerInfo();
 
         if (this.props.petsInfo.onePetInfo) {
             console.log('sex of pet');
@@ -62,7 +63,7 @@ class OwnerProfilePage extends Component {
     }
     
     componentWillMount() {
-        this.getOwnerInfo();
+        
     }
    
     //GET 
@@ -129,7 +130,6 @@ class OwnerProfilePage extends Component {
             
         }
     }
-
 
     updatePetInfo = (event) => {
         event.preventDefault();
@@ -218,12 +218,12 @@ class OwnerProfilePage extends Component {
                         </div>
                         <div className="infoSec">
                             <h4>Contact Info</h4>
-                            <p>Phone: {this.props.owner.ownerInfo.phone}</p>
-                            <p>Email: {this.props.owner.ownerInfo.email}</p>
-                            <p>Address: {this.props.owner.ownerInfo.address}</p>
+                            <p>phone: {this.props.owner.ownerInfo.phone}</p>
+                            <p className="emailInfo">email: {this.props.owner.ownerInfo.email}</p>
+                            <p>address: {this.props.owner.ownerInfo.address}</p>
                         </div>
                         <div className="notesSection infoSec">
-                            <label htmlFor="#notesParagraph">Notes</label>
+                            <label htmlFor="#notesParagraph">notes: </label>
                             <div className="notesContainer" id="notesContainer">
                                
                                 <p className="ownerNotes">{this.props.owner.ownerInfo.notes}</p>
@@ -237,7 +237,7 @@ class OwnerProfilePage extends Component {
             else if(this.state.editMode === true){
                 contact_info = (
                     <div className="contactInfo">
-                        <form onSubmit={this.updateOwnerInfo}>
+                        <form onSubmit={this.updateOwnerInfo} className="contactInfoForm">
                             <div className="infoSec">
                                 <h4>Name</h4>
                                 <div className="inputSec">
@@ -262,7 +262,7 @@ class OwnerProfilePage extends Component {
                             <div className="infoSec">
                                 <h4>Contact Info</h4>
                                 <div className="inputSec">
-                                    <label htmlFor="phone">Phone:</label>
+                                    <label htmlFor="phone">phone:</label>
                                     <PhoneInput
                                         name="phone"
                                         country='US'
@@ -272,7 +272,7 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="inputSec">
-                                    <label htmlFor="email">Email:</label>
+                                    <label htmlFor="email">email:</label>
                                     <input
                                         type="text"
                                         name="email"
@@ -281,7 +281,7 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="inputSec">
-                                    <label htmlFor="address">Address:</label>
+                                    <label htmlFor="address">address:</label>
                                     <input
                                         type="text"
                                         name="address"
@@ -292,7 +292,7 @@ class OwnerProfilePage extends Component {
                             </div>
                             <div className="notesSection">
                                 <div className="infoSec">
-                                <label htmlFor="notesContainer">Notes</label>
+                                <label htmlFor="notesContainer">notes:</label>
                                     <div className="notesContainer" name="notesContainer">
                                         <textarea
                                             className="ownerNotes"
@@ -303,17 +303,17 @@ class OwnerProfilePage extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <button >Submit</button>
-                            <button type="button" onClick={this.cancelEdit} name="cancel" >Cancel</button>
+                            <div className="btnSec">
+                                <button >Submit</button>
+                                <button type="button" onClick={this.cancelEdit} name="cancel" >Cancel</button>
+                            </div>
+                           
                         </form>
                     </div>
                 )
             }
             content = (
                 <div>
-                    <h3><span>{this.props.owner.ownerInfo.first_name}</span>
-                        <span> </span>
-                        <span>{this.props.owner.ownerInfo.last_name}</span></h3>
                         {contact_info}
                 </div>
             );
@@ -326,6 +326,7 @@ class OwnerProfilePage extends Component {
             if(this.props.petsInfo.petInfo){
                 pet_list = (
                     <div className="petListSection ownerProfileSection">
+                        <h4>Pets</h4>
                         <div className="petListContainer">
                             <ul className="petList" >
                                 {this.props.petsInfo.petInfo.map((pet) => {
@@ -340,7 +341,7 @@ class OwnerProfilePage extends Component {
                             </ul>
                          
                         </div>
-                        <a href={addPetLink} >New Pet</a>
+                        <a className="newPetLink" href={addPetLink} >New Pet</a>
                     </div>
                 )
             }
@@ -363,11 +364,12 @@ class OwnerProfilePage extends Component {
                     open={this.state.open}
                     onClose={this.handleClose}
                     modal={false}
+                    style={this.state.dialogStyle}
                 >
                     <DialogContent>
                         <div className="petInfoformContainer">
-                            <h3>Pet Info</h3>
-                            <form onSubmit={this.updatePetInfo}>
+                            <h3 className="dialogTitle" >Pet Info</h3>
+                            <form className="petInfoForm" onSubmit={this.updatePetInfo}>
                                 <div className="petFormSection">
                                     <label htmlFor="name">name:</label>
                                     <input
@@ -397,7 +399,7 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="petFormSection">
-                                    <label htmlFor="sex">Sex:  </label>
+                                    <label htmlFor="sex">sex:  </label>
                                     <label htmlFor="#male">M</label>
                                     <input
                                         id="male"
@@ -418,7 +420,7 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="petFormSection">
-                                    <label htmlFor="weight">weight</label>
+                                    <label htmlFor="weight">weight: </label>
                                     <input
                                         value={this.props.petsInfo.onePetInfo.weight}
                                         type="number"
@@ -426,15 +428,19 @@ class OwnerProfilePage extends Component {
                                     />
                                 </div>
                                 <div className="petFormSection">
-                                    <label htmlFor="notes">notes</label>
+                                    <label htmlFor="notes">notes: </label>
                                     <textarea
                                         name="notes"
                                         value={this.props.petsInfo.onePetInfo.notes}
                                         onChange={this.handleChangeForPet}
                                     />
                                 </div>
-                                <button>Submit</button>
-                                <button onClick={this.handleClose}>Close</button>
+                                <div className="petFormBtnSec">
+                                    <button>Submit</button>
+                                    <button onClick={this.handleClose}>Close</button>
+                                </div>
+
+                                
                             </form>
                         </div>
                     </DialogContent>
@@ -443,11 +449,23 @@ class OwnerProfilePage extends Component {
       
         }
 
+        let titleName = null;
+
+        if(this.props.owner.ownerInfo){
+            titleName = (
+                <h3><span>{this.props.owner.ownerInfo.first_name}</span>
+                    <span> </span>
+                    <span>{this.props.owner.ownerInfo.last_name}</span></h3>
+            )
+        }
+
         if(this.props.user.userName ){
             return (
                 <div className="pageContainer">
                     <Nav />
+                    {titleName}
                     <div className="ownerProfile">
+                     
                         <div className="profileInfo">
                             {content}
                             {notes}

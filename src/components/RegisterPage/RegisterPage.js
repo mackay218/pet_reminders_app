@@ -6,6 +6,8 @@ import axios from 'axios';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
+import './RegisterPage.css';
+
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -89,9 +91,9 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
+        <form className="registerForm" onSubmit={this.registerUser}>
           <h1>Register User</h1>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="first_name">
               First name:
               <input
@@ -103,7 +105,7 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="last_name">
               Last name:
               <input
@@ -115,7 +117,7 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="clinic_name">
               Clinic:
               <input
@@ -127,8 +129,8 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div className="formSection">
-            <label htmlFor="phone">phone</label>
+          <div className="regFormSec">
+            <label htmlFor="phone">phone:</label>
             <PhoneInput
               name="phone"
               country='US'
@@ -136,7 +138,7 @@ class RegisterPage extends Component {
               value={this.state.phone}
               onChange={phone => this.setState({ phone: phone })} />
           </div>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="email">
               email:
               <input
@@ -148,7 +150,7 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="username">
               Username:
               <input
@@ -160,7 +162,7 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div>
+          <div className="regFormSec">
             <label htmlFor="password">
               Password:
               <input
@@ -172,13 +174,13 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
-          <div>
-            <input
+          <div className="regBtnFormSec">
+            <button
               type="submit"
               name="submit"
               value="Register"
-            />
-            <Link to="/home">Cancel</Link>
+            >Register</button>
+            <Link className="cancelBtn" to="/home">Cancel</Link>
           </div>
         </form>
       </div>
