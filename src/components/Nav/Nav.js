@@ -20,11 +20,11 @@ const Nav = () => (
             Add Owner
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link to='/settings'>
             Reminder settings
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   </div>

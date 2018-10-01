@@ -11,10 +11,12 @@ function* postOwner(action) {
 
       console.log('owner id from postOwner Saga:', ownerId.data[0].id);
 
-      const responseAction = {type:'SET_NEW_OWNER' , payload: ownerId.data[0].id};
+      if(ownerId.data[0].id > 0){
+          const responseAction = { type: 'SET_NEW_OWNER', payload: ownerId.data[0].id };
 
-      console.log(responseAction);
-      yield put(responseAction);
+          console.log(responseAction);
+          yield put(responseAction);
+      }
     }
     catch (error) {
         console.log('error adding pet owner:', error);

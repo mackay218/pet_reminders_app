@@ -56,6 +56,17 @@ const clinic_name = (state = null, action) => {
   }
 };
 
+const phone = (state = null, action) => {
+  switch(action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.phone;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;  
+  }
+}
+
 const email = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -84,6 +95,7 @@ export default combineReducers({
   first_name,
   last_name,
   clinic_name,
+  phone,
   email,
   isLoading,
 });

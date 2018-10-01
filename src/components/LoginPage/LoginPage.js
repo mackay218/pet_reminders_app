@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+import './LoginPage.css';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -67,37 +68,36 @@ class LoginPage extends Component {
     return (
       <div className="pageContainer loginPage">
         { this.renderAlert() }
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
-          <div>
+        <form onSubmit={this.login} className="loginForm">
+          <div className="loginFormSection">
             <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
+              Username
             </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
             <input
+              type="text"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleInputChangeFor('username')}
+            />
+          </div>
+          <div className="loginFormSection">
+            <label htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleInputChangeFor('password')}
+            />
+          </div>
+          <div className="loginBtnContainer">
+            <button
               type="submit"
               name="submit"
               value="Log In"
-            />
-            <Link to="/register">Register</Link>
+            >Log in </button>
+            <Link className="registerBtn" to="/register">Register</Link>
           </div>
         </form>
         <img className="logInLogo" src="images/larger_pet_logo.png" alt="pet reminders logo"/>

@@ -1,0 +1,79 @@
+
+.loginForm{
+    width: 50vw;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 4px solid #BBA473;
+    border-right: 4px solid #BBA473;
+    border-top: 2px solid #BBA473;
+    border-left: 2px solid #BBA473;
+    box-shadow: -5px -5px 15px rgba(0,0,0,0.1);
+    border-radius: 20px;
+}
+
+.loginFormSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginForm input{
+    font-size: 30px;
+    background: rgba(255,255,255,0.5);
+    width: 60%;
+    border: 2px solid #A6192E;
+    box-shadow: inset 0px 0px 4px 4px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    flex-grow: 0;
+}
+
+.loginForm button {
+    height: 40px;
+    font-size: 20px;
+    border: 2px solid #A6192E;
+    border-radius: 10px;
+    background: linear-gradient(#3D735F, #154734, #3D735F);
+    color: #DDCBA4;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.loginForm button:hover{
+    box-shadow: none;
+}
+
+.registerBtn{
+    height: 40px;
+    padding: 6px;
+    text-decoration: none;
+    font-size: 20px;
+    border: 2px solid #A6192E;
+    border-radius: 10px;
+    background: linear-gradient(#3D735F, #154734, #3D735F);
+    color: #DDCBA4;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.2);
+}
+
+.registerBtn:hover{
+    box-shadow: none;
+}
+
+
+.logInLogo{
+    height: 400px;
+    width: 400px;
+    position: absolute;
+    top: 150px;
+    z-index: -1;
+}
+
+.loginBtnContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 190px;
+}

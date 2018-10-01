@@ -53,7 +53,7 @@ function* updateSendStatus(action){
     try{
         console.log('in updateSendStatus', action.payload);
 
-        const updateSendStatus = yield call(axios.put, '/api/careHistory/message', action.payload);
+        yield call(axios.put, '/api/careHistory/message', action.payload);
     }
     catch (error) {
         console.log('error updating send status:', error);
@@ -65,7 +65,7 @@ function* updateCompleteCare(action){
     try{
         console.log('in updateCompleteCare', action.payload);
 
-        const updateCompleteCare = yield call(axios.put, '/api/careHistory/care', action.payload);
+        yield call(axios.put, '/api/careHistory/care', action.payload);
     }
     catch (error) {
         console.log('error updating complete care status:', error);

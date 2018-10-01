@@ -23,8 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.post('/', rejectUnauthenticated, (req, res) => {
-    const messageData = req.body;
+    const messageData = req.body.dataToSend;
+    const vetPhone = req.body.vetPhone;
     console.log('message to send data', messageData);
+    console.log('vet phone:', vetPhone);
 
     const ownerName = messageData.first_name;
     const petName = messageData.name;
@@ -32,8 +34,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const dueDate = moment(messageData.due_date).format('YYYY-MM-DD'); 
     const phone = messageData.phone;
 
-    const messageToSend = `Hello ${ownerName} our records show ${petName} 
-                            is due for ${careDue} vaccination on ${dueDate}`; 
+    const messageToSend = `Hello ${ownerName} our records show ${petName} is due for ${careDue} vaccination(s) on ${dueDate} call us at ${vetPhone} to schedule an appt.`; 
 
     console.log(messageToSend);     
 
