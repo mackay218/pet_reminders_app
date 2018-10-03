@@ -47,6 +47,7 @@ class TechUsed extends Component {
                         <li>NodeJS</li>
                         <li>ExpressJS</li>
                         <li>Postgresql</li>
+                        <li>Passport</li>
                         <li>Polaris' Brains</li>
                     </ul>
                 </div>
