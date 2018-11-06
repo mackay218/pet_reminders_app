@@ -1,7 +1,6 @@
 const express = require('express');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
-
 const router = express.Router();
 
 //route to add new entries to care history
@@ -22,7 +21,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 		.catch((error) => {
 			console.log('error adding new entry to care history:', error);
 		});													
-});
+});//end post route
 
 //route to get all of care history for user id
 router.get('/:id', rejectUnauthenticated, (req, res) => {
@@ -68,7 +67,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         .then((results) => { res.send(results.rows)})
         .catch((error) => { console.log('error getting care history:', error) });                 
 
-});
+});//end get route
 
 //route to update notification_sent status
 router.put('/message', rejectUnauthenticated, (req, res) => {
@@ -96,7 +95,7 @@ router.put('/message', rejectUnauthenticated, (req, res) => {
 			res.sendStatus(500);
 		});
 
-});
+});//end put route
 
 //route to update complete_care status
 router.put('/care', rejectUnauthenticated, (req, res) => {
@@ -124,8 +123,9 @@ router.put('/care', rejectUnauthenticated, (req, res) => {
 			console.log('error updating complete_care:', error);
 			res.sendStatus(500);
 		});
-});
+});//end put route
 
+//route to delete/undo new care history entry
 router.delete('/:petId/:vetId/:careType/:dueDate/:previousDate', rejectUnauthenticated, (req, res) => {
 	const entryToDelete = req.params;
 
@@ -142,6 +142,6 @@ router.delete('/:petId/:vetId/:careType/:dueDate/:previousDate', rejectUnauthent
 			console.log('error deleting entries from care_history:', error);
 			res.sendStatus(500);
 		});												  
-})
+});//end delete route
 
 module.exports = router;

@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
-
 const pool = require('../modules/pool');
-
 const router = express.Router();
 
 const bodyParser = require('body-parser');
@@ -53,6 +51,6 @@ router.post('/', rejectUnauthenticated, (req, res) => {
          console.log('CATCH', error);
          res.sendStatus(500);
     });  
-});
+});//end post route
 
 module.exports = router;

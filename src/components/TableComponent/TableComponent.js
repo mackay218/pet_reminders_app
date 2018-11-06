@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-
 import './TableComponent.css';
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSortDown } from '@fortawesome/free-solid-svg-icons'
 
+//arrow icon for sorting
 library.add(faSortDown)
 
 

@@ -1,27 +1,18 @@
 const express = require('express');
 const app = express();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
-
 const moment = require('moment');
-
-const pool = require('../modules/pool');
-
-const axios = require('axios');
-
 const router = express.Router();
-
 const SID = process.env.TWILIO_SID;
 const TOKEN = process.env.TWILIO_TOKEN;
 const SENDER = process.env.TWILIO_SENDER
-
 const twilio = require('twilio');
 const client = new twilio(SID, TOKEN);
-
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+//route to send text messages
 router.post('/', rejectUnauthenticated, (req, res) => {
     const messageData = req.body.dataToSend;
     const vetPhone = req.body.vetPhone;
@@ -52,10 +43,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     }).catch((error) => {
         console.log('Error with text', error);
         res.sendStatus(500);
-    });
-
-
-    
-});
+    }); 
+});//end post route
 
 module.exports = router;

@@ -4,6 +4,7 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+//route to get care types from database
 router.get('/', rejectUnauthenticated, (req, res) => {
 
     const queryText = `SELECT * FROM care_type;`;
@@ -17,7 +18,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
             console.log('error getting care types:', error);
             res.sendStatus(500);
         });
-
-});
+});//end get route
 
 module.exports = router;

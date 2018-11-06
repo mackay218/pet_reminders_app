@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 //material ui 
 import TextField from '@material-ui/core/TextField';
-
 import Nav from '../../components/Nav/Nav';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import './AddPetPage.css';
 
 const mapStateToProps = state => ({
     user: state.user,
     careTypes: state.careTypes
 });
-
 
 const addPetObj = {
     name: '',
@@ -39,7 +34,6 @@ class AddPetPage extends Component {
         this.state = addPetObj;
     }
 
-
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         console.log(this.props);
@@ -59,6 +53,7 @@ class AddPetPage extends Component {
         }       
     }
 
+    //function to begin assignment of new pet to correct owner and vet by ids
     initializePetInfo = () => {
         console.log('in initializePetInfo');
         this.setState({
@@ -69,6 +64,7 @@ class AddPetPage extends Component {
         })
     }
 
+    //handle changes of input fields for pet information
     handleChangeForPet = propertyName => (event) => {
         //console.log('stats', event.target.value);
         this.setState({
@@ -77,6 +73,7 @@ class AddPetPage extends Component {
         });
     }
 
+    //handle change of date from inputs for vaccination dates
     handleChangeForDate = (event) => {
         
         //console.log('careTypes', this.props.careTypes.careTypeInfo);
@@ -91,7 +88,6 @@ class AddPetPage extends Component {
 
                 const name = event.target.name;
                 const previousDate = event.target.value;
-
                 const frequency = care.frequency;
 
                 //calculate due date
@@ -119,10 +115,10 @@ class AddPetPage extends Component {
                 ...this.state,
                 addPetForm: false,
             });
-        }
-        
+        }  
     }
 
+    //submit form for new dog
     submitDogInfo = (event) => {
         event.preventDefault();
         console.log('submitDogInfo');
@@ -151,7 +147,7 @@ class AddPetPage extends Component {
         }
     }//end submitDogInfo
 
-
+    //submit form for new cat
     submitCatInfo = (event) => {
         event.preventDefault();
 

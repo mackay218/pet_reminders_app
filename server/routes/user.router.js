@@ -3,7 +3,6 @@ const { rejectUnauthenticated } = require('../modules/authentication-middleware'
 const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
 const userStrategy = require('../strategies/user.strategy');
-
 const router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
@@ -11,7 +10,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
 
   res.send(req.user);
-});
+});//end get route
 
 
 
@@ -35,7 +34,7 @@ router.post('/register', (req, res, next) => {
   pool.query(queryText, [username, password, firstname, lastname, clinic, phone, email])
     .then(() => { res.sendStatus(201); })
     .catch((err) => { next(err); });
-});
+});//end post route
 
 //PUT route to update user info
 router.put('/register', rejectUnauthenticated, (req, res) => {
@@ -54,7 +53,7 @@ router.put('/register', rejectUnauthenticated, (req, res) => {
   pool.query(queryText, [firstname, lastname, clinic, phone, email, id])
     .then(() => { res.sendStatus(200); })
     .catch((err) => {console.log('error updating user info:', err)});                      
-});
+});//end put route
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -62,13 +61,13 @@ router.put('/register', rejectUnauthenticated, (req, res) => {
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   res.sendStatus(200);
-});
+});//end post route
 
 // clear all server session information about this user
 router.get('/logout', (req, res) => {
   // Use passport's built-in method to log out the user
   req.logout();
   res.sendStatus(200);
-});
+});//end get route
 
 module.exports = router;

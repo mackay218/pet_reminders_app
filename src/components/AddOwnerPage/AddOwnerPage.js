@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-
 //phone number formatting from https://github.com/catamphetamine/react-phone-number-input
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-
 import Nav from '../../components/Nav/Nav';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import './AddOwnerPage.css';
 
 const mapStateToProps = state => ({
@@ -72,7 +67,7 @@ class AddOwnerPage extends Component {
             });            
 
             
-
+            //redirect to new owner profile page
             setTimeout(() => {
                 console.log('new owner Id', this.props.owner.newOwnerId);
                 this.props.history.replace('/ownerProfile/'+this.props.owner.newOwnerId);
@@ -102,10 +97,6 @@ class AddOwnerPage extends Component {
         }
         return (<span />);
     }
-
-    
-
-
 
     render() {
         let content = null;
@@ -170,11 +161,9 @@ class AddOwnerPage extends Component {
                             </div>
                             <div className="formBigSec">
                                 <button>Submit</button>
-                            </div>
-                            
+                            </div>  
                         </form>
                     </div>
-
                 </div>
             );
         }
@@ -189,5 +178,4 @@ class AddOwnerPage extends Component {
 
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(AddOwnerPage);
