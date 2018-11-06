@@ -1,13 +1,11 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-
-
 import axios from 'axios';
 
 //function to post new pets
 function* postPet(action) {
     console.log('postPet', action);
 
-    try{
+    try {
         yield call(axios.post, '/api/addPet', action.payload);
     }
     catch (error) {
@@ -20,13 +18,13 @@ function* postPet(action) {
 function* getOwnerPets(action) {
     console.log('getOwnerPets', action);
 
-    try{
-       const petResponse = yield call(axios.get, '/api/getPets/owner/' + action.payload);
+    try {
+        const petResponse = yield call(axios.get, '/api/getPets/owner/' + action.payload);
         console.log('petResponse', petResponse);
 
-       const responseAction = {type: 'SET_PETS', payload: petResponse.data}
+        const responseAction = { type: 'SET_PETS', payload: petResponse.data }
 
-       yield put(responseAction);
+        yield put(responseAction);
     }
     catch (error) {
         console.log('error getting pets for owner:', error);
@@ -37,11 +35,11 @@ function* getOwnerPets(action) {
 function* getOnePet(action) {
     console.log('get one pet', action);
 
-    try{
+    try {
         const petResponse = yield call(axios.get, '/api/getPets/pet/' + action.payload);
         console.log('petResponse', petResponse);
 
-        const responseAction = {type: 'SET_ONE_PET', payload: petResponse.data}
+        const responseAction = { type: 'SET_ONE_PET', payload: petResponse.data }
 
         yield put(responseAction);
     }
@@ -53,8 +51,8 @@ function* getOnePet(action) {
 
 function* updatePetInfo(action) {
     console.log('update pet info', action);
-    
-    try{
+
+    try {
         yield call(axios.put, 'api/updatePet', action.payload);
     }
     catch (error) {

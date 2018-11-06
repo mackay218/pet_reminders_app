@@ -39,8 +39,8 @@ class LoginPage extends Component {
       this.props.dispatch(formError());
     } else {
       this.props.dispatch(triggerLogin(this.state.username, this.state.password));
-      
-     
+
+
     }
   }
 
@@ -57,7 +57,7 @@ class LoginPage extends Component {
           className="alert"
           role="alert"
         >
-          { this.props.login.message }
+          {this.props.login.message}
         </h2>
       );
     }
@@ -67,7 +67,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="pageContainer loginPage">
-        { this.renderAlert() }
+        {this.renderAlert()}
         <form onSubmit={this.login} className="loginForm">
           <div className="loginFormSection">
             <label htmlFor="username">
@@ -100,7 +100,7 @@ class LoginPage extends Component {
             <Link className="registerBtn" to="/register">Register</Link>
           </div>
         </form>
-        <img className="logInLogo" src="images/larger_pet_logo.png" alt="pet reminders logo"/>
+        <img className="logInLogo" src="images/larger_pet_logo.png" alt="pet reminders logo" />
       </div>
     );
   }

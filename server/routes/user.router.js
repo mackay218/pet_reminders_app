@@ -19,7 +19,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   console.log('req: ', req.body);
-  
+
   const firstname = req.body.first_name;
   const lastname = req.body.last_name;
   const clinic = req.body.clinic_name;
@@ -28,7 +28,7 @@ router.post('/register', (req, res, next) => {
 
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-  
+
 
   const queryText = 'INSERT INTO person (username, password, first_name, last_name, clinic_name, phone, email) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id';
   pool.query(queryText, [username, password, firstname, lastname, clinic, phone, email])
@@ -52,7 +52,7 @@ router.put('/register', rejectUnauthenticated, (req, res) => {
 
   pool.query(queryText, [firstname, lastname, clinic, phone, email, id])
     .then(() => { res.sendStatus(200); })
-    .catch((err) => {console.log('error updating user info:', err)});                      
+    .catch((err) => { console.log('error updating user info:', err) });
 });//end put route
 
 // Handles login form authenticate/login POST

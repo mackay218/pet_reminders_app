@@ -57,13 +57,13 @@ const clinic_name = (state = null, action) => {
 };
 
 const phone = (state = null, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case USER_ACTIONS.SET_USER:
       return action.user.phone;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
-      return state;  
+      return state;
   }
 }
 

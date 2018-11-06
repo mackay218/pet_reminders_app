@@ -22,12 +22,12 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const ownerName = messageData.first_name;
     const petName = messageData.name;
     const careDue = messageData.care_type.toString().replace(/_/g, ' ').replace(/,/g, ', ');
-    const dueDate = moment(messageData.due_date).format('YYYY-MM-DD'); 
+    const dueDate = moment(messageData.due_date).format('YYYY-MM-DD');
     const phone = messageData.phone;
 
-    const messageToSend = `Hello ${ownerName} our records show ${petName} is due for ${careDue} vaccination(s) on ${dueDate} call us at ${vetPhone} to schedule an appt.`; 
+    const messageToSend = `Hello ${ownerName} our records show ${petName} is due for ${careDue} vaccination(s) on ${dueDate} call us at ${vetPhone} to schedule an appt.`;
 
-    console.log(messageToSend);     
+    console.log(messageToSend);
 
     if (!SID || !TOKEN) {
         return res.json({ message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.' })
@@ -43,7 +43,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     }).catch((error) => {
         console.log('Error with text', error);
         res.sendStatus(500);
-    }); 
+    });
 });//end post route
 
 module.exports = router;

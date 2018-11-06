@@ -12,24 +12,24 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 	const queryText = `INSERT INTO care_history(pet_id, vet_id, care_type, due_date, previous_date)
 								VALUES ($1, $2, $3, $4, $5);`
-	
-	pool.query(queryText, [entryToAdd.petId, entryToAdd.vetId, entryToAdd.careType, 
-							entryToAdd.dueDate, entryToAdd.previousDate])
+
+	pool.query(queryText, [entryToAdd.petId, entryToAdd.vetId, entryToAdd.careType,
+	entryToAdd.dueDate, entryToAdd.previousDate])
 		.then((response) => {
 			res.sendStatus(201);
 		})
 		.catch((error) => {
 			console.log('error adding new entry to care history:', error);
-		});													
+		});
 });//end post route
 
 //route to get all of care history for user id
 router.get('/:id', rejectUnauthenticated, (req, res) => {
 
-    const userId = req.params.id;
-    console.log('in get care history for user', userId );
+	const userId = req.params.id;
+	console.log('in get care history for user', userId);
 
-    const queryText = `SELECT 	"care_history"."pet_id", 
+	const queryText = `SELECT 	"care_history"."pet_id", 
 		"care_history"."vet_id",
 		array_agg("care_type") AS "care_type",
 		"care_history"."due_date",
@@ -63,9 +63,9 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 				 "pet_owners"."email",
                  "pet_owners"."notes";`
 
-    pool.query(queryText, [userId])
-        .then((results) => { res.send(results.rows)})
-        .catch((error) => { console.log('error getting care history:', error) });                 
+	pool.query(queryText, [userId])
+		.then((results) => { res.send(results.rows) })
+		.catch((error) => { console.log('error getting care history:', error) });
 
 });//end get route
 
@@ -80,10 +80,10 @@ router.put('/message', rejectUnauthenticated, (req, res) => {
 
 	let notificationSent = body.notification_sent;
 
-	if(notificationSent === false){
+	if (notificationSent === false) {
 		notificationSent = true;
 	}
-	
+
 	const queryText = `UPDATE care_history SET "notification_sent" = $1 WHERE "pet_id" = $2 AND "due_date" = $3;`;
 
 	pool.query(queryText, [notificationSent, petId, dueDate])
@@ -106,10 +106,10 @@ router.put('/care', rejectUnauthenticated, (req, res) => {
 
 	let completeCare = req.body.complete_care;
 
-	if(completeCare === false){
+	if (completeCare === false) {
 		completeCare = true;
 	}
-	else if(completeCare === true){
+	else if (completeCare === true) {
 		completeCare = false;
 	}
 
@@ -133,15 +133,15 @@ router.delete('/:petId/:vetId/:careType/:dueDate/:previousDate', rejectUnauthent
 
 	const queryText = `DELETE FROM care_history WHERE "pet_id" = $1 AND "vet_id" = $2 AND "care_type" = $3 AND 
 													  "due_date" = $4 AND "previous_date" = $5;`;
-	pool.query(queryText, [entryToDelete.petId, entryToDelete.vetId, entryToDelete.careType, 
-							entryToDelete.dueDate, entryToDelete.previousDate])
+	pool.query(queryText, [entryToDelete.petId, entryToDelete.vetId, entryToDelete.careType,
+	entryToDelete.dueDate, entryToDelete.previousDate])
 		.then((response) => {
 			res.sendStatus(200);
 		})
 		.catch((error) => {
 			console.log('error deleting entries from care_history:', error);
 			res.sendStatus(500);
-		});												  
+		});
 });//end delete route
 
 module.exports = router;

@@ -1,6 +1,4 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-
-
 import axios from 'axios';
 
 function* getCareTypes(action) {
@@ -8,7 +6,7 @@ function* getCareTypes(action) {
         const careTypeResponse = yield call(axios.get, '/api/careTypes');
         console.log('getCareTypesSaga:', careTypeResponse);
 
-        const responseAction = {type: 'SET_CARE_TYPES', payload: careTypeResponse.data}
+        const responseAction = { type: 'SET_CARE_TYPES', payload: careTypeResponse.data }
 
         yield put(responseAction);
     }
@@ -18,6 +16,6 @@ function* getCareTypes(action) {
 }
 
 
-export default function* careTypeSaga(){
+export default function* careTypeSaga() {
     yield takeLatest('GET_CARE_TYPES', getCareTypes);
 }

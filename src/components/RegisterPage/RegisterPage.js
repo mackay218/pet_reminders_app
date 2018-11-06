@@ -28,8 +28,8 @@ class RegisterPage extends Component {
     event.preventDefault();
 
     if (this.state.username === '' || this.state.password === '' || this.state.first_name === '' ||
-        this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '' ||
-        this.state.phone === '') {
+      this.state.last_name === '' || this.state.clinic_name === '' || this.state.email === '' ||
+      this.state.phone === '') {
       this.setState({
         message: 'Please fill out all fields.',
       });
@@ -52,7 +52,7 @@ class RegisterPage extends Component {
             event.target.reset();
             this.setState({
               phone: '',
-            }); 
+            });
           } else {
             this.setState({
               message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
@@ -189,4 +189,3 @@ class RegisterPage extends Component {
 }
 
 export default RegisterPage;
-

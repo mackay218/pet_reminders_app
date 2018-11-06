@@ -11,19 +11,17 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const ownerId = req.params.id;
 
     const queryText = `SELECT * FROM pet_owners WHERE "id" = $1;`;
-    
+
     pool.query(queryText, [ownerId])
         .then((results) => {
             console.log('owner router');
             console.log('got owner', results.rows);
-                if(results.rows.length >= 1){
-                    res.send(results.rows[0]);
-                }
-                else{
-                    res.sendStatus(404);
-                }
-          
-            
+            if (results.rows.length >= 1) {
+                res.send(results.rows[0]);
+            }
+            else {
+                res.sendStatus(404);
+            }
         })
         .catch((error) => {
             console.log('error getting owner', error);
@@ -34,7 +32,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 //route to update pet owner information
 router.put('/', rejectUnauthenticated, (req, res) => {
     console.log('update owner info router', req.body);
-    
+
     const firstname = req.body.first_name;
     const lastname = req.body.last_name;
     const phone = req.body.phone;
@@ -49,7 +47,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 
     pool.query(queryText, [firstname, lastname, phone, email, address, notes, id])
         .then(() => { res.sendStatus(200); })
-        .catch((err) => { console.log('error updating owner info:', err) }); 
+        .catch((err) => { console.log('error updating owner info:', err) });
 });//end put route
 
 module.exports = router;

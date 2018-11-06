@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 });
 
 class UserPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     //set local state to this.props.user values
@@ -64,10 +64,12 @@ class UserPage extends Component {
     // this.setState({
     //   [propertyName]: event.target.value,
     // });
-    const action = {type: USER_ACTIONS.SET_USER, user:{ 
-      ...this.props.user, 
-      [propertyName]: event.target.value,
-    }}
+    const action = {
+      type: USER_ACTIONS.SET_USER, user: {
+        ...this.props.user,
+        [propertyName]: event.target.value,
+      }
+    }
     //console.log('HERE',action);
     this.props.dispatch(action);
 
@@ -81,7 +83,7 @@ class UserPage extends Component {
       this.setState({
         message: 'Please fill out all fields.',
       });
-    } else{
+    } else {
       const body = {
         first_name: this.props.user.first_name,
         last_name: this.props.user.last_name,
@@ -90,7 +92,7 @@ class UserPage extends Component {
         email: this.props.user.email,
         id: this.props.user.id
       };
-    
+
       console.log('body on client side:', body);
 
       axios.put('/api/user/register/', body)
@@ -137,9 +139,9 @@ class UserPage extends Component {
 
   render() {
     let content = null;
-    
+
     if (this.props.user.userName) {
-      if (this.state.editMode === false){
+      if (this.state.editMode === false) {
         content = (
           <div className="userContainer">
             <p>First name: {this.props.user.first_name}</p>
@@ -151,19 +153,19 @@ class UserPage extends Component {
           </div>
         );
       }
-      else if(this.state.editMode === true){
+      else if (this.state.editMode === true) {
         content = (
           <div className="userContainer">
             {this.renderAlert()}
             <form onSubmit={this.updateUserInfo}>
-              <div className ="userInfoSec">
+              <div className="userInfoSec">
                 <label htmlFor="first_name">First name: </label>
-                <input 
+                <input
                   type="text"
-                  name="first_name" 
+                  name="first_name"
                   value={this.props.user.first_name}
-                  onChange={this.handleInputChangeFor("first_name")} 
-                  />
+                  onChange={this.handleInputChangeFor("first_name")}
+                />
               </div>
               <div className="userInfoSec">
                 <label htmlFor="last_name">Last name: </label>
@@ -210,13 +212,13 @@ class UserPage extends Component {
           </div>
         )
       }
-      
+
     }
 
     return (
       <div className="pageContainer">
         <Nav />
-        { content }
+        {content}
       </div>
     );
   }

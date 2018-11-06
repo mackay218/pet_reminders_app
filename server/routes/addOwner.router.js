@@ -25,7 +25,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
         .catch((error) => {
             console.log('error adding new owner:', error);
             res.sendStatus(500);
-        });                        
+        });
 });//end post route
 
 module.exports = router;
