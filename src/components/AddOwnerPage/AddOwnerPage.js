@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-
 //phone number formatting from https://github.com/catamphetamine/react-phone-number-input
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-
 import Nav from '../../components/Nav/Nav';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import './AddOwnerPage.css';
 
 const mapStateToProps = state => ({
@@ -45,7 +40,6 @@ class AddOwnerPage extends Component {
         }
     }
 
-
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -65,17 +59,16 @@ class AddOwnerPage extends Component {
                 vet_id: this.props.user.id,
             };
 
-            this.props.dispatch({type: 'ADD_OWNER', payload: body});
+            this.props.dispatch({ type: 'ADD_OWNER', payload: body });
             event.target.reset();
             this.setState({
                 phone: '',
-            });            
+            });
 
-            
-
+            //redirect to new owner profile page
             setTimeout(() => {
                 console.log('new owner Id', this.props.owner.newOwnerId);
-                this.props.history.replace('/ownerProfile/'+this.props.owner.newOwnerId);
+                this.props.history.replace('/ownerProfile/' + this.props.owner.newOwnerId);
 
             }, 100);
         }
@@ -103,10 +96,6 @@ class AddOwnerPage extends Component {
         return (<span />);
     }
 
-    
-
-
-
     render() {
         let content = null;
 
@@ -122,21 +111,21 @@ class AddOwnerPage extends Component {
                                 <h4>Name</h4>
                                 <div className="formSection">
                                     <label htmlFor="#firstName">First:</label>
-                                    <input 
-                                        id="firstName" 
-                                        name="first_name" 
-                                        type="text" 
+                                    <input
+                                        id="firstName"
+                                        name="first_name"
+                                        type="text"
                                         placeholder="Dan"
-                                        onChange={this.handleChangeFor}/>
+                                        onChange={this.handleChangeFor} />
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="#lastName">Last:</label>
-                                    <input 
-                                        id="lastName" 
-                                        name="last_name" 
-                                        type="text" 
+                                    <input
+                                        id="lastName"
+                                        name="last_name"
+                                        type="text"
                                         placeholder="MacKay"
-                                        onChange={this.handleChangeFor}/>
+                                        onChange={this.handleChangeFor} />
                                 </div>
                             </div>
                             <div className="formBigSec">
@@ -145,36 +134,34 @@ class AddOwnerPage extends Component {
                                     <label htmlFor="phone">phone:</label>
                                     <PhoneInput
                                         name="phone"
-                                        country ='US'
+                                        country='US'
                                         placeholder="Enter phone number"
                                         value={this.state.phone}
                                         onChange={phone => this.setState({ phone })} />
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="#email">email:</label>
-                                    <input 
-                                        id="email" 
-                                        name="email" 
-                                        placeholder="name@gmail.com" 
-                                        onChange={this.handleChangeFor}/>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        placeholder="name@gmail.com"
+                                        onChange={this.handleChangeFor} />
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="#address">address:</label>
-                                    <input 
-                                        id="address" 
-                                        name="address" 
-                                        type="text" 
+                                    <input
+                                        id="address"
+                                        name="address"
+                                        type="text"
                                         placeholder="123 Main St"
-                                        onChange={this.handleChangeFor}/>
+                                        onChange={this.handleChangeFor} />
                                 </div>
                             </div>
                             <div className="formBigSec">
                                 <button>Submit</button>
                             </div>
-                            
                         </form>
                     </div>
-
                 </div>
             );
         }
@@ -186,8 +173,6 @@ class AddOwnerPage extends Component {
             </div>
         );
     }
-
 }
 
-// this allows us to use <App /> in index.js
 export default connect(mapStateToProps)(AddOwnerPage);

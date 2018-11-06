@@ -2,25 +2,23 @@ import { combineReducers } from 'redux';
 
 const petInfo = (state = null, action) => {
 
-    switch(action.type){
+    switch (action.type) {
         case 'SET_PETS':
             console.log('in pet reducer');
-            return action.payload;           
+            return action.payload;
         default:
             return state;
     }
-
-
 }
 
 const onePetInfo = (state = null, action) => {
 
-    switch(action.type){
+    switch (action.type) {
         case 'SET_ONE_PET':
             console.log('in pet reducer, on pet');
-            return action.payload; 
-        default: 
-            return state;    
+            return action.payload;
+        default:
+            return state;
     }
 }
 

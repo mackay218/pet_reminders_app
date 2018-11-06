@@ -21,10 +21,10 @@ class RemindersPage extends Component {
         const action = { type: 'GET_CARE_TYPES' };
         this.props.dispatch(action);
 
-        setTimeout(()=> {
+        setTimeout(() => {
             this.getCareHistory();
         }, 100);
-        
+
     }
 
     componentDidUpdate() {
@@ -33,25 +33,24 @@ class RemindersPage extends Component {
         }
     }
 
-    
     getCareHistory = () => {
         console.log('get care history for:', this.props.user.id);
-        const action = {type: 'GET_CARE_HISTORY', payload: this.props.user.id}
+        const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
 
         this.props.dispatch(action);
     }
 
-    render(){
+    render() {
         let content = null;
 
         if (this.props.user.userName) {
             content = (
                 <div>
                     <h1>Reminders</h1>
-                    <div className = "tableContainer">
-                        <TableComponent/>
+                    <div className="tableContainer">
+                        <TableComponent />
                     </div>
-           
+
                 </div>
             );
         }
@@ -63,7 +62,6 @@ class RemindersPage extends Component {
             </div>
         );
     }
-
 }
 
 // this allows us to use <App /> in index.js

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 
@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-class Header extends Component{
+class Header extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
@@ -19,22 +19,22 @@ class Header extends Component{
     this.props.dispatch(triggerLogout());
   }
 
-  render(){
+  render() {
 
     let logOutBtn = null;
 
-    if (this.props.user.userName){
+    if (this.props.user.userName) {
       logOutBtn = (
         <button
           className="logoutBtn"
           onClick={this.logout}
         >
-        Log Out
+          Log Out
           </button>
       )
-    } 
+    }
 
-    return(
+    return (
       <div className="instructions">
         <div>
           <h1 className="lead">Pet Reminder</h1>
@@ -44,7 +44,6 @@ class Header extends Component{
 
     )
   }
-  
 }
 
 // this allows us to use <App /> in index.js

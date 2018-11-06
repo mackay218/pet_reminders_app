@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-
 import './TableComponent.css';
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faSortDown } from '@fortawesome/free-solid-svg-icons'
+import { faSortDown } from '@fortawesome/free-solid-svg-icons'
 
+//arrow icon for sorting
 library.add(faSortDown)
 
 
@@ -24,8 +21,8 @@ const mapStateToProps = state => ({
 const moment = extendMoment(Moment);
 
 class TableComponent extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -36,10 +33,10 @@ class TableComponent extends Component {
             searchTerm: '',
         }
     }
-    
+
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-        
+
         this.setState({
             timeFilter: 'all',
             sentStatus: false,
@@ -65,26 +62,27 @@ class TableComponent extends Component {
     sendMessageData = (dataToSend) => () => {
         console.log('in sendMessageData', dataToSend);
 
-         const action = {
-             type: 'SEND_REMINDER', payload: { dataToSend: dataToSend, vetPhone: this.props.user.phone}};
+        const action = {
+            type: 'SEND_REMINDER', payload: { dataToSend: dataToSend, vetPhone: this.props.user.phone }
+        };
 
-         this.props.dispatch(action);
+        this.props.dispatch(action);
 
-         setTimeout(() => {
+        setTimeout(() => {
 
-             this.refreshCareHistory();
-           
-         }, 10);
+            this.refreshCareHistory();
+
+        }, 10);
     }
 
     //function to send all current shown history rows a message
     sendAllMessages = (arr) => {
         console.log('in sendAllMessages', arr);
 
-        for(let careObj of arr){
+        for (let careObj of arr) {
             console.log('send for:', careObj);
 
-            const action = { type: 'SEND_REMINDER', payload: { dataToSend: careObj, vetPhone: this.props.user.phone }};
+            const action = { type: 'SEND_REMINDER', payload: { dataToSend: careObj, vetPhone: this.props.user.phone } };
 
             this.props.dispatch(action);
 
@@ -93,7 +91,7 @@ class TableComponent extends Component {
                 this.refreshCareHistory();
 
             }, 10);
-            
+
         }
     }
 
@@ -101,7 +99,7 @@ class TableComponent extends Component {
     completeCare = (dataToSend) => () => {
         console.log('in completeCare', dataToSend);
 
-        const action = {type: 'COMPLETE_CARE', payload: dataToSend};
+        const action = { type: 'COMPLETE_CARE', payload: dataToSend };
 
         this.props.dispatch(action);
 
@@ -116,13 +114,13 @@ class TableComponent extends Component {
 
 
         //compare care types completed to careTypes to get correct frequency for care type
-        for(let careTypeCompleted of careTypesCompleted){
+        for (let careTypeCompleted of careTypesCompleted) {
             for (let care of careTypes) {
                 const frequency = care.frequency;
-                
-                if(careTypeCompleted === care.name){
+
+                if (careTypeCompleted === care.name) {
                     let newDueDate = moment(careCompleteDate).add(frequency, 'months').format('YYYY-MM-DD');
-                
+
                     const objectToSend = {
                         petId: dataToSend.pet_id,
                         vetId: dataToSend.vet_id,
@@ -130,14 +128,14 @@ class TableComponent extends Component {
                         previousDate: careCompleteDate,
                         dueDate: newDueDate,
                     };
-                
-                    const action = {type: 'NEW_CARE_DATES', payload: objectToSend}
+
+                    const action = { type: 'NEW_CARE_DATES', payload: objectToSend }
 
                     this.props.dispatch(action);
-                }   
+                }
             }
         }
-        
+
         console.log('care completeDate', careCompleteDate);
 
 
@@ -212,20 +210,20 @@ class TableComponent extends Component {
     //change filter term for date range
     handleChangeForTimeFilter = (event) => {
         let timeFilter = event.target.value;
-        
+
         this.setState({
             timeFilter: timeFilter,
         });
     }
 
     //change local state for filter term for sent status of reminder
-    changeSentStatus = () =>{
-        if(this.state.sentStatus === false){
+    changeSentStatus = () => {
+        if (this.state.sentStatus === false) {
             this.setState({
                 sentStatus: true,
             })
         }
-        else if(this.state.sentStatus === true){
+        else if (this.state.sentStatus === true) {
             this.setState({
                 sentStatus: false,
             });
@@ -234,12 +232,12 @@ class TableComponent extends Component {
 
     //change local state for filter
     changeCompleteStatus = () => {
-        if(this.state.completeStatus === false){
+        if (this.state.completeStatus === false) {
             this.setState({
                 completeStatus: true,
             });
         }
-        else if(this.state.completeStatus === true){
+        else if (this.state.completeStatus === true) {
             this.setState({
                 completeStatus: false,
             });
@@ -258,7 +256,7 @@ class TableComponent extends Component {
     filterSentReminders = (careObj) => {
         console.log('in filterSentReminders');
 
-        if(careObj.notification_sent === this.state.sentStatus){
+        if (careObj.notification_sent === this.state.sentStatus) {
             return true;
         }
         return false;
@@ -267,13 +265,13 @@ class TableComponent extends Component {
     filterCompleteCare = (careObj) => {
         console.log('in filterCompleteCare');
 
-        if(careObj.complete_care === this.state.completeStatus){
+        if (careObj.complete_care === this.state.completeStatus) {
             return true;
         }
         return false;
     }
 
-    filterForTime = (careObj) =>{
+    filterForTime = (careObj) => {
 
         console.log('in filterForTime');
 
@@ -281,109 +279,109 @@ class TableComponent extends Component {
         let endDate;
         let range;
 
-        let dueDate = moment( new Date(careObj.due_date));
-        
-         if(this.state.timeFilter === 'week'){
-            
+        let dueDate = moment(new Date(careObj.due_date));
+
+        if (this.state.timeFilter === 'week') {
+
             startDate = moment(new Date()).format('YYYY-MM-DD');
-            
+
             endDate = moment(startDate).add(7, 'days').format('YYYY-MM-DD');
-         
+
             range = moment.range(startDate, endDate);
-        
-            if(range.contains(dueDate)){
-                
-                 return true;
-            }  
-         }
-         else if (this.state.timeFilter === 'month') {
 
-             startDate = moment(new Date()).format('YYYY-MM-DD');
-             console.log('startDate:', startDate);
+            if (range.contains(dueDate)) {
 
-             endDate = moment(startDate).add(1, 'months').format('YYYY-MM-DD');
-             console.log("endDate:", endDate);
-             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+                return true;
+            }
+        }
+        else if (this.state.timeFilter === 'month') {
 
-             range = moment.range(startDate, endDate);
-             console.log('range:', range);
+            startDate = moment(new Date()).format('YYYY-MM-DD');
+            console.log('startDate:', startDate);
 
-             console.log('range contains', range.contains(dueDate));
+            endDate = moment(startDate).add(1, 'months').format('YYYY-MM-DD');
+            console.log("endDate:", endDate);
+            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
 
-             if (range.contains(dueDate)) {
-               
-                 return true;
-             }
-         }
-         else if (this.state.timeFilter === '3_months') {
+            range = moment.range(startDate, endDate);
+            console.log('range:', range);
 
-             startDate = moment(new Date()).format('YYYY-MM-DD');
-             console.log('startDate:', startDate);
+            console.log('range contains', range.contains(dueDate));
 
-             endDate = moment(startDate).add(3, 'months').format('YYYY-MM-DD');
-             console.log("endDate:", endDate);
-             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+            if (range.contains(dueDate)) {
 
-             range = moment.range(startDate, endDate);
-             console.log('range:', range);
+                return true;
+            }
+        }
+        else if (this.state.timeFilter === '3_months') {
 
-             console.log('range contains', range.contains(dueDate));
+            startDate = moment(new Date()).format('YYYY-MM-DD');
+            console.log('startDate:', startDate);
 
-             if (range.contains(dueDate)) {
-              
-                 return true;
-             }
-         }
-         else if (this.state.timeFilter === '6_months') {
+            endDate = moment(startDate).add(3, 'months').format('YYYY-MM-DD');
+            console.log("endDate:", endDate);
+            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
 
-             startDate = moment(new Date()).format('YYYY-MM-DD');
-             console.log('startDate:', startDate);
+            range = moment.range(startDate, endDate);
+            console.log('range:', range);
 
-             endDate = moment(startDate).add(6, 'months').format('YYYY-MM-DD');
-             console.log("endDate:", endDate);
-             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+            console.log('range contains', range.contains(dueDate));
 
-             range = moment.range(startDate, endDate);
-             console.log('range:', range);
+            if (range.contains(dueDate)) {
 
-             console.log('range contains', range.contains(dueDate));
+                return true;
+            }
+        }
+        else if (this.state.timeFilter === '6_months') {
 
-             if (range.contains(dueDate)) {
-            
-                 return true;
-             }
-         }
-         else if (this.state.timeFilter === 'year') {
+            startDate = moment(new Date()).format('YYYY-MM-DD');
+            console.log('startDate:', startDate);
 
-             startDate = moment(new Date()).format('YYYY-MM-DD');
-             console.log('startDate:', startDate);
+            endDate = moment(startDate).add(6, 'months').format('YYYY-MM-DD');
+            console.log("endDate:", endDate);
+            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
 
-             endDate = moment(startDate).add(12, 'months').format('YYYY-MM-DD');
-             console.log("endDate:", endDate);
-             console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+            range = moment.range(startDate, endDate);
+            console.log('range:', range);
 
-             range = moment.range(startDate, endDate);
-             console.log('range:', range);
+            console.log('range contains', range.contains(dueDate));
 
-             console.log('range contains', range.contains(dueDate));
+            if (range.contains(dueDate)) {
 
-             if (range.contains(dueDate)) {
-                 return true;
-             }
-         }
-         else if (this.state.timeFilter === 'all') {
-            return true; 
-         }  
+                return true;
+            }
+        }
+        else if (this.state.timeFilter === 'year') {
+
+            startDate = moment(new Date()).format('YYYY-MM-DD');
+            console.log('startDate:', startDate);
+
+            endDate = moment(startDate).add(12, 'months').format('YYYY-MM-DD');
+            console.log("endDate:", endDate);
+            console.log("dueDate:", moment(dueDate).format('YYYY-MM-DD'));
+
+            range = moment.range(startDate, endDate);
+            console.log('range:', range);
+
+            console.log('range contains', range.contains(dueDate));
+
+            if (range.contains(dueDate)) {
+                return true;
+            }
+        }
+        else if (this.state.timeFilter === 'all') {
+            return true;
+        }
 
         return false;
     }
 
     filterSearch = (careObj) => {
         //if search field is empty
-        if(this.state.searchTerm === ''){
+        if (this.state.searchTerm === '') {
             return true;
         }
-        else{
+        else {
             let firstName = careObj.first_name;
             let lastName = careObj.last_name;
             let petName = careObj.name;
@@ -422,10 +420,10 @@ class TableComponent extends Component {
                 }
             }
             return false;
-        }  
+        }
     }
 
-    render(){
+    render() {
 
         let content = null;
 
@@ -438,12 +436,12 @@ class TableComponent extends Component {
         let dueDateSortIcon = null;
         let lastDateSortIcon = null;
 
-        if(this.state.sortItem == 'last_name'){
+        if (this.state.sortItem == 'last_name') {
             nameSortIcon = (
-                <FontAwesomeIcon icon='sort-down'/>
+                <FontAwesomeIcon icon='sort-down' />
             )
         }
-        else if(this.state.sortItem == 'name'){
+        else if (this.state.sortItem == 'name') {
             petSortIcon = (
                 <FontAwesomeIcon icon='sort-down' />
             )
@@ -464,11 +462,11 @@ class TableComponent extends Component {
             )
         }
 
-        if (this.props.user.userName && this.props.careHistory.careHistoryReducer){
+        if (this.props.user.userName && this.props.careHistory.careHistoryReducer) {
 
             const sortTerm = this.state.sortItem
 
-            
+
             let careArrOne = this.props.careHistory.careHistoryReducer;
             careArrOne = careArrOne.filter(this.filterCompleteCare);
             careArrOne = careArrOne.filter(this.filterSentReminders);
@@ -478,27 +476,27 @@ class TableComponent extends Component {
             console.log('filtered array', careArrOne);
 
             //sort array dynamically based on sort term
-            const careArr = careArrOne.sort((a,b) => (a[sortTerm] > b[sortTerm]));
-            
+            const careArr = careArrOne.sort((a, b) => (a[sortTerm] > b[sortTerm]));
+
             //conditional render sent reminders button
-            if(this.state.sentStatus === false){
+            if (this.state.sentStatus === false) {
                 sentCheckBtn = (
                     <button type="button" onClick={this.changeSentStatus}>Sent Reminders</button>
                 )
             }
-            else if(this.state.sentStatus === true){
+            else if (this.state.sentStatus === true) {
                 sentCheckBtn = (
                     <button type="button" onClick={this.changeSentStatus}>Unsent Reminders</button>
                 )
             }
-            
+
             //conditional render completed care button
-            if(this.state.completeStatus === false){
+            if (this.state.completeStatus === false) {
                 completeCareCheckBtn = (
                     <button type="button" onClick={this.changeCompleteStatus}>Completed Care</button>
-                ) 
+                )
             }
-            else if(this.state.completeStatus === true){
+            else if (this.state.completeStatus === true) {
                 completeCareCheckBtn = (
                     <button type="button" onClick={this.changeCompleteStatus}>Uncompleted Care</button>
                 )
@@ -513,7 +511,7 @@ class TableComponent extends Component {
                             <input
                                 type="text"
                                 onChange={this.handleSearchChange}
-                                placeHolder="Pet or Owner" 
+                                placeHolder="Pet or Owner"
                             />
                         </div>
                         <select
@@ -532,38 +530,38 @@ class TableComponent extends Component {
                             {sentCheckBtn}
                             {completeCareCheckBtn}
                         </div>
-                        
+
                     </div>
-                    
-                    
+
+
                     <table>
                         <thead>
                             <tr>
-                                <th 
-                                    onClick={this.handleSortChange("last_name")} 
+                                <th
+                                    onClick={this.handleSortChange("last_name")}
                                     name="last_name">
                                     <p>Owner{nameSortIcon}</p>
                                 </th>
-                                <th 
-                                    onClick={this.handleSortChange("name")} 
+                                <th
+                                    onClick={this.handleSortChange("name")}
                                     name="name" >
                                     <p>Pet{petSortIcon}</p>
-                                    </th>
-                                <th 
-                                    onClick={this.handleSortChange("care_type")} 
+                                </th>
+                                <th
+                                    onClick={this.handleSortChange("care_type")}
                                     name="care_type" >
                                     <p>Care{careSortIcon}</p>
-                                    </th>
-                                <th 
-                                    onClick={this.handleSortChange("due_date")} 
+                                </th>
+                                <th
+                                    onClick={this.handleSortChange("due_date")}
                                     name="due_date">
                                     <p>Due Date{dueDateSortIcon}</p>
-                                    </th>
-                                <th 
+                                </th>
+                                <th
                                     onClick={this.handleSortChange("previous_date")}
                                     name="previous_date">
                                     <p>Last Date{lastDateSortIcon}</p>
-                                    </th>
+                                </th>
                                 <th>
                                     Notification
                                     <button className="sendBtn"
@@ -576,83 +574,83 @@ class TableComponent extends Component {
                             </tr>
                         </thead>
                         <div className="tbodyContainer">
-                        <tbody>
-                            {careArr.map((care) => {
-                                let sendButton = null;
-                                if(care.notification_sent === false){
-                                    
-                                    sendButton = (
-                                        <button 
-                                            className="sendBtn"
-                                            onClick = {this.sendMessageData(care)}
-                                            type="button"
-                                        >Send
+                            <tbody>
+                                {careArr.map((care) => {
+                                    let sendButton = null;
+                                    if (care.notification_sent === false) {
+
+                                        sendButton = (
+                                            <button
+                                                className="sendBtn"
+                                                onClick={this.sendMessageData(care)}
+                                                type="button"
+                                            >Send
                                         </button>
-                                    )
-                                }
-                                else if(care.notification_sent === true){
-                                    sendButton = (
-                                        <button 
-                                            className="sendBtn"
-                                            onClick={this.sendMessageData(care)}
-                                            type="button"
-                                        >Resend
+                                        )
+                                    }
+                                    else if (care.notification_sent === true) {
+                                        sendButton = (
+                                            <button
+                                                className="sendBtn"
+                                                onClick={this.sendMessageData(care)}
+                                                type="button"
+                                            >Resend
                                         </button>
-                                    )
-                                }
+                                        )
+                                    }
 
-                                let completeButton = null;
-                                if(care.complete_care === false){
-                                    completeButton = (
-                                        <button 
-                                            className="completeBtn"
-                                            onClick={this.completeCare(care)}
-                                            type="button"
-                                        >Complete
+                                    let completeButton = null;
+                                    if (care.complete_care === false) {
+                                        completeButton = (
+                                            <button
+                                                className="completeBtn"
+                                                onClick={this.completeCare(care)}
+                                                type="button"
+                                            >Complete
                                         </button>
-                                    )
-                                }
-                                else if(care.complete_care === true){
-                                    completeButton = (
-                                        <button 
-                                            className="completeBtn"
-                                            onClick={this.undoCompleteCare(care)}
-                                            type="button"
-                                        >Undo
+                                        )
+                                    }
+                                    else if (care.complete_care === true) {
+                                        completeButton = (
+                                            <button
+                                                className="completeBtn"
+                                                onClick={this.undoCompleteCare(care)}
+                                                type="button"
+                                            >Undo
                                         </button>
-                                    )
-                                }
+                                        )
+                                    }
 
-                                let dueDate = care.due_date;
-                                dueDate = moment(dueDate).format('YYYY-MM-DD');
-                                
-                                let careType = care.care_type.toString().replace(/_/g, ' ').replace(/,/g, ', ');
-                                
-                                let profileLink = '#/ownerProfile/' + care.owner_id;
+                                    let dueDate = care.due_date;
+                                    dueDate = moment(dueDate).format('YYYY-MM-DD');
 
-                                let rowClass;
+                                    let careType = care.care_type.toString().replace(/_/g, ' ').replace(/,/g, ', ');
 
-                                if(care.notification_sent === false){
-                                    rowClass = "notSent";
-                                }
-                                else if(care.notification_sent === true){
-                                    rowClass = "sent";
-                                }
+                                    let profileLink = '#/ownerProfile/' + care.owner_id;
+
+                                    let rowClass;
+
+                                    if (care.notification_sent === false) {
+                                        rowClass = "notSent";
+                                    }
+                                    else if (care.notification_sent === true) {
+                                        rowClass = "sent";
+                                    }
 
 
-                                return (
-                                    <tr className = {rowClass} key={care.pet_id + care.name + careType + care.due_date} id={care.pet_id + care.name + careType}>
-                                        <td className="ownerName"><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
-                                        <td>{care.name}</td>
-                                        <td>{careType}</td>
-                                        <td>{dueDate}</td>
-                                        <td>{care.previous_date}</td>
-                                        <td>{sendButton}</td>
-                                        <td>{completeButton}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
+                                    return (
+                                        <tr className={rowClass} key={care.pet_id + care.name + careType + care.due_date} id={care.pet_id + care.name + careType}>
+                                            <td className="ownerName"><a href={profileLink}>{care.first_name + ' ' + care.last_name}</a></td>
+                                            <td>{care.name}</td>
+                                            <td>{careType}</td>
+                                            <td>{dueDate}</td>
+                                            <td>{care.previous_date}</td>
+                                            <td>{sendButton}</td>
+                                            <td>{completeButton}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
                         </div>
                     </table>
                 </div>

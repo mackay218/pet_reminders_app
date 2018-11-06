@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 const ownerInfo = (state = null, action) => {
 
 
-    switch(action.type){
+    switch (action.type) {
         case 'SET_OWNER':
             console.log('in ownerReducer:', action.payload);
             return action.payload;
@@ -15,12 +15,12 @@ const ownerInfo = (state = null, action) => {
 
 const newOwnerId = (state = null, action) => {
 
-    switch(action.type){
+    switch (action.type) {
         case 'SET_NEW_OWNER':
             console.log('in newOwnerId:', action.payload);
             return action.payload;
         default:
-            return state;    
+            return state;
     }
 }
 

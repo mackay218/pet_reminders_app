@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 //styles for this component
 import './OwnerProfilePage.css';
-
 import Nav from '../../components/Nav/Nav';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
-
-
 import Dialog from '@material-ui/core/Dialog';
-
 import DialogContent from '@material-ui/core/DialogContent';
-
-
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -26,7 +17,7 @@ const mapStateToProps = state => ({
 
 class OwnerProfilePage extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -37,7 +28,7 @@ class OwnerProfilePage extends Component {
     }
 
     componentDidMount() {
-        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });  
+        this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getOwnerInfo();
 
         if (this.props.petsInfo.onePetInfo) {
@@ -59,22 +50,18 @@ class OwnerProfilePage extends Component {
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
-        }     
+        }
     }
-    
-    componentWillMount() {
-        
-    }
-   
+
     //GET 
     getOwnerInfo = () => {
- 
+
         console.log('getOwnerInfo page', this.props.match.params.id);
 
         //get owner id from address bar
         const ownerId = this.props.match.params.id
 
-        const action = {type: 'GET_OWNER_INFO', payload: ownerId};
+        const action = { type: 'GET_OWNER_INFO', payload: ownerId };
 
         this.props.dispatch(action);
 
@@ -82,66 +69,66 @@ class OwnerProfilePage extends Component {
 
     //run saga to change owner info
     handleChangeFor = propertyName => (event) => {
-        const action = {type: 'SET_OWNER', payload:{
-            ...this.props.owner.ownerInfo,
-            [propertyName]: event.target.value,
-        } }
+        const action = {
+            type: 'SET_OWNER', payload: {
+                ...this.props.owner.ownerInfo,
+                [propertyName]: event.target.value,
+            }
+        }
 
         this.props.dispatch(action);
-        
+
     }
 
     handleChangeForPet = (event) => {
 
-        if(event.target.name === 'sex'){
+        if (event.target.name === 'sex') {
             this.setState({
                 sex: event.target.value,
             })
         }
 
-        const action = {type: 'SET_ONE_PET', payload: {
-            ...this.props.petsInfo.onePetInfo,
-            [event.target.name]: event.target.value,
-        }}
-
-
+        const action = {
+            type: 'SET_ONE_PET', payload: {
+                ...this.props.petsInfo.onePetInfo,
+                [event.target.name]: event.target.value,
+            }
+        }
 
         this.props.dispatch(action);
     }
 
     updateOwnerInfo = (event) => {
         event.preventDefault();
-        if(this.props.owner.ownerInfo.first_name === '' || 
+        if (this.props.owner.ownerInfo.first_name === '' ||
             this.props.owner.ownerInfo.last_name === '' ||
-            this.props.owner.ownerInfo.phone === '' || 
-            this.props.owner.ownerInfo.email === ''  || 
-            this.props.owner.ownerInfo.address === ''){
-                alert('please fill out all fields');
+            this.props.owner.ownerInfo.phone === '' ||
+            this.props.owner.ownerInfo.email === '' ||
+            this.props.owner.ownerInfo.address === '') {
+            alert('please fill out all fields');
         }
-        else{
-            const action = {type: 'UPDATE_OWNER_INFO', payload: this.props.owner.ownerInfo};
+        else {
+            const action = { type: 'UPDATE_OWNER_INFO', payload: this.props.owner.ownerInfo };
 
             this.props.dispatch(action);
 
-            
             this.setState({
                 editMode: false
             });
-            
         }
     }
 
     updatePetInfo = (event) => {
         event.preventDefault();
-        if(this.props.petsInfo.onePetInfo.name === '' || 
-            this.props.petsInfo.onePetInfo.species === '' || 
-            this.props.petsInfo.onePetInfo.age === '' || 
-            this.props.petsInfo.onePetInfo.sex === '' || 
-            this.props.petsInfo.onePetInfo.weight === ''){
-                alert('please fill out required fields');
+        if (this.props.petsInfo.onePetInfo.name === '' ||
+            this.props.petsInfo.onePetInfo.species === '' ||
+            this.props.petsInfo.onePetInfo.age === '' ||
+            this.props.petsInfo.onePetInfo.sex === '' ||
+            this.props.petsInfo.onePetInfo.weight === '') {
+            alert('please fill out required fields');
         }
-        else{
-            const action = {type: 'UPDATE_PET_INFO', payload: this.props.petsInfo.onePetInfo};
+        else {
+            const action = { type: 'UPDATE_PET_INFO', payload: this.props.petsInfo.onePetInfo };
 
             this.props.dispatch(action);
 
@@ -160,19 +147,18 @@ class OwnerProfilePage extends Component {
         });
     }
 
-   
     cancelEdit = () => {
         this.setState({
             editMode: false
         });
-        
+
         this.getOwnerInfo();
     }
 
     //function to dinamically populated and open dialog modal
     makeDialog = (event) => {
         console.log('makeDialog', event.target.id);
-        const action = {type: 'GET_ONE_PET',payload: event.target.id};
+        const action = { type: 'GET_ONE_PET', payload: event.target.id };
 
         this.props.dispatch(action);
 
@@ -186,7 +172,7 @@ class OwnerProfilePage extends Component {
     }
 
     checkRadioBtns = () => {
-        if(this.props.petsInfo.onePetInfo){
+        if (this.props.petsInfo.onePetInfo) {
             console.log('hello buttons', this.props.petsInfo.onePetInfo.sex);
             this.setState({
                 sex: this.props.petsInfo.onePetInfo.sex,
@@ -204,11 +190,11 @@ class OwnerProfilePage extends Component {
         let notes = null;
 
         let pet_list = null;
-    
+
         let pet_dialog = null;
 
         if (this.props.user.userName && this.props.owner.ownerInfo) {
-            if(this.state.editMode === false){
+            if (this.state.editMode === false) {
                 contact_info = (
                     <div className="contactInfo ownerProfileSection">
                         <div className="infoSec">
@@ -225,16 +211,15 @@ class OwnerProfilePage extends Component {
                         <div className="notesSection infoSec">
                             <label htmlFor="#notesParagraph">notes: </label>
                             <div className="notesContainer" id="notesContainer">
-                               
+
                                 <p className="ownerNotes">{this.props.owner.ownerInfo.notes}</p>
                             </div>
                         </div>
                         <button type="button" onClick={this.handleEditClick}>Edit</button>
                     </div>
-                )
-                
+                );
             }
-            else if(this.state.editMode === true){
+            else if (this.state.editMode === true) {
                 contact_info = (
                     <div className="contactInfo">
                         <form onSubmit={this.updateOwnerInfo} className="contactInfoForm">
@@ -268,7 +253,7 @@ class OwnerProfilePage extends Component {
                                         country='US'
                                         placeholder="Enter phone number"
                                         value={this.props.owner.ownerInfo.phone}
-                                        onChange={this.handleChangeFor("phone")} 
+                                        onChange={this.handleChangeFor("phone")}
                                     />
                                 </div>
                                 <div className="inputSec">
@@ -292,7 +277,7 @@ class OwnerProfilePage extends Component {
                             </div>
                             <div className="notesSection">
                                 <div className="infoSec">
-                                <label htmlFor="notesContainer">notes:</label>
+                                    <label htmlFor="notesContainer">notes:</label>
                                     <div className="notesContainer" name="notesContainer">
                                         <textarea
                                             className="ownerNotes"
@@ -307,14 +292,14 @@ class OwnerProfilePage extends Component {
                                 <button >Submit</button>
                                 <button type="button" onClick={this.cancelEdit} name="cancel" >Cancel</button>
                             </div>
-                           
+
                         </form>
                     </div>
-                )
+                );
             }
             content = (
                 <div>
-                        {contact_info}
+                    {contact_info}
                 </div>
             );
 
@@ -323,7 +308,7 @@ class OwnerProfilePage extends Component {
             let addPetLink = "#/addPet/" + ownerId
 
 
-            if(this.props.petsInfo.petInfo){
+            if (this.props.petsInfo.petInfo) {
                 pet_list = (
                     <div className="petListSection ownerProfileSection">
                         <h4>Pets</h4>
@@ -339,26 +324,26 @@ class OwnerProfilePage extends Component {
 
                                 })}
                             </ul>
-                         
+
                         </div>
                         <a className="newPetLink" href={addPetLink} >New Pet</a>
                     </div>
-                )
+                );
             }
-            else{
+            else {
                 pet_list = (
                     <div className="petListSection ownerProfileSection">
                         <div className="petListContainer">
-                    
+
                         </div>
                         <a href={addPetLink} >New Pet</a>
                     </div>
-                )
+                );
             }
-               
+
         }
-           
-        if (this.props.petsInfo.onePetInfo){
+
+        if (this.props.petsInfo.onePetInfo) {
             pet_dialog = (
                 <Dialog
                     open={this.state.open}
@@ -440,51 +425,48 @@ class OwnerProfilePage extends Component {
                                     <button onClick={this.handleClose}>Close</button>
                                 </div>
 
-                                
+
                             </form>
                         </div>
                     </DialogContent>
                 </Dialog>
-            )
-      
+            );
         }
 
         let titleName = null;
 
-        if(this.props.owner.ownerInfo){
+        if (this.props.owner.ownerInfo) {
             titleName = (
                 <h3><span>{this.props.owner.ownerInfo.first_name}</span>
                     <span> </span>
                     <span>{this.props.owner.ownerInfo.last_name}</span></h3>
-            )
+            );
         }
 
-        if(this.props.user.userName ){
+        if (this.props.user.userName) {
             return (
                 <div className="pageContainer">
                     <Nav />
                     {titleName}
                     <div className="ownerProfile">
-                     
+
                         <div className="profileInfo">
                             {content}
                             {notes}
                         </div>
                         {pet_list}
                     </div>
-                    
+
                     {pet_dialog}
                 </div>
             );
         }
-        else{
+        else {
             return (
                 <p>loading</p>
-            )
+            );
         }
-       
     }
-
 }
 
 // this allows us to use <App /> in index.js

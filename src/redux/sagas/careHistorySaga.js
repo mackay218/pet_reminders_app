@@ -1,10 +1,9 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-
 import axios from 'axios';
 
-function* postNewCareDates(action){
+function* postNewCareDates(action) {
 
-    try{
+    try {
         console.log('in postNewCareDates', action.payload);
 
         const newCareDateResponse = yield call(axios.post, '/api/careHistory', action.payload);
@@ -15,14 +14,14 @@ function* postNewCareDates(action){
     }
 }
 
-function* undoNewCareDates(action){
-    try{
+function* undoNewCareDates(action) {
+    try {
         console.log('in undoNewCareDates', action.payload);
 
         const deleteInfo = action.payload
 
-        const undoNewCareDateResponse = yield call(axios.delete, 
-                `/api/careHistory/${deleteInfo.petId}/${deleteInfo.vetId}/${deleteInfo.careType}/${deleteInfo.dueDate}/${deleteInfo.previousDate}`);
+        const undoNewCareDateResponse = yield call(axios.delete,
+            `/api/careHistory/${deleteInfo.petId}/${deleteInfo.vetId}/${deleteInfo.careType}/${deleteInfo.dueDate}/${deleteInfo.previousDate}`);
     }
     catch (error) {
         console.log('error deleting care dates from undo:', error);
@@ -32,13 +31,13 @@ function* undoNewCareDates(action){
 
 function* getCareHistory(action) {
 
-    try{
+    try {
         console.log('vet id for history', action.payload);
         const careHistoryResponse = yield call(axios.get, '/api/careHistory/' + action.payload)
 
         console.log('got careHistory', careHistoryResponse.data);
 
-        const responseAction = {type: 'SET_CARE_HISTORY', payload: careHistoryResponse.data}
+        const responseAction = { type: 'SET_CARE_HISTORY', payload: careHistoryResponse.data }
 
         yield put(responseAction);
     }
@@ -49,8 +48,8 @@ function* getCareHistory(action) {
 
 }
 
-function* updateSendStatus(action){
-    try{
+function* updateSendStatus(action) {
+    try {
         console.log('in updateSendStatus', action.payload);
 
         yield call(axios.put, '/api/careHistory/message', action.payload);
@@ -61,8 +60,8 @@ function* updateSendStatus(action){
     }
 }
 
-function* updateCompleteCare(action){
-    try{
+function* updateCompleteCare(action) {
+    try {
         console.log('in updateCompleteCare', action.payload);
 
         yield call(axios.put, '/api/careHistory/care', action.payload);
@@ -74,7 +73,7 @@ function* updateCompleteCare(action){
 }
 
 
-export default function* careHistorySaga(){
+export default function* careHistorySaga() {
     yield takeLatest('GET_CARE_HISTORY', getCareHistory);
     yield takeLatest('SEND_REMINDER', updateSendStatus);
     yield takeLatest('COMPLETE_CARE', updateCompleteCare);

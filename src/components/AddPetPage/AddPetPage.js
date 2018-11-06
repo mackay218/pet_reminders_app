@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 //material ui 
 import TextField from '@material-ui/core/TextField';
-
 import Nav from '../../components/Nav/Nav';
-
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-
 import './AddPetPage.css';
 
 const mapStateToProps = state => ({
     user: state.user,
     careTypes: state.careTypes
 });
-
 
 const addPetObj = {
     name: '',
@@ -33,32 +28,32 @@ const addPetObj = {
 
 class AddPetPage extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        
+
         this.state = addPetObj;
     }
-
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         console.log(this.props);
         console.log('id', this.props.match.params.id);
-        
-        const action = {type: 'GET_CARE_TYPES'};
+
+        const action = { type: 'GET_CARE_TYPES' };
         this.props.dispatch(action);
 
-        
+
         setTimeout(this.initializePetInfo, 1);
-          
+
     }
 
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
-        }       
+        }
     }
 
+    //function to begin assignment of new pet to correct owner and vet by ids
     initializePetInfo = () => {
         console.log('in initializePetInfo');
         this.setState({
@@ -69,6 +64,7 @@ class AddPetPage extends Component {
         })
     }
 
+    //handle changes of input fields for pet information
     handleChangeForPet = propertyName => (event) => {
         //console.log('stats', event.target.value);
         this.setState({
@@ -77,21 +73,21 @@ class AddPetPage extends Component {
         });
     }
 
+    //handle change of date from inputs for vaccination dates
     handleChangeForDate = (event) => {
-        
+
         //console.log('careTypes', this.props.careTypes.careTypeInfo);
         console.log('in handleChangeforDate');
 
         let careTypes = this.props.careTypes.careTypeInfo;
 
         //loop through care types from redux store
-        for(let care of careTypes){
+        for (let care of careTypes) {
             console.log('in loop');
-            if(event.target.name === care.name){
+            if (event.target.name === care.name) {
 
                 const name = event.target.name;
                 const previousDate = event.target.value;
-
                 const frequency = care.frequency;
 
                 //calculate due date
@@ -100,8 +96,10 @@ class AddPetPage extends Component {
 
                 this.setState({
                     ...this.state,
-                    care_dates: [...this.state.care_dates, {name: name, previousDate: previousDate, 
-                                                            dueDate: dueDate, vetId: this.props.user.id}]
+                    care_dates: [...this.state.care_dates, {
+                        name: name, previousDate: previousDate,
+                        dueDate: dueDate, vetId: this.props.user.id
+                    }]
                 });
             }
         }
@@ -110,28 +108,28 @@ class AddPetPage extends Component {
     }
 
     showCareTypes = () => {
-        if(this.state.name === '' || this.state.species === '' ||
-            this.state.age === '' || this.state.sex === '' || this.state.weight === ''){
+        if (this.state.name === '' || this.state.species === '' ||
+            this.state.age === '' || this.state.sex === '' || this.state.weight === '') {
             alert('please fill out all fields.');
         }
-        else{
+        else {
             this.setState({
                 ...this.state,
                 addPetForm: false,
             });
         }
-        
     }
 
+    //submit form for new dog
     submitDogInfo = (event) => {
         event.preventDefault();
         console.log('submitDogInfo');
         //make sure all dates of previous vaccinations are provided
-        if(this.state.care_dates.lengh < 4){
-                alert('please provide all dates for dog.');
-            }
-        else{
-            const action = {type: 'ADD_PET', payload: this.state}
+        if (this.state.care_dates.lengh < 4) {
+            alert('please provide all dates for dog.');
+        }
+        else {
+            const action = { type: 'ADD_PET', payload: this.state }
 
             this.props.dispatch(action);
 
@@ -143,23 +141,23 @@ class AddPetPage extends Component {
                 this.props.dispatch(ownerAction);
             }, 1);
 
-            
+
 
             //redirect to owner profile page
             this.props.history.replace('/ownerProfile/' + this.props.match.params.id);
-            
+
         }
     }//end submitDogInfo
 
-
+    //submit form for new cat
     submitCatInfo = (event) => {
         event.preventDefault();
 
         //make sure all dates of previous vaccinations are provided
-        if(this.state.care_dates.length < 3){
-                alert('please provide all dates.')
-            }
-        else{
+        if (this.state.care_dates.length < 3) {
+            alert('please provide all dates.')
+        }
+        else {
             const action = { type: 'ADD_PET', payload: this.state }
 
             this.props.dispatch(action);
@@ -189,7 +187,7 @@ class AddPetPage extends Component {
         let content = null;
 
         if (this.props.user.userName) {
-            if(this.state.addPetForm === true){
+            if (this.state.addPetForm === true) {
                 content = (
                     <div className="pageContainer">
                         <h3>Add a New Pet</h3>
@@ -228,7 +226,7 @@ class AddPetPage extends Component {
                                         />
                                     </div>
 
-                                  
+
                                 </div>
                                 <div className="formSection">
                                     <label htmlFor="breed">breed:</label>
@@ -275,12 +273,12 @@ class AddPetPage extends Component {
                                 <div className="formSection">
                                     <label htmlFor="weight">weight:
                                     <input
-                                        type="number"
-                                        step="1"
-                                        name="weight"
-                                        value={this.state.weight}
-                                        onChange={this.handleChangeForPet("weight")}
-                                    /> lbs.
+                                            type="number"
+                                            step="1"
+                                            name="weight"
+                                            value={this.state.weight}
+                                            onChange={this.handleChangeForPet("weight")}
+                                        /> lbs.
                                      </label>
                                 </div>
                                 <div className="formBtnSection">
@@ -291,8 +289,8 @@ class AddPetPage extends Component {
                     </div>
                 );
             }
-            else if(this.state.addPetForm === false){
-                if(this.state.species === 'canine'){
+            else if (this.state.addPetForm === false) {
+                if (this.state.species === 'canine') {
                     content = (
                         <div className="pageContainer">
                             <h3>Add Dog Care History</h3>
@@ -353,9 +351,9 @@ class AddPetPage extends Component {
                         </div>
                     )
                 }
-                else if(this.state.species === 'feline'){
+                else if (this.state.species === 'feline') {
                     content = (
-                       <div className="pageContainer">
+                        <div className="pageContainer">
                             <h3>Add Cat Care History</h3>
                             <div className="formContainer">
                                 <form className="dateForm" onSubmit={this.submitCatInfo}>
@@ -399,12 +397,12 @@ class AddPetPage extends Component {
                                     </div>
                                 </form>
                             </div>
-                       </div>
+                        </div>
                     )
                 }
-               
+
             }
-        }   
+        }
 
         return (
             <div>
