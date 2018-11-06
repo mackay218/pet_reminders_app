@@ -1,5 +1,5 @@
 # Pet Reminder
-A program for veterinarians to simplify keeping track of and reminding pet owners of vaccinations for dogs and cats. Pet Reminder allows the user to send SMS messages to clients to remind them of an upcoming need for care. The user can filter their list of clients by name, pet name, when upcoming care is needed or when it was last done.The app track who has been sent a message and whether the care has been completed. If the care has been completed the app calculates the next time the same care will be needed and adds a new reminder to the database for the upcoming date.
+A program for veterinarians to simplify keeping track of and reminding pet owners of vaccinations for dogs and cats. Pet Reminder allows the user to send SMS messages to clients to remind them of an upcoming need for care. The user can filter their list of clients by name, pet name, when upcoming care is needed or when it was last done. If the user indicated the care has been completed by clicking a "complete" button for a specific reminder, the app calculates the next time the same care will be needed and adds a new reminder to the database for the upcoming date.
 
 ## Built With
 - JavaScript
@@ -57,4 +57,10 @@ If you would like to name your database something else, you will need to change 
 * `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
 * `server/` contains the Express App
 
+## Next Steps
 
+* Implement Nodemailer as option for sending reminders instead of text messages
+* View of table/list of all pet owners 
+* Online portal for scheduling appointments that pet owners can access via a link in the      SMS message or email
+* Server side sorting and filtering will be needed for a larger database
+* Convert to a native app 
