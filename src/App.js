@@ -10,14 +10,11 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-
 import RemindersPage from './components/RemindersPage/RemindersPage';
 import SettingsPage from './components/Settings/Settings';
 import AddOwnerPage from './components/AddOwnerPage/AddOwnerPage';
 import OwnerProfilePage from './components/OwnerProfilePage/OwnerProfilePage';
 import AddPetPage from './components/AddPetPage/AddPetPage';
-import TechUsed from './components/TechUsed/TechUsed';
-
 import './styles/main.css';
 
 const App = () => (
@@ -60,10 +57,6 @@ const App = () => (
         <Route
           path="/addPet/:id"
           component={AddPetPage}
-        />
-        <Route
-          path="/techUsed"
-          component={TechUsed}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
