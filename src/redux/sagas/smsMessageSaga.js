@@ -13,7 +13,7 @@ function* sendReminder(action) {
         console.log('error sending reminder message to server');
         alert('error sending reminder message');
     }
-}
+} //end sendReminder
 
 export default function* smsMessageSaga() {
 

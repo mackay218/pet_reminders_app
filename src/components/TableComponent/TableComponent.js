@@ -56,7 +56,7 @@ class TableComponent extends Component {
         this.setState({
             sortItem: [propertName],
         });
-    }
+    } //end handleSortChange
 
     //dispatch action to saga with data for message
     sendMessageData = (dataToSend) => () => {
@@ -67,15 +67,9 @@ class TableComponent extends Component {
         };
 
         this.props.dispatch(action);
+    } //end sendMessageData
 
-        setTimeout(() => {
-
-            this.refreshCareHistory();
-
-        }, 10);
-    }
-
-    //function to send all current shown history rows a message
+    //function to send all current history rows currently on DOM a message
     sendAllMessages = (arr) => {
         console.log('in sendAllMessages', arr);
 
@@ -85,15 +79,8 @@ class TableComponent extends Component {
             const action = { type: 'SEND_REMINDER', payload: { dataToSend: careObj, vetPhone: this.props.user.phone } };
 
             this.props.dispatch(action);
-
-            setTimeout(() => {
-
-                this.refreshCareHistory();
-
-            }, 10);
-
         }
-    }
+    } //end sendAllMessages
 
     //mark history event as completed and create new event
     completeCare = (dataToSend) => () => {
@@ -137,15 +124,7 @@ class TableComponent extends Component {
         }
 
         console.log('care completeDate', careCompleteDate);
-
-
-
-        setTimeout(() => {
-
-            this.refreshCareHistory();
-
-        }, 200);
-    }
+    } //end completeCare
 
     //remove new events and mark event as undone
     undoCompleteCare = (dataToSend) => () => {
@@ -174,11 +153,11 @@ class TableComponent extends Component {
                     let newDueDate = moment(careCompleteDate).add(frequency, 'months').format('YYYY-MM-DD');
 
                     const objectToSend = {
-                        petId: dataToSend.pet_id,
-                        vetId: dataToSend.vet_id,
-                        careType: care.name,
-                        previousDate: careCompleteDate,
-                        dueDate: newDueDate,
+                        pet_id: dataToSend.pet_id,
+                        vet_id: dataToSend.vet_id,
+                        care_type: care.name,
+                        previous_date: careCompleteDate,
+                        due_date: newDueDate,
                     };
 
                     const action = { type: 'UNDO_NEW_CARE_DATES', payload: objectToSend }
@@ -189,23 +168,7 @@ class TableComponent extends Component {
         }
 
         console.log('care completeDate', careCompleteDate);
-
-
-
-        setTimeout(() => {
-
-            this.refreshCareHistory();
-
-        }, 200);
-    }
-
-    //refresh table shown on DOM
-    refreshCareHistory = () => {
-        console.log('in refreshCareHistory');
-        const action = { type: 'GET_CARE_HISTORY', payload: this.props.user.id }
-
-        this.props.dispatch(action);
-    }
+    } //end undoCompleteCare
 
     //change filter term for date range
     handleChangeForTimeFilter = (event) => {
@@ -214,7 +177,7 @@ class TableComponent extends Component {
         this.setState({
             timeFilter: timeFilter,
         });
-    }
+    } //end handleChangeForTimeFilter
 
     //change local state for filter term for sent status of reminder
     changeSentStatus = () => {
@@ -228,7 +191,7 @@ class TableComponent extends Component {
                 sentStatus: false,
             });
         }
-    }
+    } //end changeSentStats
 
     //change local state for filter
     changeCompleteStatus = () => {
@@ -242,15 +205,16 @@ class TableComponent extends Component {
                 completeStatus: false,
             });
         }
-    }
+    } //end changeCompelteStatus
 
+    //change local state for search filter
     handleSearchChange = (event) => {
         console.log('handleSearchChange:', event.target.value);
 
         this.setState({
             searchTerm: event.target.value,
         });
-    }
+    }  //end handleSearchChange
 
     //FILTERS
     filterSentReminders = (careObj) => {
@@ -260,7 +224,7 @@ class TableComponent extends Component {
             return true;
         }
         return false;
-    }
+    } //end filterSentReminders
 
     filterCompleteCare = (careObj) => {
         console.log('in filterCompleteCare');
@@ -269,7 +233,7 @@ class TableComponent extends Component {
             return true;
         }
         return false;
-    }
+    } //end filterCompleteCare
 
     filterForTime = (careObj) => {
 
@@ -374,7 +338,7 @@ class TableComponent extends Component {
         }
 
         return false;
-    }
+    } //end filterForTime
 
     filterSearch = (careObj) => {
         //if search field is empty
@@ -421,7 +385,7 @@ class TableComponent extends Component {
             }
             return false;
         }
-    }
+    } //end filterSearch
 
     render() {
 
@@ -436,6 +400,7 @@ class TableComponent extends Component {
         let dueDateSortIcon = null;
         let lastDateSortIcon = null;
 
+        //show arrow icon for current sort term in table headers
         if (this.state.sortItem == 'last_name') {
             nameSortIcon = (
                 <FontAwesomeIcon icon='sort-down' />
@@ -462,10 +427,10 @@ class TableComponent extends Component {
             )
         }
 
+        //make sure user is logged in and care history exists for user
         if (this.props.user.userName && this.props.careHistory.careHistoryReducer) {
 
             const sortTerm = this.state.sortItem
-
 
             let careArrOne = this.props.careHistory.careHistoryReducer;
             careArrOne = careArrOne.filter(this.filterCompleteCare);
@@ -511,7 +476,7 @@ class TableComponent extends Component {
                             <input
                                 type="text"
                                 onChange={this.handleSearchChange}
-                                placeHolder="Pet or Owner"
+                                placeholder="Pet or Owner"
                             />
                         </div>
                         <select
@@ -532,7 +497,6 @@ class TableComponent extends Component {
                         </div>
 
                     </div>
-
 
                     <table>
                         <thead>
@@ -654,7 +618,7 @@ class TableComponent extends Component {
                         </div>
                     </table>
                 </div>
-            )
+            );
         }
 
         return (

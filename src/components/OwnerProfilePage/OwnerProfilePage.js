@@ -23,7 +23,6 @@ class OwnerProfilePage extends Component {
         this.state = {
             editMode: false,
             open: false,
-            sex: '',
         }
     }
 
@@ -51,9 +50,11 @@ class OwnerProfilePage extends Component {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('/#/home');
         }
+       
     }
 
     //GET 
+    //function to get specific owner info
     getOwnerInfo = () => {
 
         console.log('getOwnerInfo page', this.props.match.params.id);
@@ -65,9 +66,10 @@ class OwnerProfilePage extends Component {
 
         this.props.dispatch(action);
 
-    }
+    }// end getOwnerInfo
 
     //run saga to change owner info
+    //handlge change in input fields
     handleChangeFor = propertyName => (event) => {
         const action = {
             type: 'SET_OWNER', payload: {
@@ -78,15 +80,11 @@ class OwnerProfilePage extends Component {
 
         this.props.dispatch(action);
 
-    }
+    } //end handleChangeFor
 
+
+    //handle change in input field in pet dialog
     handleChangeForPet = (event) => {
-
-        if (event.target.name === 'sex') {
-            this.setState({
-                sex: event.target.value,
-            })
-        }
 
         const action = {
             type: 'SET_ONE_PET', payload: {
@@ -96,8 +94,9 @@ class OwnerProfilePage extends Component {
         }
 
         this.props.dispatch(action);
-    }
+    } //end handleChangeForPet
 
+    //function to update owner information
     updateOwnerInfo = (event) => {
         event.preventDefault();
         if (this.props.owner.ownerInfo.first_name === '' ||
@@ -116,8 +115,9 @@ class OwnerProfilePage extends Component {
                 editMode: false
             });
         }
-    }
+    } //end updateOwnerInfo
 
+    //function to update pet info
     updatePetInfo = (event) => {
         event.preventDefault();
         if (this.props.petsInfo.onePetInfo.name === '' ||
@@ -138,22 +138,24 @@ class OwnerProfilePage extends Component {
 
             this.getOwnerInfo();
         }
-    }
+    } //end updatePetInfo
 
+    //function to toggle edito mode by changing local state
     handleEditClick = () => {
         console.log('handleEditClick', this.state);
         this.setState({
             editMode: true,
         });
-    }
+    } //end handleEditClick
 
+    //function to toggle edit mode and re-render component from info in redux store
     cancelEdit = () => {
         this.setState({
             editMode: false
         });
 
         this.getOwnerInfo();
-    }
+    } //end cancelEdit
 
     //function to dinamically populated and open dialog modal
     makeDialog = (event) => {
@@ -164,25 +166,13 @@ class OwnerProfilePage extends Component {
 
         this.setState({
             open: true,
-        })
+        });
+    } //end makeDialog
 
-        setTimeout(() => {
-            this.checkRadioBtns();
-        }, 100);
-    }
-
-    checkRadioBtns = () => {
-        if (this.props.petsInfo.onePetInfo) {
-            console.log('hello buttons', this.props.petsInfo.onePetInfo.sex);
-            this.setState({
-                sex: this.props.petsInfo.onePetInfo.sex,
-            })
-        }
-    }
-
+    // close dialog
     handleClose = () => {
         this.setState({ open: false });
-    };
+    }; // end handleClose
 
     render() {
         let content = null;
@@ -391,7 +381,7 @@ class OwnerProfilePage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="M"
-                                        checked={this.state.sex === "M"}
+                                        checked={this.props.petsInfo.onePetInfo.sex === "M"}
                                         onChange={this.handleChangeForPet}
                                     />
                                     <label htmlFor="#female">F</label>
@@ -400,7 +390,7 @@ class OwnerProfilePage extends Component {
                                         type="radio"
                                         name="sex"
                                         value="F"
-                                        checked={this.state.sex === "F"}
+                                        checked={this.props.petsInfo.onePetInfo.sex === "F"}
                                         onChange={this.handleChangeForPet}
                                     />
                                 </div>

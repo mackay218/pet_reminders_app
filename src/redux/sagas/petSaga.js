@@ -12,9 +12,9 @@ function* postPet(action) {
         console.log('error adding pet:', error);
         alert('error adding pet');
     }
-}
+} //end postPet
 
-//function to get pets back from database for 1 owner
+//function to get pets back from database for specific owner
 function* getOwnerPets(action) {
     console.log('getOwnerPets', action);
 
@@ -29,7 +29,7 @@ function* getOwnerPets(action) {
     catch (error) {
         console.log('error getting pets for owner:', error);
     }
-}
+} //end getOwnerPets
 
 //function to get one specific pet info
 function* getOnePet(action) {
@@ -47,8 +47,9 @@ function* getOnePet(action) {
         console.log('error getting one pet by id', error);
         alert('error getting pet by id');
     }
-}
+} //end getOnePet
 
+//function to update pet info
 function* updatePetInfo(action) {
     console.log('update pet info', action);
 
@@ -59,7 +60,7 @@ function* updatePetInfo(action) {
         console.log('error updating pet info:', error);
         alert('error updating pet info');
     }
-}
+}//end updatePetInfo
 
 export default function* petSaga() {
 

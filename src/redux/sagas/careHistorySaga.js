@@ -1,34 +1,42 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+//function to poast new care dates
 function* postNewCareDates(action) {
 
     try {
         console.log('in postNewCareDates', action.payload);
 
-        const newCareDateResponse = yield call(axios.post, '/api/careHistory', action.payload);
+       yield call(axios.post, '/api/careHistory', action.payload);
     }
     catch (error) {
         console.log('error adding new care dates to history:', error);
         alert('error adding care history');
     }
-}
+} //end postNewCareDates
 
+//function to delete newly created care dates and reminders
 function* undoNewCareDates(action) {
     try {
         console.log('in undoNewCareDates', action.payload);
 
         const deleteInfo = action.payload
 
-        const undoNewCareDateResponse = yield call(axios.delete,
-            `/api/careHistory/${deleteInfo.petId}/${deleteInfo.vetId}/${deleteInfo.careType}/${deleteInfo.dueDate}/${deleteInfo.previousDate}`);
+        yield call(axios.delete, `/api/careHistory/${deleteInfo.pet_id}/${deleteInfo.vet_id}/${deleteInfo.care_type}/${deleteInfo.due_date}/${deleteInfo.previous_date}`);
+    
+        const newPayload = action.payload.vet_id;
+        console.log('newPayload', newPayload);
+        const newAction = { type: 'GET_CARE_HISTORY', payload: newPayload };
+
+        yield put(newAction);
     }
     catch (error) {
         console.log('error deleting care dates from undo:', error);
         alert('error deleting care dates from undo');
     }
-}
+} //end undoNewCareDates
 
+//function to get care history for every pet for logged in user(veterinarian)
 function* getCareHistory(action) {
 
     try {
@@ -46,31 +54,46 @@ function* getCareHistory(action) {
         alert('error getting care history');
     }
 
-}
+} //end getCareHistory
 
+//function to update status of reminder if message is sent
 function* updateSendStatus(action) {
     try {
         console.log('in updateSendStatus', action.payload);
 
         yield call(axios.put, '/api/careHistory/message', action.payload);
+        
+        const newPayload = action.payload.dataToSend.vet_id;
+        console.log('newPayload', newPayload);
+        const newAction = {type: 'GET_CARE_HISTORY', payload: newPayload};
+        
+        yield put(newAction);
+
     }
     catch (error) {
         console.log('error updating send status:', error);
         alert('error updating send status');
     }
-}
+} //end updateSendStatus
 
 function* updateCompleteCare(action) {
     try {
         console.log('in updateCompleteCare', action.payload);
 
         yield call(axios.put, '/api/careHistory/care', action.payload);
+        
+        const newPayload = action.payload.vet_id;
+        console.log('newPayload', newPayload);
+        const newAction = { type: 'GET_CARE_HISTORY', payload: newPayload };
+
+        yield put(newAction);
+        
     }
     catch (error) {
         console.log('error updating complete care status:', error);
         alert('error updating complete care status');
     }
-}
+} //end updateCompleteCare
 
 
 export default function* careHistorySaga() {

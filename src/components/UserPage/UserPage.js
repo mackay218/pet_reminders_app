@@ -53,30 +53,32 @@ class UserPage extends Component {
     this.props.dispatch(triggerLogout());
   }
 
+  //toggle edit mode by changing local state
   handleEditClick = () => {
     console.log('handleEditClick', this.state);
     this.setState({
       editMode: true,
     })
-  }
+  } //end handleEdirClick
 
+  //handle changes for input fields of edit user form
   handleInputChangeFor = propertyName => (event) => {
-    // this.setState({
-    //   [propertyName]: event.target.value,
-    // });
+
     const action = {
       type: USER_ACTIONS.SET_USER, user: {
         ...this.props.user,
         [propertyName]: event.target.value,
       }
     }
-    //console.log('HERE',action);
     this.props.dispatch(action);
 
-  }
+  } //end handleInputChangeFor
 
+  //function to update user information in database
   updateUserInfo = (event) => {
     event.preventDefault();
+    
+    //make sure all fields have information
     if (this.props.user.username === '' || this.props.user.password === '' || this.props.user.first_name === '' ||
       this.props.user.last_name === '' || this.props.user.clinic_name === '' || this.props.user.phone === ''
       || this.props.user.email === '') {
@@ -94,6 +96,7 @@ class UserPage extends Component {
       };
 
       console.log('body on client side:', body);
+
 
       axios.put('/api/user/register/', body)
         .then((response) => {
@@ -114,15 +117,18 @@ class UserPage extends Component {
         });
     }
 
-  }
+  } //end updateUserInfo
 
+  //exit edit mode without submitting info
+  //render page with previous information
   cancelEdit = () => {
     this.setState({
       editMode: false,
     });
     this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-  }
+  } //end cancelEdit
 
+  //render alert messages
   renderAlert() {
     if (this.state.message !== '') {
       return (
@@ -135,7 +141,7 @@ class UserPage extends Component {
       );
     }
     return (<span />);
-  }
+  } //end renderAlert
 
   render() {
     let content = null;
@@ -210,7 +216,7 @@ class UserPage extends Component {
               </div>
             </form>
           </div>
-        )
+        );
       }
 
     }

@@ -1,6 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 
+//function to getCareTypes from database
 function* getCareTypes(action) {
     try {
         const careTypeResponse = yield call(axios.get, '/api/careTypes');
@@ -13,7 +14,7 @@ function* getCareTypes(action) {
     catch (error) {
         console.log('error getting care types:', error);
     }
-}
+} //end getCareTypes
 
 
 export default function* careTypeSaga() {

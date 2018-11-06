@@ -38,8 +38,13 @@ class AddOwnerPage extends Component {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.replace('home');
         }
+
+        if (this.props.owner.newOwnerId){
+            this.props.history.push('/ownerProfile/' + this.props.owner.newOwnerId);
+        }
     }
 
+    // submit new owner information
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -60,19 +65,14 @@ class AddOwnerPage extends Component {
             };
 
             this.props.dispatch({ type: 'ADD_OWNER', payload: body });
+            //reset form
             event.target.reset();
+            //clear phone input
             this.setState({
                 phone: '',
             });
-
-            //redirect to new owner profile page
-            setTimeout(() => {
-                console.log('new owner Id', this.props.owner.newOwnerId);
-                this.props.history.replace('/ownerProfile/' + this.props.owner.newOwnerId);
-
-            }, 100);
         }
-    }
+    } //end handleSubmit
 
     //handle change in input fields
     handleChangeFor = (event) => {
@@ -80,8 +80,9 @@ class AddOwnerPage extends Component {
             ...this.state,
             [event.target.name]: event.target.value,
         });
-    }
+    } // end handleChangeFor
 
+    //function to render alert message
     renderAlert() {
         if (this.state.message !== '') {
             return (
@@ -94,7 +95,7 @@ class AddOwnerPage extends Component {
             );
         }
         return (<span />);
-    }
+    } //end renderAlert
 
     render() {
         let content = null;

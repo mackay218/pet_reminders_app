@@ -39,17 +39,17 @@ class LoginPage extends Component {
       this.props.dispatch(formError());
     } else {
       this.props.dispatch(triggerLogin(this.state.username, this.state.password));
-
-
     }
-  }
+  }//end login
 
+  // handle changes in input fields
   handleInputChangeFor = propertyName => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
-  }
+  } //end handleInputChangeFor
 
+  // render 
   renderAlert() {
     if (this.props.login.message !== '') {
       return (

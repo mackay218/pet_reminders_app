@@ -61,8 +61,8 @@ class AddPetPage extends Component {
             ownerId: this.props.match.params.id,
             date: this.state.date,
             vetId: this.props.user.id,
-        })
-    }
+        });
+    } //end initializePetInfo
 
     //handle changes of input fields for pet information
     handleChangeForPet = propertyName => (event) => {
@@ -71,7 +71,7 @@ class AddPetPage extends Component {
             ...this.state,
             [propertyName]: event.target.value,
         });
-    }
+    } //end handleChangeForPet
 
     //handle change of date from inputs for vaccination dates
     handleChangeForDate = (event) => {
@@ -105,8 +105,9 @@ class AddPetPage extends Component {
         }
 
         console.log('state', this.state);
-    }
+    } // end handleChangeForDate
 
+    //function to show change state to show care types
     showCareTypes = () => {
         if (this.state.name === '' || this.state.species === '' ||
             this.state.age === '' || this.state.sex === '' || this.state.weight === '') {
@@ -118,7 +119,7 @@ class AddPetPage extends Component {
                 addPetForm: false,
             });
         }
-    }
+    }// end showCareTypes
 
     //submit form for new dog
     submitDogInfo = (event) => {
@@ -132,16 +133,6 @@ class AddPetPage extends Component {
             const action = { type: 'ADD_PET', payload: this.state }
 
             this.props.dispatch(action);
-
-            const ownerId = this.props.match.params.id
-
-            const ownerAction = { type: 'GET_OWNER_INFO', payload: ownerId };
-
-            setTimeout(() => {
-                this.props.dispatch(ownerAction);
-            }, 1);
-
-
 
             //redirect to owner profile page
             this.props.history.replace('/ownerProfile/' + this.props.match.params.id);
@@ -158,17 +149,10 @@ class AddPetPage extends Component {
             alert('please provide all dates.')
         }
         else {
+            //call saga to add pet 
             const action = { type: 'ADD_PET', payload: this.state }
 
             this.props.dispatch(action);
-
-            const ownerId = this.props.match.params.id
-
-            const ownerAction = { type: 'GET_OWNER_INFO', payload: ownerId };
-
-            setTimeout(() => {
-                this.props.dispatch(ownerAction);
-            }, 1);
 
             //redirect to owner profile page
             this.props.history.replace('/ownerProfile/' + this.props.match.params.id);

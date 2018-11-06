@@ -126,15 +126,15 @@ router.put('/care', rejectUnauthenticated, (req, res) => {
 });//end put route
 
 //route to delete/undo new care history entry
-router.delete('/:petId/:vetId/:careType/:dueDate/:previousDate', rejectUnauthenticated, (req, res) => {
+router.delete('/:pet_id/:vet_id/:care_type/:due_date/:previous_date', rejectUnauthenticated, (req, res) => {
 	const entryToDelete = req.params;
 
 	console.log('entry to delete:', entryToDelete);
 
 	const queryText = `DELETE FROM care_history WHERE "pet_id" = $1 AND "vet_id" = $2 AND "care_type" = $3 AND 
 													  "due_date" = $4 AND "previous_date" = $5;`;
-	pool.query(queryText, [entryToDelete.petId, entryToDelete.vetId, entryToDelete.careType,
-	entryToDelete.dueDate, entryToDelete.previousDate])
+	pool.query(queryText, [entryToDelete.pet_id, entryToDelete.vet_id, entryToDelete.care_type,
+	entryToDelete.due_date, entryToDelete.previous_date])
 		.then((response) => {
 			res.sendStatus(200);
 		})
