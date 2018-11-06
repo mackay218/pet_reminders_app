@@ -23,7 +23,7 @@ const addPetObj = {
     addPetForm: true,
     ownerId: '',
     vetId: '',
-    date: moment(new Date).format('YYYY-MM-DD'),
+    date: moment(new Date()).format('YYYY-MM-DD'),
 }
 
 class AddPetPage extends Component {
