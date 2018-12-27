@@ -1,6 +1,8 @@
 # Pet Reminder
 A program for veterinarians to simplify keeping track of and reminding pet owners of vaccinations for dogs and cats. Pet Reminder allows the user to send SMS messages to clients to remind them of an upcoming need for care. The user can filter their list of clients by name, pet name, when upcoming care is needed or when it was last done. If the user indicated the care has been completed by clicking a "complete" button for a specific reminder, the app calculates the next time the same care will be needed and adds a new reminder to the database for the upcoming date.
 
+hosted version [here](https://pet-reminder.herokuapp.com/#/home)
+
 ## Built With
 - JavaScript
 - HTML5
