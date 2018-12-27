@@ -3,8 +3,6 @@ const app = express();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //route to update specific pet information
 router.put('/', rejectUnauthenticated, (req, res) => {
