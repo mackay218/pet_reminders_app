@@ -1,11 +1,7 @@
 const express = require('express');
-const app = express();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //POST route to add new pet owner to database
 router.post('/', rejectUnauthenticated, (req, res) => {

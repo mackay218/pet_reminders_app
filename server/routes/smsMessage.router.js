@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const moment = require('moment');
 const router = express.Router();
@@ -9,8 +8,6 @@ const SENDER = process.env.TWILIO_SENDER
 const twilio = require('twilio');
 const client = new twilio(SID, TOKEN);
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //route to send text messages
 router.post('/', rejectUnauthenticated, (req, res) => {
